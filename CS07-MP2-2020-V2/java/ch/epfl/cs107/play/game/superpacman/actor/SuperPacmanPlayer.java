@@ -11,8 +11,10 @@ import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.rpg.actor.Door;
 import ch.epfl.cs107.play.game.rpg.actor.Player;
+import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
@@ -33,6 +35,7 @@ public class SuperPacmanPlayer extends Player{
 		this.area = area;
 		sprite = new Sprite("yellowDot", 1, 1.f, this);
 		handler = new SuperPacmanPlayerHandler();
+		int i = 0;
 	}
 	
 	public void update(float deltaTime) {
@@ -43,9 +46,14 @@ public class SuperPacmanPlayer extends Player{
 	        orientatePlayer(Orientation.DOWN,keyboard.get(Keyboard.DOWN));
 	        
 	        if (!(isDisplacementOccurs())) {
-	        	if (area.canEnterAreaCells(this,Collections.singletonList(getCurrentMainCellCoordinates().jump(desiredOrientation.toVector())))) {
-	        		orientate(desiredOrientation);
-	        		this.move(SPEED);
+	        	if (desiredOrientation!=null) {
+	        		
+	        		/*sprite = spriteFrames(i, desiredOrientation);
+	        		i = (i+1)%4;*/
+	        		if (area.canEnterAreaCells(this,Collections.singletonList(getCurrentMainCellCoordinates().jump(desiredOrientation.toVector())))) {
+	        			orientate(desiredOrientation);
+	        			this.move(SPEED);
+	        		}
 	        	}
 	        }
 	        
@@ -118,8 +126,24 @@ public class SuperPacmanPlayer extends Player{
 	@Override
 	public void draw(Canvas canvas) {
 		sprite.draw(canvas);
-		message.draw(canvas);
-	}
+		message.draw(canvas);}
+		
+	/*public Sprite spriteFrames(int i, Orientation desiredOrientation) {
+		if (desiredOrientation == Orientation.DOWN) {
+			return spritesDOWN[i] = new RPGSprite("zelda/player", 1, 2, this , new RegionOfInterest(i*16, 0, 16, 32));
+			}
+		if (desiredOrientation == Orientation.UP) {
+			return spritesUP[i] = new RPGSprite("zelda/player", 1, 2, this , new RegionOfInterest(i*16, 0, 16, 32));
+			}	
+		if (desiredOrientation == Orientation.LEFT) {
+			return spritesLEFT[i] = new RPGSprite("zelda/player", 1, 2, this , new RegionOfInterest(i*16, 0, 16, 32));
+			}	
+		if (desiredOrientation == Orientation.RIGHT) {
+			return spritesRIGHT[i] = new RPGSprite("zelda/player", 1, 2, this , new RegionOfInterest(i*16, 0, 16, 32));
+			}
+*/
+		
+	
 private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{
 	public void interactWith(Door door){
 			setIsPassingADoor(door);

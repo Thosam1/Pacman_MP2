@@ -8,7 +8,12 @@ public class Level2 extends SuperPacmanArea{
 	public String getTitle() {
 		return "superpacman/Level2";
 	}
-	public void createArea() {
-        super.createArea();
+	
+	public DiscreteCoordinates getPlayerSpawnPosition() {
+		return PLAYER_SPAWN_POSITION;
+	}
+	
+	public void createArea(SuperPacmanBehavior behavior) {
+        super.createArea(behavior);
         }
 }
