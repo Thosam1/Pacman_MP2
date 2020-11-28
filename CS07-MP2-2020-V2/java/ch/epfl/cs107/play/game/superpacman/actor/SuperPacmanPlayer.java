@@ -35,7 +35,6 @@ public class SuperPacmanPlayer extends Player{
 		this.area = area;
 		sprite = new Sprite("yellowDot", 1, 1.f, this);
 		handler = new SuperPacmanPlayerHandler();
-		int i = 0;
 	}
 	
 	public void update(float deltaTime) {
@@ -47,15 +46,20 @@ public class SuperPacmanPlayer extends Player{
 	        
 	        if (!(isDisplacementOccurs())) {
 	        	if (desiredOrientation!=null) {
-	        		
-	        		/*sprite = spriteFrames(i, desiredOrientation);
-	        		i = (i+1)%4;*/
+	        		for (int i=0; i<4; i++) {
+	        			sprite = spriteFrames(i, desiredOrientation);
+	        	
 	        		if (area.canEnterAreaCells(this,Collections.singletonList(getCurrentMainCellCoordinates().jump(desiredOrientation.toVector())))) {
 	        			orientate(desiredOrientation);
 	        			this.move(SPEED);
 	        		}
 	        	}
 	        }
+	        	else {
+	        		//reset();
+	        		
+	        	}
+	        	}
 	        
 	       super.update(deltaTime);
 	       
@@ -128,25 +132,26 @@ public class SuperPacmanPlayer extends Player{
 		sprite.draw(canvas);
 		message.draw(canvas);}
 		
-	/*public Sprite spriteFrames(int i, Orientation desiredOrientation) {
+	public Sprite spriteFrames(int i, Orientation desiredOrientation) {
 		if (desiredOrientation == Orientation.DOWN) {
-			return spritesDOWN[i] = new RPGSprite("zelda/player", 1, 2, this , new RegionOfInterest(i*16, 0, 16, 32));
+			return new RPGSprite("superpacman/pacman", 1, 2, this , new RegionOfInterest(0, i*16, 16, 32));
 			}
 		if (desiredOrientation == Orientation.UP) {
-			return spritesUP[i] = new RPGSprite("zelda/player", 1, 2, this , new RegionOfInterest(i*16, 0, 16, 32));
+			return new RPGSprite("superpacman/pacman", 1, 2, this , new RegionOfInterest(32, i*16, 16, 32));
 			}	
 		if (desiredOrientation == Orientation.LEFT) {
-			return spritesLEFT[i] = new RPGSprite("zelda/player", 1, 2, this , new RegionOfInterest(i*16, 0, 16, 32));
+			return new RPGSprite("superpacman/pacman", 1, 2, this , new RegionOfInterest(16, i*16, 16, 32));
 			}	
 		if (desiredOrientation == Orientation.RIGHT) {
-			return spritesRIGHT[i] = new RPGSprite("zelda/player", 1, 2, this , new RegionOfInterest(i*16, 0, 16, 32));
+			return new RPGSprite("superpacman/pacman", 1, 2, this , new RegionOfInterest(48, i*16, 16, 32));
 			}
-*/
+
 		
 	
 private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{
 	public void interactWith(Door door){
 			setIsPassingADoor(door);
 	}
+}
 }
 }

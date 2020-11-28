@@ -27,7 +27,5 @@ abstract public class SuperPacmanArea extends Area{
 	}
 	public void createArea(SuperPacmanBehavior behavior) {
 		behavior.registerActors(this);
-		registerActor(new Background(this));
-		registerActor(new Foreground(this));
 }
 }
