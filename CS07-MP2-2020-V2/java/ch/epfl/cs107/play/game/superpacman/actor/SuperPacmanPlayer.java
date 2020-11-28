@@ -20,7 +20,8 @@ import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
 public class SuperPacmanPlayer extends Player{
-	private float hp;
+	private int hp;
+	private int score;
 	private TextGraphics message;
 	private Sprite sprite;
 	private final static int ANIMATION_DURATION = 8;
@@ -33,6 +34,8 @@ public class SuperPacmanPlayer extends Player{
 	public SuperPacmanPlayer(Area area, Orientation orientation, DiscreteCoordinates coordinates) {
 		super(area, orientation, coordinates);
 		this.area = area;
+		hp = 3;
+		score = 0;
 		sprite = new Sprite("yellowDot", 1, 1.f, this);
 		handler = new SuperPacmanPlayerHandler();
 	}
