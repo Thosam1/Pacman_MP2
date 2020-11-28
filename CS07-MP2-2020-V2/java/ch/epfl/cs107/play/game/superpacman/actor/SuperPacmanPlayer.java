@@ -5,6 +5,7 @@ import java.util.List;
 
 import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.areagame.actor.Animation;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
@@ -36,7 +37,9 @@ public class SuperPacmanPlayer extends Player{
 		this.area = area;
 		hp = 3;
 		score = 0;
-		sprite = new Sprite("yellowDot", 1, 1.f, this);
+		Sprite[][] sprites = RPGSprite.extractSprites("superpacman/pacman", 4, 1, 1, this, 64, 64,
+                new Orientation[] {Orientation.DOWN, Orientation.LEFT, Orientation.UP, Orientation.RIGHT});
+        Animation[] animations = Animation.createAnimations(ANIMATION_DURATION / 4, sprites);
 		handler = new SuperPacmanPlayerHandler();
 	}
 	
@@ -49,8 +52,7 @@ public class SuperPacmanPlayer extends Player{
 	        
 	        if (!(isDisplacementOccurs())) {
 	        	if (desiredOrientation!=null) {
-	        		for (int i=0; i<4; i++) {
-	        			sprite = spriteFrames(i, desiredOrientation);
+	        		animations[desiredOrientation.ordinal()];
 	        	
 	        		if (area.canEnterAreaCells(this,Collections.singletonList(getCurrentMainCellCoordinates().jump(desiredOrientation.toVector())))) {
 	        			orientate(desiredOrientation);
@@ -59,10 +61,10 @@ public class SuperPacmanPlayer extends Player{
 	        	}
 	        }
 	        	else {
-	        		//reset();
+	        		animations[desiredOrientation.ordinal()].reset();
 	        		
 	        	}
-	        	}
+	        	
 	        
 	       super.update(deltaTime);
 	       
@@ -132,11 +134,13 @@ public class SuperPacmanPlayer extends Player{
 	  
 	@Override
 	public void draw(Canvas canvas) {
-		sprite.draw(canvas);
+		animations.draw();
+		//sprite.draw(canvas);
 		message.draw(canvas);}
 		
-	public Sprite spriteFrames(int i, Orientation desiredOrientation) {
-		if (desiredOrientation == Orientation.DOWN) {
+	/*public Sprite spriteFrames(int i, Orientation desiredOrientation) {
+
+		/*if (desiredOrientation == Orientation.DOWN) {
 			return new RPGSprite("superpacman/pacman", 1, 2, this , new RegionOfInterest(0, i*16, 16, 32));
 			}
 		if (desiredOrientation == Orientation.UP) {
@@ -147,8 +151,9 @@ public class SuperPacmanPlayer extends Player{
 			}	
 		if (desiredOrientation == Orientation.RIGHT) {
 			return new RPGSprite("superpacman/pacman", 1, 2, this , new RegionOfInterest(48, i*16, 16, 32));
-			}
-
+			}*/
+	
+//}
 		
 	
 private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{
@@ -156,5 +161,5 @@ private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{
 			setIsPassingADoor(door);
 	}
 }
-}
+
 }
