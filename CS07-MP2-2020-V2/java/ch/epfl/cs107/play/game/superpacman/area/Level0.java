@@ -17,8 +17,10 @@ public class Level0 extends SuperPacmanArea{
 	}
 	
 	public void createArea(SuperPacmanBehavior behavior) {
-        super.createArea(behavior);
-        Door door1 = new Door("superpacman/Level1",new DiscreteCoordinates(15,6), Logic.TRUE, this, Orientation.UP,new DiscreteCoordinates(5,9));
+        super.createArea(behavior); //general, adding actors in the area/level
+        
+        //specific to the level :
+        Door door1 = new Door("superpacman/Level1",new DiscreteCoordinates(15,6), Logic.TRUE, this, Orientation.UP,new DiscreteCoordinates(5,9));	//Logic.TRUE -> portes allumées, le player devrait pouvoir les traverser
         Door door2 = new Door("superpacman/Level1",new DiscreteCoordinates(15,6), Logic.TRUE, this, Orientation.UP,new DiscreteCoordinates(6,9));
         registerActor(door1);
         registerActor(door2);

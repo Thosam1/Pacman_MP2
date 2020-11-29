@@ -163,7 +163,7 @@ public class Wall extends AreaEntity{
 	}
 
 	@Override
-	public boolean takeCellSpace() {
+	public boolean takeCellSpace() {	//non traversable
 		return true;
 	}
 

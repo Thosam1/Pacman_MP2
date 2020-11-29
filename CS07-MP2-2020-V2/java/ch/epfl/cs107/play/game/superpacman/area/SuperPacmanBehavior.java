@@ -11,35 +11,36 @@ import ch.epfl.cs107.play.window.Window;
 
 public class SuperPacmanBehavior extends AreaBehavior {
 	
-	public SuperPacmanBehavior(Window window, String name) {
+	public SuperPacmanBehavior(Window window, String name) {	//constructeur du behavior
 		super(window,name);
 		  
         for (int x=0; x<getWidth(); x++) {
         	for (int y=0; y<getHeight(); y++) {
-        		SuperPacmanCellType cellType = SuperPacmanCellType.toType(getRGB(getHeight() -1-y, x));
+        		SuperPacmanCellType cellType = SuperPacmanCellType.toType(getRGB(getHeight() -1-y, x));	//donner un type au "Cells"
         		SuperPacmanCell cell = new SuperPacmanCell(x,y, cellType);
         		setCell(x,y,cell);}
         	}
 	}
 
-	protected void registerActors(Area area) {
+	protected void registerActors(Area area) {	//Si les types des cells sont des "WALL", alors enregistrer ces "CELL" en tant qu'ACTOR
 		 for (int x=0; x<getWidth(); x++) {
 	        	for (int y=0; y<getHeight(); y++) {
 	        		SuperPacmanCellType cellType= getCellType(x,y);
 	        		if(cellType == SuperPacmanCellType.WALL) {
-	        			area.registerActor(new Wall(area, new DiscreteCoordinates(x,y), getNeighbours(x,y)));
+	        			area.registerActor(new Wall(area, new DiscreteCoordinates(x,y), getNeighbours(x,y))); //Constructeur d'un WALL : 1) aire d'appartenance, 2) coordonnés du mur, 3) tableau 3x3 de booleans 
 	        		}
 	        	}}
 	}
 	private SuperPacmanCellType getCellType(int x, int y) {
 		return ((SuperPacmanCell)getCell(x,y)).type;
 	}
-	public boolean[][] getNeighbours(int x, int y) {
+	
+	public boolean[][] getNeighbours(int x, int y) {	//x, y coordinates of main cell / center
 		boolean[] [] neighbourhood = new boolean[3] [3];
 		    for(int i = -1; i <= 1; ++i) {
-		    	for(int j = -1; j <= 1; ++j) {
-		    		if ((x+i<getWidth())&&(x+i>-1)&&(y+j<getHeight())&&(y+j>-1)) {
-		    			if (getCellType(x+i,y+j)==SuperPacmanCellType.WALL) {
+		    	for(int j = -1; j <= 1; ++j) {											// +1 |   | 			//      |   | 1,1	//addedByMe, an explanation maybe ?
+		    		if ((x+i<getWidth())&&(x+i>-1)&&(y+j<getHeight())&&(y+j>-1)) {		//  0 |   | 			//      |   | 
+		    			if (getCellType(x+i,y+j)==SuperPacmanCellType.WALL) {			// -1 | 0 | +1			//  0,0 |   |
 		    				neighbourhood[i+1][j+1] = true;
 		    			}
 		    		}
@@ -48,7 +49,7 @@ public class SuperPacmanBehavior extends AreaBehavior {
 		    return neighbourhood;
 		    }
 	
-		public enum SuperPacmanCellType {
+		public enum SuperPacmanCellType {			// contains all possible colors and method to get the type of a cell
 			NONE(0), // never used as real content
 			WALL ( -16777216), //black
 			FREE_WITH_DIAMOND(-1), //white
@@ -62,11 +63,11 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	    	final int type;
 	    	
 	    	
-	    	SuperPacmanCellType(int type){
+	    	SuperPacmanCellType(int type){	
 	    		this.type = type;
 	    	}
 	    	
-	    	public static SuperPacmanCellType toType(int type) {
+	    	public static SuperPacmanCellType toType(int type) {	// function - given a rgb value (int), return the type of CELL
 	    		switch(type) {
 	    		case -16777216:
 	    			return WALL;
@@ -89,21 +90,41 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	    		}
 	    			
 	    	}
-	    	}
+	    }
 
 	
 
-public class SuperPacmanCell extends Cell{
+public class SuperPacmanCell extends Cell{	//classe imbriquée
 	private SuperPacmanCellType type;
-	public SuperPacmanCell(int x, int y,SuperPacmanCellType type ) {
+	public SuperPacmanCell(int x, int y,SuperPacmanCellType type ) {	//constructeur
 		super(x, y);
 		this.type=type;
 	}
 
-	public boolean canEnter() {
-		if (this.takeCellSpace() == true) {//comment je connais l instance de l acteur traversable ou non traversable)
-			return true;}
-		else {return false;}
+//	public boolean canEnter() {	//addedByMe (j'ai mis en commentaire)
+//		if (this.takeCellSpace() == true) {//comment je connais l instance de l acteur traversable ou non traversable)
+//			return true;}
+//		else {return false;}
+//	}
+	
+//	@Override
+//	protected boolean canEnter(Interactable entity) {		//addedByMe
+//		if(this.type == SuperPacmanCellType.WALL && entity.takeCellSpace()) {	//if interactor takes the whole cell, returns false
+//			return false;	
+//		}else {
+//			return false; //only if Cell contains traversable actors
+//		}
+//		
+//	}
+	
+	@Override
+	protected boolean canEnter(Interactable entity) {		//addedByMe
+		if(this.takeCellSpace() == true) {	//if the cell is non-traversable
+			return false;	
+		}else {
+			return true; //only if Cell is traversabée
+		}
+		
 	}
 
 	@Override
@@ -126,11 +147,7 @@ public class SuperPacmanCell extends Cell{
 	protected boolean canLeave(Interactable entity) {
 		return true;
 	}
+}
+}
 
-	@Override
-	protected boolean canEnter(Interactable entity) {
-		return true;
-	}
-		}
-	}
 

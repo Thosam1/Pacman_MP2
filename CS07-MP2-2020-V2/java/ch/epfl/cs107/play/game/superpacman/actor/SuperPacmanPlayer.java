@@ -20,6 +20,7 @@ import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
+
 public class SuperPacmanPlayer extends Player{
 	private int hp;
 	private int score;
@@ -32,55 +33,69 @@ public class SuperPacmanPlayer extends Player{
 	private DiscreteCoordinates coordinates;
 	private final SuperPacmanPlayerHandler handler;
 	
-	public SuperPacmanPlayer(Area area, Orientation orientation, DiscreteCoordinates coordinates) {
+	private Sprite[][] sprites;	//addedByMe - i just declared them outside the constructor
+	private Animation[] animations;
+	
+	public SuperPacmanPlayer(Area area, Orientation orientation, DiscreteCoordinates coordinates) {	//constructeur	-area = aire où il appartient
 		super(area, orientation, coordinates);
 		this.area = area;
 		hp = 3;
 		score = 0;
-		Sprite[][] sprites = RPGSprite.extractSprites("superpacman/pacman", 4, 1, 1, this, 64, 64,
-                new Orientation[] {Orientation.DOWN, Orientation.LEFT, Orientation.UP, Orientation.RIGHT});
-        Animation[] animations = Animation.createAnimations(ANIMATION_DURATION / 4, sprites);
+		sprites = RPGSprite.extractSprites("superpacman/pacman", 4, 1, 1, this, 64, 64,	//4 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
+                new Orientation[] {Orientation.DOWN, Orientation.LEFT, Orientation.UP, Orientation.RIGHT}); //order Orientation[] orders of frame in the image
+        //array of 4 Sprite[] 1 per orientation
+		
+		animations = Animation.createAnimations(ANIMATION_DURATION / 4, sprites);	//crée un tableau de 4 animations
 		handler = new SuperPacmanPlayerHandler();
 	}
 	
 	public void update(float deltaTime) {
-			Keyboard keyboard= getOwnerArea().getKeyboard();
-	        orientatePlayer(Orientation.LEFT,keyboard.get(Keyboard.LEFT));
+			Keyboard keyboard = getOwnerArea().getKeyboard();
+			
+	        orientatePlayer(Orientation.LEFT,keyboard.get(Keyboard.LEFT)); // for example, of Keyboard.LEFT is pressed, the desiredOrientation becomes LEFT
 	        orientatePlayer(Orientation.UP,keyboard.get(Keyboard.UP));
 	        orientatePlayer(Orientation.RIGHT,keyboard.get(Keyboard.RIGHT));
 	        orientatePlayer(Orientation.DOWN,keyboard.get(Keyboard.DOWN));
 	        
-	        if (!(isDisplacementOccurs())) {
-	        	if (desiredOrientation!=null) {
-	        		animations[desiredOrientation.ordinal()];
+	       	
+	        animations[this.getOrientation().ordinal()].update(deltaTime);
+	        
+	        if (!(isDisplacementOccurs())) {	//control if the player is moving at the time
+	        										// -> if the player is not moving
+	        	if (desiredOrientation!=null) {		//and if there is a desiredOrientation
 	        	
-	        		if (area.canEnterAreaCells(this,Collections.singletonList(getCurrentMainCellCoordinates().jump(desiredOrientation.toVector())))) {
+	        		if (area.canEnterAreaCells(this,Collections.singletonList(getCurrentMainCellCoordinates().jump(desiredOrientation.toVector())))) {	//and if the area (in front of desiredOrientation) allows the player to enter
+	        			
 	        			orientate(desiredOrientation);
-	        			this.move(SPEED);
+//	        			animations[desiredOrientation.ordinal()];
+	    
+	        			this.move(SPEED); //selon le nombre de frames choisi
 	        		}
 	        	}
 	        }
 	        	else {
-	        		animations[desiredOrientation.ordinal()].reset();
+//	        		animations[desiredOrientation.ordinal()].reset();
 	        		
 	        	}
 	        	
 	        
 	       super.update(deltaTime);
 	       
+	       
 	    }
-	public void orientatePlayer(Orientation keyOrientation, Button b) {
+	
+	public void orientatePlayer(Orientation keyOrientation, Button b) {	// look if a button is pressed and change the desiredOrientation accordingly
 		if (b.isDown()) {
 			desiredOrientation = keyOrientation;
 		}
 	}
 	@Override
 	public List<DiscreteCoordinates> getCurrentCells() {
-		return Collections.singletonList(getCurrentMainCellCoordinates());
+		return Collections.singletonList(getCurrentMainCellCoordinates());	//main cell
 	}
 
 	@Override
-	public List<DiscreteCoordinates> getFieldOfViewCells() {
+	public List<DiscreteCoordinates> getFieldOfViewCells() {	//no vision field
 		return null;
 	}
 
@@ -101,13 +116,13 @@ public class SuperPacmanPlayer extends Player{
 	}
 
 	@Override
-	public boolean takeCellSpace() {
-		return false;
+	public boolean takeCellSpace() {	//non traversable if true ?
+		return true;
 	}
 
 	@Override
 	public boolean isCellInteractable() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -117,7 +132,7 @@ public class SuperPacmanPlayer extends Player{
 
 	@Override
 	public void acceptInteraction(AreaInteractionVisitor v) {
-		((SuperPacmanInteractionVisitor)v).interactWith(this);
+		((SuperPacmanInteractionVisitor)v).interactWith(this); //accepte de voir ses interactions avec les autres acteurs (qui sont aussi gérés par SuperPacmanInteractionVisitor)
 		
 	}
 	 public void enterArea(Area area, DiscreteCoordinates position){
@@ -134,7 +149,8 @@ public class SuperPacmanPlayer extends Player{
 	  
 	@Override
 	public void draw(Canvas canvas) {
-		animations.draw();
+		animations[this.getOrientation().ordinal()].draw(canvas);
+		
 		//sprite.draw(canvas);
 		message.draw(canvas);}
 		
@@ -155,7 +171,7 @@ public class SuperPacmanPlayer extends Player{
 	
 //}
 		
-	
+
 private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{
 	public void interactWith(Door door){
 			setIsPassingADoor(door);
