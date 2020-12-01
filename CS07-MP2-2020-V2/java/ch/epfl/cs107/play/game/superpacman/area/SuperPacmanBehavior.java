@@ -119,7 +119,7 @@ public class SuperPacmanCell extends Cell{	//classe imbriquée
 	
 	@Override
 	protected boolean canEnter(Interactable entity) {		//addedByMe
-		if(this.takeCellSpace() == true) {	//if the cell is non-traversable
+		if(this.takeCellSpace() == true) {	//if the cell is non-traversable (assuming only walls are non traversable)
 			return false;	
 		}else {
 			return true; //only if Cell is traversabée

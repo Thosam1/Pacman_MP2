@@ -26,12 +26,13 @@ public class SuperPacmanPlayer extends Player{
 	private int score;
 	private TextGraphics message;
 	private Sprite sprite;
-	private final static int ANIMATION_DURATION = 8;
+	protected final static int ANIMATION_DURATION = 8;
 	private int SPEED = 6;
 	public Orientation desiredOrientation;
 	private Area area;
 	private DiscreteCoordinates coordinates;
 	private final SuperPacmanPlayerHandler handler;
+	protected boolean IMMORTAL = false;	//addedByMe
 	
 	private Sprite[][] sprites;	//addedByMe - i just declared them outside the constructor
 	private Animation[] animations;
