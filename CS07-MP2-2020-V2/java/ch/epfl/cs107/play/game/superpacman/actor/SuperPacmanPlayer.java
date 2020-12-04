@@ -22,8 +22,8 @@ import ch.epfl.cs107.play.window.Keyboard;
 
 
 public class SuperPacmanPlayer extends Player{
-	private int hp;
-	private int score;
+	public int hp;
+	public float score;
 	private Sprite sprite;
 	protected final static int ANIMATION_DURATION = 8;
 	private int SPEED = 6;
@@ -151,34 +151,18 @@ public class SuperPacmanPlayer extends Player{
 	public void draw(Canvas canvas) {
 		animations[this.getOrientation().ordinal()].draw(canvas);
 		
-		//sprite.draw(canvas);
 		
 //		SuperPacmanPlayerStatusGUI.draw(canvas);
 	}
 		
-	/*public Sprite spriteFrames(int i, Orientation desiredOrientation) {
-
-		/*if (desiredOrientation == Orientation.DOWN) {
-			return new RPGSprite("superpacman/pacman", 1, 2, this , new RegionOfInterest(0, i*16, 16, 32));
-			}
-		if (desiredOrientation == Orientation.UP) {
-			return new RPGSprite("superpacman/pacman", 1, 2, this , new RegionOfInterest(32, i*16, 16, 32));
-			}	
-		if (desiredOrientation == Orientation.LEFT) {
-			return new RPGSprite("superpacman/pacman", 1, 2, this , new RegionOfInterest(16, i*16, 16, 32));
-			}	
-		if (desiredOrientation == Orientation.RIGHT) {
-			return new RPGSprite("superpacman/pacman", 1, 2, this , new RegionOfInterest(48, i*16, 16, 32));
-			}*/
-	
-//}
-		
 
 private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{
 	public void interactWith(Door door){
-			setIsPassingADoor(door);
-			}
-	
+		setIsPassingADoor(door);
+		}
+	public void interactWith(Wall wall) {
+		
+	}
 	public void interactWith(Key key) {
     	key.collect();
     }

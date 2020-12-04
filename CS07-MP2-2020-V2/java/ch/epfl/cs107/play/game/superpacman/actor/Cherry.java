@@ -7,6 +7,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Positionable;
+import ch.epfl.cs107.play.window.Canvas;
 
 public class Cherry extends AutomaticallyCollectableAreaEntity {
 	public int score =200;
@@ -16,5 +17,8 @@ public class Cherry extends AutomaticallyCollectableAreaEntity {
 				RPGSprite.extractSprites("superpacman/cherry", 4, 1, 1,
 				this , 16, 16);
 	}
-
+	public void draw(Canvas canvas) {
+		
+	}
+	public void update(float deltaTime) {}
 }

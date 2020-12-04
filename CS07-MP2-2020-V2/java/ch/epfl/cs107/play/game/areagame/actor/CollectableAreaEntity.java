@@ -1,5 +1,6 @@
 package ch.epfl.cs107.play.game.areagame.actor;
 
+import java.util.Collections;
 import java.util.List;
 
 import ch.epfl.cs107.play.game.areagame.Area;
@@ -16,12 +17,12 @@ public abstract class CollectableAreaEntity extends AreaEntity {
 	}
 	@Override
 	public List<DiscreteCoordinates> getCurrentCells() {
-		return null;
+		return Collections.singletonList(getCurrentMainCellCoordinates());
 	}
 
 	@Override
 	public boolean takeCellSpace() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -33,15 +34,4 @@ public abstract class CollectableAreaEntity extends AreaEntity {
 	public boolean isViewInteractable() {
 		return false;
 	}
-
-	@Override
-	public void acceptInteraction(AreaInteractionVisitor v) {
-		
-	}
-
-	@Override
-	public void draw(Canvas canvas) {
-		
-	}
-
 }

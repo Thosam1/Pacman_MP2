@@ -6,6 +6,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.window.Canvas;
 
 public class Diamond extends AutomaticallyCollectableAreaEntity{
 	public int score = 10;
@@ -15,5 +16,8 @@ public class Diamond extends AutomaticallyCollectableAreaEntity{
 				RPGSprite.extractSprites("superpacman/diamond", 4, 1, 1,
 				this , 16, 16);
 	}
-	
+	public void draw(Canvas canvas) {
+		
+	}
+	public void update(float deltaTime) {}
 }

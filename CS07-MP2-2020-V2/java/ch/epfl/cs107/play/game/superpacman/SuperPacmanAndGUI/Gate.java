@@ -21,7 +21,7 @@ public class Gate extends AreaEntity{
 		super(area, orientation, position);
 		public Logic traversable = Logic.TRUE;
 	}*/// pour créer des gates qui dépendent de deux clés
-	
+	public void update(float deltaTime) {}
 	@Override
 	public List<DiscreteCoordinates> getCurrentCells() {
 		// TODO Auto-generated method stub
