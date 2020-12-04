@@ -5,6 +5,8 @@ import ch.epfl.cs107.play.game.areagame.AreaBehavior;
 import ch.epfl.cs107.play.game.areagame.Cell;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.superpacman.actor.Bonus;
+import ch.epfl.cs107.play.game.superpacman.actor.Cherry;
 import ch.epfl.cs107.play.game.superpacman.actor.Wall;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
@@ -27,9 +29,18 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	        	for (int y=0; y<getHeight(); y++) {
 	        		SuperPacmanCellType cellType= getCellType(x,y);
 	        		if(cellType == SuperPacmanCellType.WALL) {
-	        			area.registerActor(new Wall(area, new DiscreteCoordinates(x,y), getNeighbours(x,y))); //Constructeur d'un WALL : 1) aire d'appartenance, 2) coordonnés du mur, 3) tableau 3x3 de booleans 
+	        			area.registerActor(new Wall(area, new DiscreteCoordinates(x,y), getNeighbours(x,y))); //Constructeur d'un WALL : 1) aire d'appartenance, 2) coordonnï¿½s du mur, 3) tableau 3x3 de booleans 
 	        		}
-	        	}}
+	        		if(cellType == SuperPacmanCellType.FREE_WITH_BONUS) {
+	        			//area.registerActor(new Bonus(area, new DiscreteCoordinates(x,y), getNeighbours(x,y))); //Constructeur d'un WALL : 1) aire d'appartenance, 2) coordonnï¿½s du bonus, 3) tableau 3x3 de booleans 
+	        		}
+	        		if(cellType == SuperPacmanCellType.FREE_WITH_CHERRY) {
+	        			//area.registerActor(new Cherry(area, new DiscreteCoordinates(x,y), getNeighbours(x,y))); //Constructeur d'un WALL : 1) aire d'appartenance, 2) coordonnï¿½s du mur, 3) tableau 3x3 de booleans 
+	        		}
+	        		if(cellType == SuperPacmanCellType.FREE_WITH_DIAMOND) {
+	        			//area.registerActor(new Diamond(area, new DiscreteCoordinates(x,y), getNeighbours(x,y))); //Constructeur d'un WALL : 1) aire d'appartenance, 2) coordonnï¿½s du mur, 3) tableau 3x3 de booleans 
+	        		}
+	        		}}
 	}
 	private SuperPacmanCellType getCellType(int x, int y) {
 		return ((SuperPacmanCell)getCell(x,y)).type;
@@ -43,7 +54,7 @@ public class SuperPacmanBehavior extends AreaBehavior {
 		    			if (getCellType(x+i,y+j)==SuperPacmanCellType.WALL) {			// -1 | 0 | +1			//  0,0 |   |
 		    				neighbourhood[i+1][j+1] = true;
 		    			}
-		    		}
+		    		}//if ((x+i<getWidth())&&(x+i>-1)&&(y+j<getHeight())&&(y+j>-1)) {
 		       }
 		    }
 		    return neighbourhood;
@@ -94,35 +105,19 @@ public class SuperPacmanBehavior extends AreaBehavior {
 
 	
 
-public class SuperPacmanCell extends Cell{	//classe imbriquée
+public class SuperPacmanCell extends Cell{	//classe imbriquï¿½e
 	private SuperPacmanCellType type;
 	public SuperPacmanCell(int x, int y,SuperPacmanCellType type ) {	//constructeur
 		super(x, y);
 		this.type=type;
 	}
 
-//	public boolean canEnter() {	//addedByMe (j'ai mis en commentaire)
-//		if (this.takeCellSpace() == true) {//comment je connais l instance de l acteur traversable ou non traversable)
-//			return true;}
-//		else {return false;}
-//	}
-	
-//	@Override
-//	protected boolean canEnter(Interactable entity) {		//addedByMe
-//		if(this.type == SuperPacmanCellType.WALL && entity.takeCellSpace()) {	//if interactor takes the whole cell, returns false
-//			return false;	
-//		}else {
-//			return false; //only if Cell contains traversable actors
-//		}
-//		
-//	}
-	
 	@Override
 	protected boolean canEnter(Interactable entity) {		//addedByMe
 		if(this.takeCellSpace() == true) {	//if the cell is non-traversable (assuming only walls are non traversable)
 			return false;	
 		}else {
-			return true; //only if Cell is traversabée
+			return true; //only if Cell is traversabï¿½e
 		}
 		
 	}

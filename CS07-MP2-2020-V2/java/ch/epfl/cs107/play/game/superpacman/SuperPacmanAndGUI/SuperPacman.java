@@ -1,4 +1,4 @@
-package ch.epfl.cs107.play.game.superpacman;
+package ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI;
 
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
@@ -46,7 +46,7 @@ public class SuperPacman extends RPG{
 			createAreas();
 			areaIndex = 0;
 			Area area = setCurrentArea(areas[areaIndex], true);
-			player = new SuperPacmanPlayer(area, Orientation.RIGHT, startingPositions[areaIndex]);
+			player = new SuperPacmanPlayer(area, startingPositions[areaIndex]);
 			initPlayer(player);
 			return true;
 		}
