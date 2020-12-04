@@ -9,14 +9,15 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 public class Inky extends Ghost {
 
-	public Inky(Area area, Orientation orientation, DiscreteCoordinates coordinates) {
-		super(area, orientation, coordinates);
-		mainSprites = RPGSprite.extractSprites("superpacman/ghost.inky", 2, 1, 1, this, 64, 64,	//4 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
-                new Orientation[] {Orientation.DOWN, Orientation.LEFT, Orientation.UP, Orientation.RIGHT}); //order Orientation[] orders of frame in the image
-        //array of 4 Sprite[] 1 per orientation
-		mainAnimations = Animation.createAnimations(ANIMATION_DURATION / 4, mainSprites);	//crée un tableau de 4 animations
-	
+	public Inky(Area area, Orientation orientation, DiscreteCoordinates coordinates, SuperPacmanPlayer player) {
+		super(area, orientation, coordinates, player);
+		setNameOfMainSprite("superpacman/ghost.inky");
 	}
+	
+	public void update(float deltaTime) { // ?necessary?
+		super.update(deltaTime); //taking care of afraid animation
+	}
+	
 	
 	private class SuperPacmanBlinkyHandler extends SuperPacmanGhostHandler {
 		

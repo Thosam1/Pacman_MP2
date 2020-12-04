@@ -5,6 +5,7 @@ import ch.epfl.cs107.play.game.areagame.AreaBehavior;
 import ch.epfl.cs107.play.game.areagame.Cell;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.superpacman.actor.Blinky;
 import ch.epfl.cs107.play.game.superpacman.actor.Bonus;
 import ch.epfl.cs107.play.game.superpacman.actor.Cherry;
 import ch.epfl.cs107.play.game.superpacman.actor.Wall;
@@ -40,7 +41,14 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_DIAMOND) {
 	        			//area.registerActor(new Diamond(area, new DiscreteCoordinates(x,y), getNeighbours(x,y))); //Constructeur d'un WALL : 1) aire d'appartenance, 2) coordonn�s du mur, 3) tableau 3x3 de booleans 
 	        		}
-	        		}}
+	        		if(cellType == SuperPacmanCellType.FREE_WITH_BLINKY) {
+	        			Blinky blinky = new Blinky(area, new DiscreteCoordinates(x,y));	 
+	        			area.registerActor(blinky); //Constructeur d'un WALL : 1) aire d'appartenance, 2) coordonn�s du mur, 3) tableau 3x3 de booleans 
+	        		}
+
+	        		
+	        	}
+	        }
 	}
 	private SuperPacmanCellType getCellType(int x, int y) {
 		return ((SuperPacmanCell)getCell(x,y)).type;
