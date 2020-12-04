@@ -10,11 +10,11 @@ import ch.epfl.cs107.play.math.Positionable;
 
 public class Cherry extends AutomaticallyCollectableAreaEntity {
 	public int score =200;
-	public Cherry(Area area, Orientation orientation, DiscreteCoordinates position, Positionable parent) {
+	public Cherry(Area area, Orientation orientation, DiscreteCoordinates position) {
 		super(area, orientation, position);
 		Sprite[] sprites =
 				RPGSprite.extractSprites("superpacman/cherry", 4, 1, 1,
-				parent , 16, 16);
+				this , 16, 16);
 	}
 
 }

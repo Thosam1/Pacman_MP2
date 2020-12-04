@@ -9,8 +9,8 @@ public class AutomaticallyCollectableAreaEntity extends CollectableAreaEntity{
 	public AutomaticallyCollectableAreaEntity(Area area, Orientation orientation, DiscreteCoordinates position) {
 		super(area, orientation, position);
 	}
-	/*public void collect() {
-		unregisterActor(this);
+	public void collect() {
+		//area.unregisterActor(this);
 	}
 	/*La prof a proposé ça mais je ne sais pas quoi en faire
 	@Override

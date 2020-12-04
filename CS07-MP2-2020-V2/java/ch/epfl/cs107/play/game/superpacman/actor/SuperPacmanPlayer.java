@@ -114,20 +114,6 @@ public class SuperPacmanPlayer extends Player{
 	public void interactWith(Interactable other) {
 		other.acceptInteraction(handler);
 	}
-	public void interactWith(Key key) {
-    	key.collect();
-    }
-    public void interactWith(Bonus bonus) {
-    	bonus.collect();
-    }
-    public void interactWith(Cherry cherry) {
-    	cherry.collect();
-    	this.score += cherry.score;
-    }
-    public void interactWith(Diamond diamond) {
-    	diamond.collect();
-    	this.score += diamond.score;
-    	}
     
 	@Override
 	public boolean takeCellSpace() {	//non traversable if true ?
@@ -191,7 +177,22 @@ public class SuperPacmanPlayer extends Player{
 private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{
 	public void interactWith(Door door){
 			setIsPassingADoor(door);
-	}
+			}
+	
+	public void interactWith(Key key) {
+    	key.collect();
+    }
+    public void interactWith(Bonus bonus) {
+    	bonus.collect();
+    }
+    public void interactWith(Cherry cherry) {
+    	cherry.collect();
+    	score += cherry.score;
+    }
+    public void interactWith(Diamond diamond) {
+    	diamond.collect();
+    	score += diamond.score;
+    	}
 }
 
 }
