@@ -28,8 +28,11 @@ public class SuperPacmanPlayer extends Player{
 	private int SPEED = 6;
 	public Orientation desiredOrientation;
 	private Area area;
+	private DiscreteCoordinates PLAYER_SPAWN_POSITION; //d�pend de l'aire actuelle !
 	private final SuperPacmanPlayerHandler handler;
 	protected boolean IMMORTAL = false;	//addedByMe
+	protected float timerImmortal = 4.f; // addedByMe, d�cr�menter cette valeur par deltaTime et remettre IMMORTAL � false, avant de r�initialiser timerImmortal � 4.f quand elle atteint 0
+	//peut �tre choisir la valeur en fonction du type de bonus ?
 	
 	private Sprite[][] sprites;	//addedByMe - i just declared them outside the constructor
 	private Animation[] animations;
@@ -37,6 +40,7 @@ public class SuperPacmanPlayer extends Player{
 	public SuperPacmanPlayer(Area area, DiscreteCoordinates coordinates) {	//constructeur	-area = aire o� il appartient
 		super(area, Orientation.RIGHT, coordinates);
 		this.area = area;
+		PLAYER_SPAWN_POSITION = coordinates;
 		hp = 3;
 		score = 0;
 		sprites = RPGSprite.extractSprites("superpacman/pacman", 4, 1, 1, this, 64, 64,	//4 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
@@ -154,10 +158,12 @@ public class SuperPacmanPlayer extends Player{
 	}
 		
 
-private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{
-	public void interactWith(Door door){
-		setIsPassingADoor(door);
+
+	private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{
+		public void interactWith(Door door){
+			setIsPassingADoor(door);
 		}
+
 	public void interactWith(Key key) {
     	key.collect();
     }
@@ -172,6 +178,22 @@ private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{
     	diamond.collect();
     	score += diamond.score;
     	}
+    
+    public void interactWith(Ghost ghost) {
+		ghostEncounter(ghost);}
+	private void ghostEncounter (Ghost ghost) {
+		if(this.IMMORTAL == true) {
+			ghost.killed = true;
+			this.score += ghost.GHOST_SCORE;
+			ghost.backToRefuge(ghost.refuge);
+			}
+		if(this.IMMORTAL == false) {
+			ghost.backToRefuge(ghost.refuge);
+			this.hp -= 1;
+			this.setCurrentPosition(PLAYER_SPAWN_POSITION.toVector());
+			//METTRE UNE ANIMATION � ce moment l� ???
+			}
+			
+		}
 }
-
 }

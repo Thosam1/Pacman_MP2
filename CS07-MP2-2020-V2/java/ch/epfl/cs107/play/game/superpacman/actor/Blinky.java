@@ -5,20 +5,31 @@ import ch.epfl.cs107.play.game.areagame.actor.Animation;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.RandomGenerator;
+import ch.epfl.cs107.play.window.Canvas;
 
 
 public class Blinky extends Ghost {
 
 	
-	public Blinky(Area area, Orientation orientation, DiscreteCoordinates coordinates) {
-		super(area, orientation, coordinates);
-		mainSprites = RPGSprite.extractSprites("superpacman/ghost.blinky", 2, 1, 1, this, 64, 64,	//4 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
-                new Orientation[] {Orientation.DOWN, Orientation.LEFT, Orientation.UP, Orientation.RIGHT}); //order Orientation[] orders of frame in the image
-        //array of 4 Sprite[] 1 per orientation
-		mainAnimations = Animation.createAnimations(ANIMATION_DURATION / 4, mainSprites);	//crée un tableau de 4 animations
+	public Blinky(Area area, DiscreteCoordinates coordinates) {
+		super(area, coordinates);
+		setNameOfMainSprite("superpacman/ghost.blinky");
 	}
 
-
+	public void update(float deltaTime) { // ?necessary?
+		super.update(deltaTime); //taking care of afraid animation
+	}
+	
+	
+	@Override	//why override DOESNT WORK ?!????????
+	private Orientation getNextOrientation() {	//to redefine
+		//how to find the next orientation
+		int randomInt = RandomGenerator.getInstance().nextInt(4);	//(index 0-3 for the ordinal of orientation)
+		nextOrientation = Orientation.fromInt(randomInt);
+		return nextOrientation;
+	}
+	
 	private class SuperPacmanBlinkyHandler extends SuperPacmanGhostHandler {
 		
 	}

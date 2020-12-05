@@ -21,42 +21,100 @@ import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
-public abstract class Ghost extends Player {
+public class Ghost extends Player {
 
 	//General 
-	private DiscreteCoordinates refuge;
+	protected DiscreteCoordinates refuge;
 	private Sprite[] afraidSprites;	//only 2 images for afraid
 	private Animation[] afraidAnimations;
+	
+	protected boolean AFRAID = false;
+	protected boolean killed = false;
+	protected final int GHOST_SCORE = 500;
+    private final int FIELD_OF_VIEW = 5;
+    
+    private boolean seePlayer = false;
 	
 	/// Animation duration in frame number
     protected final static int ANIMATION_DURATION = 8;
     private int SPEED = 6;
     private Area area;
 	private final SuperPacmanGhostHandler handler;
-	private boolean AFRAID = false;
-    
-    private final int GHOST_SCORE = 500;
-    private final int FIELD_OF_VIEW = 5;
+	
+ 
     
     //for specific
-    protected Sprite mainSprite;
-	protected Sprite[][] mainSprites;	
-	protected Animation[] mainAnimations;
+    private Sprite mainSprite;
+	private Sprite[][] mainSprites;	
+	private Animation[] mainAnimations;
+	
+	private String nameOfMainSprite = "superpacman/ghost.blinky";
+	protected void setNameOfMainSprite(String newName) {
+		nameOfMainSprite = newName;
+	}
+	
+	protected Orientation nextOrientation;
+	protected Orientation actualOrientation;
+	
+	protected SuperPacmanPlayer player;
+	
     
     /**
 	 * Ghost superclass, abstract level
 	 * 
 	 */
 
-	public Ghost(Area area, Orientation orientation, DiscreteCoordinates coordinates) {	//constructeur	-area = aire où il appartient
-		super(area, orientation, coordinates);
+	public Ghost(Area area, DiscreteCoordinates coordinates) {	//constructeur	-area = aire où il appartient
+		super(area, Orientation.UP, coordinates);
 		this.area = area;
+
 		refuge = coordinates;
-		afraidSprites = RPGSprite.extractSprites("superpacman/ghost.afraid", 2, 1, 1, this, coordinates.toVector(), 64, 64);	//4 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
-            
-		handler = new SuperPacmanGhostHandler();
 		
+		//sprite will be afraidSprites default, when not afraid the animation will be above
+		afraidSprites = RPGSprite.extractSprites("superpacman/ghost.afraid", 2, 1, 1, this, 16, 16);	//2 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame  
+		
+		mainSprites = RPGSprite.extractSprites(nameOfMainSprite, 2, 1, 1, this, 16, 16,	//4 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
+                new Orientation[] {Orientation.DOWN, Orientation.LEFT, Orientation.UP, Orientation.RIGHT}); //order Orientation[] orders of frame in the image
+		//array of 4 Sprite[] 1 per orientation
+		mainAnimations = Animation.createAnimations(ANIMATION_DURATION / 4, mainSprites);	//crée un tableau de 4 animations
+		
+		handler = new SuperPacmanGhostHandler();
 	}
+	
+	public void update(float deltaTime) { // check constantly if the player is immortal or not, so the animation can change
+		checkAfraid(); //checking if player is immortal
+		if(AFRAID == true) { //if true, no animation and default sprite (afraid)			
+		}
+		if(AFRAID == false) {
+			mainAnimations[this.getOrientation().ordinal()].update(deltaTime);
+		}
+		
+		deplacement();
+		super.update(deltaTime);
+	}
+	
+	@Override
+	public void draw(Canvas canvas) {
+		if(AFRAID == false) {
+			mainAnimations[this.getOrientation().ordinal()].draw(canvas);
+		}
+		if(AFRAID == true) {
+			
+		}
+	
+	}
+	
+//	//Questions
+	
+//	1) comment update et animer les fantomes effrayés et leur lien avec draw ?
+	
+//	2) l'intérêt du Pacman handler, est-ce qu'il est appelé à chaque update ? j'ai l'impression qu'il faut l'utilser pour savoir quand activer la peur des fantomes
+	
+//	3) est-ce que le getFieldOfViewCells est bien appelée à chaque update ou faut-il l'invoquer dans update pour savoir quand le personnage est là
+	
+//	4) faut-il mettre abstract devant les fonctions qu'on va redéfinir pour les sous-classes et faire la classe ghost une abstract class?
+	
+	
 	
 	@Override
 	public List<DiscreteCoordinates> getCurrentCells() {
@@ -78,7 +136,7 @@ public abstract class Ghost extends Player {
 			}
 		}
 		
-		return view;
+		return view; //return the arraylist of fieldofview area
 	} 
 
 	@Override
@@ -93,8 +151,7 @@ public abstract class Ghost extends Player {
 
 	@Override
 	public void interactWith(Interactable other) {
-		other.acceptInteraction(handler);	//interaction avec player
-		
+		other.acceptInteraction(handler);	//interaction avec player		
 	}
 
 	@Override
@@ -116,7 +173,8 @@ public abstract class Ghost extends Player {
 	public void acceptInteraction(AreaInteractionVisitor v) {
 		((SuperPacmanInteractionVisitor)v).interactWith(this); //accepte de voir ses interactions avec les autres acteurs (qui sont aussi gérés par SuperPacmanInteractionVisitor)
 		
-	}
+	}	
+	
 //	 public void enterArea(Area area, DiscreteCoordinates position){
 //	        area.registerActor(this);
 //	        area.setViewCandidate(this);
@@ -129,15 +187,69 @@ public abstract class Ghost extends Player {
 //	        getOwnerArea().unregisterActor(this);
 //	    }
 	
-	public class SuperPacmanGhostHandler implements SuperPacmanInteractionVisitor{
-		public void interactWith(SuperPacmanPlayer player) {
-			if(player.IMMORTAL == true) {
-				AFRAID = true;
+	
+	/**
+	 * All methods that are useful for ghost
+	 */
+		
+		private void seePlayer() {
+			List<DiscreteCoordinates> field = getFieldOfViewCells();
+			boolean here = false;
+			for(int i = 0; i < field.size(); i++) {
+				if(player.getCurrentCells().equals(field.get(i))) {	//!!! WHY == DOES NOT WORK
+					here = true;
+					break;
+				}
 			}
-			if(player.IMMORTAL == false) {
-				AFRAID = false;
+			if(here = true) {
+				seePlayer = true;
 			}
 		}
-	}
+		private void checkAfraid() {
+			if(player.IMMORTAL == true) {
+				this.AFRAID = true;
+			}
+			if(player.IMMORTAL == false) {
+				this.AFRAID = false;
+			}
+		}
+		
+		protected void backToRefuge(DiscreteCoordinates refuge) {
+			setCurrentPosition(refuge.toVector());
+		}
+		
+		//in update
+		// if in movement, let it be, only check the animation
+		// if not in movement, chose an orientation
+		
+		private Orientation getNextOrientation() {	//to redefine
+			
+			return Orientation.UP;
+		}
+		
+		private void deplacement() {
+			if(!this.isDisplacementOccurs()) {	//true if not moving
+				this.orientate(getNextOrientation());	//orientate the ghost
+				this.move(SPEED);
+			}
+		}
+		
+		
+		
 
+		public class SuperPacmanGhostHandler implements SuperPacmanInteractionVisitor{
+//		public void interactWith(SuperPacmanPlayer player) {	//there ?
+//			if(player.IMMORTAL == true) {
+//				AFRAID = true;
+//			}
+//			if(player.IMMORTAL == false) {
+//				AFRAID = false;
+//			}
+		}
+		
+		
 }
+	
+
+
+
