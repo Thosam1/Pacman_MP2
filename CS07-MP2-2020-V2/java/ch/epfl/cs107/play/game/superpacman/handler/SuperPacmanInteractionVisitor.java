@@ -10,7 +10,6 @@ import ch.epfl.cs107.play.game.superpacman.actor.Wall;
 
 public interface SuperPacmanInteractionVisitor  extends RPGInteractionVisitor{
 	default void interactWith(Interactable other) {System.out.println("interactWith that type doesnt exist");}
-	default void interactWith(Wall wall) {}
 	default void interactWith(Bonus bonus) {}
 	default void interactWith(Diamond diamond) {}
 	default void interactWith(Cherry cherry) {}

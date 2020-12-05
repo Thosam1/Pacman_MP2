@@ -24,12 +24,10 @@ import ch.epfl.cs107.play.window.Keyboard;
 public class SuperPacmanPlayer extends Player{
 	public int hp;
 	public float score;
-	private Sprite sprite;
 	protected final static int ANIMATION_DURATION = 8;
 	private int SPEED = 6;
 	public Orientation desiredOrientation;
 	private Area area;
-	private DiscreteCoordinates coordinates;
 	private final SuperPacmanPlayerHandler handler;
 	protected boolean IMMORTAL = false;	//addedByMe
 	
@@ -116,7 +114,7 @@ public class SuperPacmanPlayer extends Player{
 	}
     
 	@Override
-	public boolean takeCellSpace() {	//non traversable if true ?
+	public boolean takeCellSpace() {
 		return true;
 	}
 
@@ -160,9 +158,6 @@ private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{
 	public void interactWith(Door door){
 		setIsPassingADoor(door);
 		}
-	public void interactWith(Wall wall) {
-		
-	}
 	public void interactWith(Key key) {
     	key.collect();
     }

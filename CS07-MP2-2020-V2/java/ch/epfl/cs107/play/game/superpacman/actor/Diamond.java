@@ -10,14 +10,14 @@ import ch.epfl.cs107.play.window.Canvas;
 
 public class Diamond extends AutomaticallyCollectableAreaEntity{
 	public int score = 10;
+	private Sprite sprite;
+	
 	public Diamond(Area area, Orientation orientation, DiscreteCoordinates position) {
 		super(area, orientation, position);
-		Sprite[] sprites =
-				RPGSprite.extractSprites("superpacman/diamond", 4, 1, 1,
-				this , 16, 16);
+		sprite = new Sprite("superpacman/diamond", 1.f, 1.f,this);
 	}
 	public void draw(Canvas canvas) {
-		
+		sprite.draw(canvas);
 	}
 	public void update(float deltaTime) {}
 }
