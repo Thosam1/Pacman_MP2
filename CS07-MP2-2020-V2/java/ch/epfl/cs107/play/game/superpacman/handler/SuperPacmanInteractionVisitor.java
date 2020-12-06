@@ -5,6 +5,7 @@ import ch.epfl.cs107.play.game.rpg.handler.RPGInteractionVisitor;
 import ch.epfl.cs107.play.game.superpacman.actor.Bonus;
 import ch.epfl.cs107.play.game.superpacman.actor.Cherry;
 import ch.epfl.cs107.play.game.superpacman.actor.Diamond;
+import ch.epfl.cs107.play.game.superpacman.actor.Ghost;
 import ch.epfl.cs107.play.game.superpacman.actor.Key;
 import ch.epfl.cs107.play.game.superpacman.actor.Wall;
 
@@ -14,5 +15,6 @@ public interface SuperPacmanInteractionVisitor  extends RPGInteractionVisitor{
 	default void interactWith(Diamond diamond) {}
 	default void interactWith(Cherry cherry) {}
 	default void interactWith(Key key) {}
+	default void interactWith(Ghost ghost) {}
 	
 }

@@ -159,7 +159,9 @@ public class SuperPacmanPlayer extends Player{
 		
 
 
-	private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{
+	private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{	//gets called whenever in field of vision or when there is an interaction
+		
+
 		public void interactWith(Door door){
 			setIsPassingADoor(door);
 		}
@@ -181,16 +183,18 @@ public class SuperPacmanPlayer extends Player{
     
     public void interactWith(Ghost ghost) {
 		ghostEncounter(ghost);}
+    
+    
 	private void ghostEncounter (Ghost ghost) {
-		if(this.IMMORTAL == true) {
+		if(IMMORTAL == true) {
 			ghost.killed = true;
-			this.score += ghost.GHOST_SCORE;
+			score += ghost.GHOST_SCORE;
 			ghost.backToRefuge(ghost.refuge);
 			}
-		if(this.IMMORTAL == false) {
+		if(IMMORTAL == false) {
 			ghost.backToRefuge(ghost.refuge);
-			this.hp -= 1;
-			this.setCurrentPosition(PLAYER_SPAWN_POSITION.toVector());
+			hp -= 1;
+			setCurrentPosition(PLAYER_SPAWN_POSITION.toVector());
 			//METTRE UNE ANIMATION � ce moment l� ???
 			}
 			

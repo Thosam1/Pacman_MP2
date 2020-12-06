@@ -9,8 +9,8 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 public class Inky extends Ghost {
 
-	public Inky(Area area, Orientation orientation, DiscreteCoordinates coordinates, SuperPacmanPlayer player) {
-		super(area, orientation, coordinates, player);
+	public Inky(Area area, DiscreteCoordinates coordinates) {
+		super(area, coordinates);
 		setNameOfMainSprite("superpacman/ghost.inky");
 	}
 	

@@ -1,6 +1,7 @@
 package ch.epfl.cs107.play.game.superpacman.area;
 
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.areagame.AreaGraph;
 import ch.epfl.cs107.play.game.areagame.AreaBehavior;
 import ch.epfl.cs107.play.game.areagame.Cell;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
@@ -16,8 +17,12 @@ import ch.epfl.cs107.play.window.Window;
 
 public class SuperPacmanBehavior extends AreaBehavior {
 	
+	private final AreaGraph graph;
+	
 	public SuperPacmanBehavior(Window window, String name) {	//constructeur du behavior
 		super(window,name);
+		graph = new AreaGraph();
+		
 		  
         for (int x=0; x<getWidth(); x++) {
         	for (int y=0; y<getHeight(); y++) {
@@ -45,13 +50,42 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	        		}  
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_BLINKY) {
 	        			Blinky blinky = new Blinky(area, new DiscreteCoordinates(x,y));	 
-	        			area.registerActor(blinky);
+	        			area.registerActor(blinky);	 
+	        		}
+	        		if(cellType != SuperPacmanCellType.WALL) { //adding nodes in graph
+	        			boolean hasLeftEdge = ((x > 0) && getCellType(x-1, y) != SuperPacmanCellType.WALL);
+	        			boolean hasUpEdge = ((y < getHeight()-1) && getCellType(x, y+1) != SuperPacmanCellType.WALL);
+	        			boolean hasRightEdge = ((x < getWidth()-1) && getCellType(x+1, y) != SuperPacmanCellType.WALL);
+	        			boolean hasDownEdge = ((y > 0) && getCellType(x, y-1) != SuperPacmanCellType.WALL);     			
+	        			
+	        			graph.addNode(new DiscreteCoordinates(x,y), hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge);
 	        		}
 	        	}
 	        		    
 	        }       
 
 	}
+	
+//	private boolean[] lookForEdges(AreaGraph map, boolean[] edges, int x, int y) {	//depends if it start on the bottom left ?
+//		
+//		boolean[] answer = new boolean[edges.length];	//of 4
+//		if() {
+//			
+//		}
+//		if() {
+//			
+//		}
+//		if() {
+//			
+//		}
+//		if() {
+//			
+//		}
+//		
+//	}
+	
+	
+	
 	private SuperPacmanCellType getCellType(int x, int y) {
 		return ((SuperPacmanCell)getCell(x,y)).type;
 	}

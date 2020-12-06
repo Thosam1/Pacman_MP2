@@ -64,7 +64,7 @@ public class Ghost extends Player {
 	 * 
 	 */
 
-	public Ghost(Area area, DiscreteCoordinates coordinates) {	//constructeur	-area = aire où il appartient
+	public Ghost(Area area, DiscreteCoordinates coordinates) {	//constructeur	-area = aire oï¿½ il appartient
 		super(area, Orientation.UP, coordinates);
 		this.area = area;
 
@@ -76,7 +76,7 @@ public class Ghost extends Player {
 		mainSprites = RPGSprite.extractSprites(nameOfMainSprite, 2, 1, 1, this, 16, 16,	//4 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
                 new Orientation[] {Orientation.DOWN, Orientation.LEFT, Orientation.UP, Orientation.RIGHT}); //order Orientation[] orders of frame in the image
 		//array of 4 Sprite[] 1 per orientation
-		mainAnimations = Animation.createAnimations(ANIMATION_DURATION / 4, mainSprites);	//crée un tableau de 4 animations
+		mainAnimations = Animation.createAnimations(ANIMATION_DURATION / 4, mainSprites);	//crï¿½e un tableau de 4 animations
 		
 		handler = new SuperPacmanGhostHandler();
 	}
@@ -106,13 +106,13 @@ public class Ghost extends Player {
 	
 //	//Questions
 	
-//	1) comment update et animer les fantomes effrayés et leur lien avec draw ?
+//	1) comment update et animer les fantomes effrayï¿½s et leur lien avec draw ?
 	
-//	2) l'intérêt du Pacman handler, est-ce qu'il est appelé à chaque update ? j'ai l'impression qu'il faut l'utilser pour savoir quand activer la peur des fantomes
+//	2) l'intï¿½rï¿½t du Pacman handler, est-ce qu'il est appelï¿½ ï¿½ chaque update ? j'ai l'impression qu'il faut l'utilser pour savoir quand activer la peur des fantomes
 	
-//	3) est-ce que le getFieldOfViewCells est bien appelée à chaque update ou faut-il l'invoquer dans update pour savoir quand le personnage est là
+//	3) est-ce que le getFieldOfViewCells est bien appelï¿½e ï¿½ chaque update ou faut-il l'invoquer dans update pour savoir quand le personnage est lï¿½
 	
-//	4) faut-il mettre abstract devant les fonctions qu'on va redéfinir pour les sous-classes et faire la classe ghost une abstract class?
+//	4) faut-il mettre abstract devant les fonctions qu'on va redï¿½finir pour les sous-classes et faire la classe ghost une abstract class?
 	
 	
 	
@@ -171,7 +171,7 @@ public class Ghost extends Player {
 
 	@Override
 	public void acceptInteraction(AreaInteractionVisitor v) {
-		((SuperPacmanInteractionVisitor)v).interactWith(this); //accepte de voir ses interactions avec les autres acteurs (qui sont aussi gérés par SuperPacmanInteractionVisitor)
+		((SuperPacmanInteractionVisitor)v).interactWith(this); //accepte de voir ses interactions avec les autres acteurs (qui sont aussi gï¿½rï¿½s par SuperPacmanInteractionVisitor)
 		
 	}	
 	
@@ -205,6 +205,7 @@ public class Ghost extends Player {
 				seePlayer = true;
 			}
 		}
+		
 		private void checkAfraid() {
 			if(player.IMMORTAL == true) {
 				this.AFRAID = true;
@@ -235,16 +236,10 @@ public class Ghost extends Player {
 		}
 		
 		
-		
+
 
 		public class SuperPacmanGhostHandler implements SuperPacmanInteractionVisitor{
-//		public void interactWith(SuperPacmanPlayer player) {	//there ?
-//			if(player.IMMORTAL == true) {
-//				AFRAID = true;
-//			}
-//			if(player.IMMORTAL == false) {
-//				AFRAID = false;
-//			}
+
 		}
 		
 		
