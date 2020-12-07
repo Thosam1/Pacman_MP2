@@ -1,5 +1,8 @@
 package ch.epfl.cs107.play.game.superpacman.area;
 
+import java.util.List;
+
+import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.AreaGraph;
 import ch.epfl.cs107.play.game.areagame.AreaBehavior;
@@ -11,12 +14,14 @@ import ch.epfl.cs107.play.game.superpacman.actor.Blinky;
 import ch.epfl.cs107.play.game.superpacman.actor.Bonus;
 import ch.epfl.cs107.play.game.superpacman.actor.Cherry;
 import ch.epfl.cs107.play.game.superpacman.actor.Diamond;
+import ch.epfl.cs107.play.game.superpacman.actor.Ghost;
 import ch.epfl.cs107.play.game.superpacman.actor.Wall;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
 public class SuperPacmanBehavior extends AreaBehavior {
 	
+	private List<Ghost> currentGhosts;
 	private final AreaGraph graph;
 	
 	public SuperPacmanBehavior(Window window, String name) {	//constructeur du behavior
@@ -38,6 +43,7 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	        		SuperPacmanCellType cellType= getCellType(x,y);
 	        		if(cellType == SuperPacmanCellType.WALL) {
 	        			area.registerActor(new Wall(area, new DiscreteCoordinates(x,y), getNeighbours(x,y))); //Constructeur d'un WALL : 1) aire d'appartenance, 2) coordonnï¿½s du mur, 3) tableau 3x3 de booleans 
+	        			
 	        		}
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_BONUS) {
 	        			area.registerActor(new Bonus(area, Orientation.UP, new DiscreteCoordinates(x,y))); //Constructeur d'un Bonus) aire d'appartenance, 2) orientation, 3) coordonnÃ©es
@@ -50,10 +56,11 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	        		}  
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_BLINKY) {
 	        			Blinky blinky = new Blinky(area, new DiscreteCoordinates(x,y));	 
-	        			area.registerActor(blinky);	 
+	        			area.registerActor(blinky);	
+	        			currentGhosts.add(blinky);
 	        		}
 	        		if(cellType != SuperPacmanCellType.WALL) { //adding nodes in graph
-	        			boolean hasLeftEdge = ((x > 0) && getCellType(x-1, y) != SuperPacmanCellType.WALL);
+	        			boolean hasLeftEdge = ((x > 0) && getCellType(x-1, y) != SuperPacmanCellType.WALL);	//depends if it st
 	        			boolean hasUpEdge = ((y < getHeight()-1) && getCellType(x, y+1) != SuperPacmanCellType.WALL);
 	        			boolean hasRightEdge = ((x < getWidth()-1) && getCellType(x+1, y) != SuperPacmanCellType.WALL);
 	        			boolean hasDownEdge = ((y > 0) && getCellType(x, y-1) != SuperPacmanCellType.WALL);     			
@@ -66,23 +73,7 @@ public class SuperPacmanBehavior extends AreaBehavior {
 
 	}
 	
-//	private boolean[] lookForEdges(AreaGraph map, boolean[] edges, int x, int y) {	//depends if it start on the bottom left ?
-//		
-//		boolean[] answer = new boolean[edges.length];	//of 4
-//		if() {
-//			
-//		}
-//		if() {
-//			
-//		}
-//		if() {
-//			
-//		}
-//		if() {
-//			
-//		}
-//		
-//	}
+	
 	
 	
 	
@@ -149,44 +140,56 @@ public class SuperPacmanBehavior extends AreaBehavior {
 
 	
 
-public class SuperPacmanCell extends Cell{	//classe imbriquï¿½e
-	private SuperPacmanCellType type;
-	public SuperPacmanCell(int x, int y,SuperPacmanCellType type ) {	//constructeur
-		super(x, y);
-		this.type=type;
-	}
-
-	@Override
-	protected boolean canEnter(Interactable entity) {		//addedByMe
-		if(this.takeCellSpace() == true) {	//if the cell is non-traversable (assuming only walls are non traversable)
-			return false;	
-		}else {
-			return true; //only if Cell is traversabï¿½e
+	public class SuperPacmanCell extends Cell{	//classe imbriquï¿½e
+		private SuperPacmanCellType type;
+		public SuperPacmanCell(int x, int y,SuperPacmanCellType type ) {	//constructeur
+			super(x, y);
+			this.type=type;
 		}
-		
+	
+		@Override
+		protected boolean canEnter(Interactable entity) {		//addedByMe
+			if(this.takeCellSpace() == true) {	//if the cell is non-traversable (assuming only walls are non traversable)
+				return false;	
+			}else {
+				return true; //only if Cell is traversabï¿½e
+			}
+			
+		}
+	
+		@Override
+		public boolean isCellInteractable() {
+			return true;
+		}
+	
+		@Override
+		public boolean isViewInteractable() {
+			return true;
+		}
+	
+		@Override
+		public void acceptInteraction(AreaInteractionVisitor v) {
+			// TODO Auto-generated method stub
+			
+		}
+	
+		@Override
+		protected boolean canLeave(Interactable entity) {
+			return true;
+		}
+	}
+	
+	public void scareAllGhosts(boolean choose) {
+		for(int i = 0; i < currentGhosts.size(); i++) {
+			if(choose == true) {
+				currentGhosts.get(i).setAfraid();
+			}else {
+				currentGhosts.get(i).setNotAfraid();
+			}			
+		}
 	}
 
-	@Override
-	public boolean isCellInteractable() {
-		return true;
-	}
-
-	@Override
-	public boolean isViewInteractable() {
-		return true;
-	}
-
-	@Override
-	public void acceptInteraction(AreaInteractionVisitor v) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected boolean canLeave(Interactable entity) {
-		return true;
-	}
-}
+	
 }
 
 

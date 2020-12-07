@@ -33,7 +33,7 @@ public class Ghost extends Player {
 	protected final int GHOST_SCORE = 500;
     private final int FIELD_OF_VIEW = 5;
     
-    private boolean seePlayer = false;
+    
 	
 	/// Animation duration in frame number
     protected final static int ANIMATION_DURATION = 8;
@@ -56,7 +56,8 @@ public class Ghost extends Player {
 	protected Orientation nextOrientation;
 	protected Orientation actualOrientation;
 	
-	protected SuperPacmanPlayer player;
+	protected SuperPacmanPlayer playerMemory;
+	private boolean seePlayer = false;
 	
     
     /**
@@ -82,7 +83,6 @@ public class Ghost extends Player {
 	}
 	
 	public void update(float deltaTime) { // check constantly if the player is immortal or not, so the animation can change
-		checkAfraid(); //checking if player is immortal
 		if(AFRAID == true) { //if true, no animation and default sprite (afraid)			
 		}
 		if(AFRAID == false) {
@@ -196,7 +196,7 @@ public class Ghost extends Player {
 			List<DiscreteCoordinates> field = getFieldOfViewCells();
 			boolean here = false;
 			for(int i = 0; i < field.size(); i++) {
-				if(player.getCurrentCells().equals(field.get(i))) {	//!!! WHY == DOES NOT WORK
+				if(playerMemory.getCurrentCells().equals(field.get(i))) {	//!!! WHY == DOES NOT WORK
 					here = true;
 					break;
 				}
@@ -206,13 +206,20 @@ public class Ghost extends Player {
 			}
 		}
 		
-		private void checkAfraid() {
-			if(player.IMMORTAL == true) {
-				this.AFRAID = true;
-			}
-			if(player.IMMORTAL == false) {
-				this.AFRAID = false;
-			}
+//		private void checkAfraid() {	//invincibility of player is treated by methods that will affect all ghosts at the same time. (in )
+//			if(playerMemory.IMMORTAL == true) {
+//				this.AFRAID = true;
+//			}
+//			if(playerMemory.IMMORTAL == false) {
+//				this.AFRAID = false;
+//			}
+//		}
+		
+		public void setAfraid() {
+			AFRAID = true;			
+		}
+		public void setNotAfraid() {
+			AFRAID = false;
 		}
 		
 		protected void backToRefuge(DiscreteCoordinates refuge) {
@@ -239,7 +246,10 @@ public class Ghost extends Player {
 
 
 		public class SuperPacmanGhostHandler implements SuperPacmanInteractionVisitor{
-
+			public void interactWith(SuperPacmanPlayer player) {
+				playerMemory = player; //when in field of vision, memorise player
+				seePlayer = true;	// !!! how to set it back to false ?!
+			}
 		}
 		
 		
