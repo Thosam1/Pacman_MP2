@@ -122,30 +122,32 @@ public class SuperPacmanCell extends Cell{	//classe imbriquï¿½e
 		this.type=type;
 	}
 
-	@Override
-	protected boolean canEnter(Interactable entity) {		//addedByMe
+	/*@Override
+	protected boolean canEnter(Interactable entity) {		// Mauvaise méthode canEnter, mais qui permet au SuperPacman de se déplacer
 		if(this.takeCellSpace() == true) {	//if the cell is non-traversable (assuming only walls are non traversable)
 			return false;	
 		}else {
 			return true; //only if Cell is traversabï¿½e
 		}
 		
+	}*/
+	@Override
+	protected boolean canEnter(Interactable entity) {
+		return !hasNonTraversableContent();
 	}
 
 	@Override
 	public boolean isCellInteractable() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean isViewInteractable() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public void acceptInteraction(AreaInteractionVisitor v) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

@@ -13,6 +13,7 @@ import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.rpg.actor.Door;
 import ch.epfl.cs107.play.game.rpg.actor.Player;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
+import ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI.Gate;
 import ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI.SuperPacmanPlayerStatusGUI;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -42,6 +43,7 @@ public class SuperPacmanPlayer extends Player{
 		this.area = area;
 		PLAYER_SPAWN_POSITION = coordinates;
 		hp = 3;
+		desiredOrientation = Orientation.RIGHT;
 		score = 0;
 		sprites = RPGSprite.extractSprites("superpacman/pacman", 4, 1, 1, this, 64, 64,	//4 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
                 new Orientation[] {Orientation.DOWN, Orientation.LEFT, Orientation.UP, Orientation.RIGHT}); //order Orientation[] orders of frame in the image
@@ -72,9 +74,9 @@ public class SuperPacmanPlayer extends Player{
 	        			
 	    			orientate(desiredOrientation);
 //	        			animations[desiredOrientation.ordinal()];
-	    			this.move(SPEED); //selon le nombre de frames choisi 
+
 	        		}
-	    		
+	    		this.move(SPEED);
 	       
 	        }
 	       }
@@ -119,12 +121,12 @@ public class SuperPacmanPlayer extends Player{
     
 	@Override
 	public boolean takeCellSpace() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean isCellInteractable() {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -178,7 +180,9 @@ public class SuperPacmanPlayer extends Player{
     	diamond.collect();
     	score += diamond.score;
     	}
-    
+    public void interactWith(Gate gate) {
+    	
+    }
     public void interactWith(Ghost ghost) {
 		ghostEncounter(ghost);}
 	private void ghostEncounter (Ghost ghost) {

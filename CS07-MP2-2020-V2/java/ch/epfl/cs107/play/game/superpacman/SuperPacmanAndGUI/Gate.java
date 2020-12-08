@@ -5,26 +5,36 @@ import java.util.List;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.AreaEntity;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
+import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.signal.Signal;
 import ch.epfl.cs107.play.window.Canvas;
+import ch.epfl.cs107.play.math.RegionOfInterest;
+import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 
 public class Gate extends AreaEntity{
-
-	public Gate(Area area, Orientation orientation, DiscreteCoordinates position, Signal key) {
+	private Sprite sprite;
+	Signal signal;
+	public Gate(Area area, Orientation orientation, DiscreteCoordinates position, Signal signal) {
 		super(area, orientation, position);
-	//	public Logic traversable = Logic.TRUE;
+		this.signal = signal;
+		if ((orientation == Orientation.DOWN)|(orientation == Orientation.UP)) {
+			sprite = new Sprite("superpacman/key", 1.f, 1.f,this, new RegionOfInterest(0,0,64,64));
+			}
+		else ((orientation == Orientation.LEFT)|(orientation == Orientation.RIGHT)) {
+			sprite = new Sprite("superpacman/key", 1.f, 1.f,this, new RegionOfInterest(0,64,64,64));
+			}
+
 	}
 	
-	/*public Gate(Area area, Orientation orientation, DiscreteCoordinates position, Signal key1, Signal key2) {
-		super(area, orientation, position);
-		public Logic traversable = Logic.TRUE;
-	}*/// pour créer des gates qui dépendent de deux clés
-	public void update(float deltaTime) {}
+	public void update(float deltaTime) {
+		if (signal.isOn()) {
+			 getOwnerArea().unregisterActor(this);
+		}
+	}
 	@Override
 	public List<DiscreteCoordinates> getCurrentCells() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -35,7 +45,7 @@ public class Gate extends AreaEntity{
 
 	@Override
 	public boolean isCellInteractable() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -45,21 +55,15 @@ public class Gate extends AreaEntity{
 
 	@Override
 	public void acceptInteraction(AreaInteractionVisitor v) {
-		
+		 ((SuperPacmanInteractionVisitor)v).interactWith(this);
 	}
-
-	//@Override
-	//public void draw(Canvas canvas, Signal key1) {
-		//if (key1 == Logic.TRUE) {
-			
-	//	}
-		
 	
 
 	@Override
 	public void draw(Canvas canvas) {
-		// TODO Auto-generated method stub
-		
+	/*
+		sprite.draw(canvas);
+		*/
 	}
 
 }

@@ -32,10 +32,10 @@ public class Level2 extends SuperPacmanArea{
         Gate gate6 = new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(24,12), key2);
         Gate gate7 = new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(21,10), key2);
         Gate gate8 = new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(21,8), key2);
-        Gate gate9 = new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(10,2), key3, key4);
-        Gate gate10 = new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(19,2), key3, key4);
-        Gate gate11 = new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(12,8), key3, key4);
-        Gate gate12 = new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(17,8), key3, key4);
+        Gate gate9 = new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(10,2), new And(key3, key4));
+        Gate gate10 = new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(19,2), new And(key3, key4));
+        Gate gate11 = new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(12,8), new And(key3, key4));
+        Gate gate12 = new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(17,8), new And(key3, key4));
         Gate gate13 = new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(14,3), nomorediamond);
         Gate gate14 = new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(15,3), nomorediamond);
 	*/

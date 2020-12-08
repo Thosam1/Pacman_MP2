@@ -10,7 +10,6 @@ import ch.epfl.cs107.play.game.areagame.actor.MovableAreaEntity;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.game.tutosSolution.area.Tuto2Area;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Button;
@@ -105,7 +104,7 @@ public class GhostPlayer extends MovableAreaEntity {
 
 	@Override
 	public boolean takeCellSpace() {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -115,7 +114,7 @@ public class GhostPlayer extends MovableAreaEntity {
 
 	@Override
 	public boolean isViewInteractable() {
-		return true;
+		return false;
 	}
 	@Override
 	public List<DiscreteCoordinates> getCurrentCells() {
