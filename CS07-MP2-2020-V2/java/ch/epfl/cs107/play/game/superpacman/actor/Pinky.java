@@ -8,8 +8,8 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 public class Pinky extends Ghost {
 
-	public Pinky(Area area, Orientation orientation, DiscreteCoordinates coordinates, SuperPacmanPlayer player) {
-		super(area, orientation, coordinates, player);
+	public Pinky(Area area, DiscreteCoordinates coordinates) {
+		super(area, coordinates);
 		setNameOfMainSprite("superpacman/ghost.pinky");
 	}
 	

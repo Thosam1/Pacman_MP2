@@ -9,15 +9,31 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 public class Inky extends Ghost {
 
-	public Inky(Area area, Orientation orientation, DiscreteCoordinates coordinates, SuperPacmanPlayer player) {
-		super(area, orientation, coordinates, player);
+	private final int MAX_DISTANCE_WHEN_SCARED = 5;
+	
+	public Inky(Area area, DiscreteCoordinates coordinates) {
+		super(area, coordinates);
 		setNameOfMainSprite("superpacman/ghost.inky");
 	}
 	
 	public void update(float deltaTime) { // ?necessary?
 		super.update(deltaTime); //taking care of afraid animation
+		deplacement();
 	}
 	
+	
+	private void deplacement() {
+		if(AFRAID == true) {	//refuge
+			
+		}else {//view
+		}
+		
+		
+	}
+	
+	private void frightened() { //back to refuge
+		
+	}
 	
 	private class SuperPacmanBlinkyHandler extends SuperPacmanGhostHandler {
 		

@@ -31,7 +31,10 @@ public class SuperPacmanPlayer extends Player{
 	private Area area;
 	private DiscreteCoordinates PLAYER_SPAWN_POSITION; //d�pend de l'aire actuelle !
 	private final SuperPacmanPlayerHandler handler;
-	protected boolean IMMORTAL = false;	//addedByMe
+	private boolean IMMORTAL = false;	//addedByMe
+	public boolean getIMMORTAL (){
+		return IMMORTAL;
+	}
 	protected float timerImmortal = 4.f; // addedByMe, d�cr�menter cette valeur par deltaTime et remettre IMMORTAL � false, avant de r�initialiser timerImmortal � 4.f quand elle atteint 0
 	//peut �tre choisir la valeur en fonction du type de bonus ?
 	
@@ -161,7 +164,9 @@ public class SuperPacmanPlayer extends Player{
 		
 
 
-	private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{
+	private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{	//gets called whenever in field of vision or when there is an interaction
+		
+
 		public void interactWith(Door door){
 			setIsPassingADoor(door);
 		}
@@ -185,16 +190,18 @@ public class SuperPacmanPlayer extends Player{
     }
     public void interactWith(Ghost ghost) {
 		ghostEncounter(ghost);}
+    
+    
 	private void ghostEncounter (Ghost ghost) {
-		if(this.IMMORTAL == true) {
+		if(IMMORTAL == true) {
 			ghost.killed = true;
-			this.score += ghost.GHOST_SCORE;
+			score += ghost.GHOST_SCORE;
 			ghost.backToRefuge(ghost.refuge);
 			}
-		if(this.IMMORTAL == false) {
+		if(IMMORTAL == false) {
 			ghost.backToRefuge(ghost.refuge);
-			this.hp -= 1;
-			this.setCurrentPosition(PLAYER_SPAWN_POSITION.toVector());
+			hp -= 1;
+			setCurrentPosition(PLAYER_SPAWN_POSITION.toVector());
 			//METTRE UNE ANIMATION � ce moment l� ???
 			}
 			

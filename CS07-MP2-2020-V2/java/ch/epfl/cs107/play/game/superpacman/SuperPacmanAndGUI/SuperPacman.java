@@ -7,6 +7,7 @@ import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
 import ch.epfl.cs107.play.game.superpacman.area.Level0;
 import ch.epfl.cs107.play.game.superpacman.area.Level1;
 import ch.epfl.cs107.play.game.superpacman.area.Level2;
+import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
@@ -27,6 +28,7 @@ public class SuperPacman extends RPG{
 	
 	public void update(float deltaTime) {
 		super.update(deltaTime);
+	//	scareGhosts();
 	}
 
 	private void createAreas(){
@@ -52,4 +54,13 @@ public class SuperPacman extends RPG{
 		}
 		return false;
 	}
+	/*
+	private void scareGhosts(){
+		SuperPacmanArea area = (SuperPacmanArea) getCurrentArea();
+		if(player.getIMMORTAL()) {	//if immortal, set all ghosts to scared			
+			area.scareInBehavior(true);			
+		}else {
+			area.scareInBehavior(false);	//if not, set all ghosts to not afraid
+		}
+	}*/
 }
