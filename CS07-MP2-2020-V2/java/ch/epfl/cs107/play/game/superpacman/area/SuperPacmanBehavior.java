@@ -1,6 +1,7 @@
 package ch.epfl.cs107.play.game.superpacman.area;
 
 import java.util.List;
+import java.util.Queue;
 
 import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.areagame.Area;
@@ -15,6 +16,8 @@ import ch.epfl.cs107.play.game.superpacman.actor.Bonus;
 import ch.epfl.cs107.play.game.superpacman.actor.Cherry;
 import ch.epfl.cs107.play.game.superpacman.actor.Diamond;
 import ch.epfl.cs107.play.game.superpacman.actor.Ghost;
+import ch.epfl.cs107.play.game.superpacman.actor.Inky;
+import ch.epfl.cs107.play.game.superpacman.actor.Pinky;
 import ch.epfl.cs107.play.game.superpacman.actor.Wall;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
@@ -27,10 +30,10 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	public SuperPacmanBehavior(Window window, String name) {	//constructeur du behavior
 		super(window,name);
 		graph = new AreaGraph();
-		
-		  
-        for (int x=0; x<getWidth(); x++) {
-        	for (int y=0; y<getHeight(); y++) {
+		int height = getHeight();
+		int width = getWidth();
+        for (int x=0; x< width; x++) {
+        	for (int y=0; y<height; y++) {
         		SuperPacmanCellType cellType = SuperPacmanCellType.toType(getRGB(getHeight() -1-y, x));	//donner un type au "Cells"
         		SuperPacmanCell cell = new SuperPacmanCell(x,y, cellType);
         		setCell(x,y,cell);}
@@ -59,6 +62,16 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	        			area.registerActor(blinky);	
 	        			currentGhosts.add(blinky);
 	        		}
+	        		if(cellType == SuperPacmanCellType.FREE_WITH_INKY) {
+	        			Inky inky = new Inky(area, new DiscreteCoordinates(x,y));	 
+	        			area.registerActor(inky);	
+	        			currentGhosts.add(inky);
+	        		}
+//	        		if(cellType == SuperPacmanCellType.FREE_WITH_PINKY) {
+//	        			Pinky pinky = new Pinky(area, new DiscreteCoordinates(x,y));	 
+//	        			area.registerActor(pinky);	
+//	        			currentGhosts.add(pinky);
+//	        		}
 	        		if(cellType != SuperPacmanCellType.WALL) { //adding nodes in graph
 	        			boolean hasLeftEdge = ((x > 0) && getCellType(x-1, y) != SuperPacmanCellType.WALL);	//depends if it st
 	        			boolean hasUpEdge = ((y < getHeight()-1) && getCellType(x, y+1) != SuperPacmanCellType.WALL);
@@ -140,48 +153,62 @@ public class SuperPacmanBehavior extends AreaBehavior {
 
 	
 
-public class SuperPacmanCell extends Cell{	//classe imbriquï¿½e
-	private SuperPacmanCellType type;
-	public SuperPacmanCell(int x, int y,SuperPacmanCellType type ) {	//constructeur
-		super(x, y);
-		this.type=type;
+	public class SuperPacmanCell extends Cell{	//classe imbriquï¿½e
+		private SuperPacmanCellType type;
+		public SuperPacmanCell(int x, int y,SuperPacmanCellType type ) {	//constructeur
+			super(x, y);
+			this.type=type;
+		}
+	
+		@Override
+		protected boolean canEnter(Interactable entity) {
+			return !hasNonTraversableContent();
+			}
+		
+			@Override
+			public boolean isCellInteractable() {
+				return false;
+			}
+		
+			@Override
+			public boolean isViewInteractable() {
+				return false;
+			}
+		
+			@Override
+			public void acceptInteraction(AreaInteractionVisitor v) {
+			}
+		
+			@Override
+			protected boolean canLeave(Interactable entity) {
+				return true;
+			}
+		
 	}
-
-	@Override
-	protected boolean canEnter(Interactable entity) {
-		return !hasNonTraversableContent();
-		}
-	
-		@Override
-		public boolean isCellInteractable() {
-			return false;
-		}
-	
-		@Override
-		public boolean isViewInteractable() {
-			return false;
-		}
-	
-		@Override
-		public void acceptInteraction(AreaInteractionVisitor v) {
-		}
-	
-		@Override
-		protected boolean canLeave(Interactable entity) {
-			return true;
-		}
-	
+	/**	Methods useful for ghosts
+	 * 
+	 * @param choose
+	 */
 	
 	public void scareAllGhosts(boolean choose) {
 		for(int i = 0; i < currentGhosts.size(); i++) {
 			if(choose == true) {
 				currentGhosts.get(i).setAfraid();
+				currentGhosts.get(i).setReevaluate(true);
 			}else {
 				currentGhosts.get(i).setNotAfraid();
+				currentGhosts.get(i).setAfraid();
+				currentGhosts.get(i).setReevaluate(true);
 			}			
 		}
 	}
-}
+	
+	protected Queue<Orientation> shortestPath(DiscreteCoordinates main, DiscreteCoordinates target){
+		Queue<Orientation> path = graph.shortestPath(main, target);
+		return path;
+	}
+	
+
 }
 
 

@@ -19,16 +19,18 @@ public class Blinky extends Ghost {
 
 	public void update(float deltaTime) { // ?necessary?
 		super.update(deltaTime); //taking care of afraid animation
+		deplacement(getNextOrientation());
 	}
 	
 	
-	@Override	//why override DOESNT WORK ?!????????
+//	@Override	//why override DOESNT WORK ?!????????
 	private Orientation getNextOrientation() {	//to redefine
 		//how to find the next orientation
 		int randomInt = RandomGenerator.getInstance().nextInt(4);	//(index 0-3 for the ordinal of orientation)
-		nextOrientation = Orientation.fromInt(randomInt);
+		Orientation nextOrientation = Orientation.fromInt(randomInt);
 		return nextOrientation;
 	}
+	
 	
 	private class SuperPacmanBlinkyHandler extends SuperPacmanGhostHandler {
 		

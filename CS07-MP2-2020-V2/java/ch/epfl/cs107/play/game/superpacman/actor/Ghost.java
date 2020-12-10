@@ -29,15 +29,22 @@ public class Ghost extends Player {
 	private Animation[] afraidAnimations;
 	
 	protected boolean AFRAID = false;
-	protected boolean killed = false;
+	
 	protected final int GHOST_SCORE = 500;
     private final int FIELD_OF_VIEW = 5;
-    
+    protected boolean reevaluate = false;	//for pinky and inky
+    public void setReevaluate(boolean c) {
+    	if(c == true) {
+    		reevaluate = true;
+    	}else {
+    		reevaluate = false;
+    	}
+    }
     
 	
 	/// Animation duration in frame number
     protected final static int ANIMATION_DURATION = 8;
-    private int SPEED = 6;
+    protected int SPEED = 6;
     private Area area;
 	private final SuperPacmanGhostHandler handler;
 	
@@ -53,11 +60,11 @@ public class Ghost extends Player {
 		nameOfMainSprite = newName;
 	}
 	
-	protected Orientation nextOrientation;
-	protected Orientation actualOrientation;
+//	protected Orientation nextOrientation;
+//	protected Orientation actualOrientation;
 	
 	protected SuperPacmanPlayer playerMemory;
-	private boolean seePlayer = false;
+	protected boolean seePlayer = false;
 	
     
     /**
@@ -83,13 +90,14 @@ public class Ghost extends Player {
 	}
 	
 	public void update(float deltaTime) { // check constantly if the player is immortal or not, so the animation can change
+//		checkAfraid();
 		if(AFRAID == true) { //if true, no animation and default sprite (afraid)			
 		}
 		if(AFRAID == false) {
 			mainAnimations[this.getOrientation().ordinal()].update(deltaTime);
 		}
 		
-		deplacement();
+//		deplacement();
 		super.update(deltaTime);
 	}
 	
@@ -215,7 +223,7 @@ public class Ghost extends Player {
 //			}
 //		}
 		
-		public void setAfraid() {
+		public void setAfraid() {	//for Friday
 			AFRAID = true;			
 		}
 		public void setNotAfraid() {
@@ -230,14 +238,14 @@ public class Ghost extends Player {
 		// if in movement, let it be, only check the animation
 		// if not in movement, chose an orientation
 		
-		private Orientation getNextOrientation() {	//to redefine
-			
-			return Orientation.UP;
-		}
+//		private Orientation getNextOrientation() {	//to redefine
+//			
+//			return Orientation.UP;
+//		}
 		
-		private void deplacement() {
+		protected void deplacement(Orientation next) {
 			if(!this.isDisplacementOccurs()) {	//true if not moving
-				this.orientate(getNextOrientation());	//orientate the ghost
+				this.orientate(next);	//orientate the ghost
 				this.move(SPEED);
 			}
 		}
@@ -248,7 +256,8 @@ public class Ghost extends Player {
 		public class SuperPacmanGhostHandler implements SuperPacmanInteractionVisitor{
 			public void interactWith(SuperPacmanPlayer player) {
 				playerMemory = player; //when in field of vision, memorise player
-				seePlayer = true;	// !!! how to set it back to false ?!
+				seePlayer = true;	// back to false if eaten by player
+				reevaluate = true;
 			}
 		}
 		
