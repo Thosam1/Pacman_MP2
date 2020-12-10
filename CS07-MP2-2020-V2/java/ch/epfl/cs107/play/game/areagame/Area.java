@@ -43,7 +43,9 @@ public abstract class Area implements Playable {
 	/// pause mechanics and menu to display. May be null
 	/// - start indicate if area already begins, paused indicate if we display the pause menu
 	private boolean started;
-
+	public int numberOfDiamonds; // every time a Diamond is created in this area, this value will be added 1.
+								//then every time a Diamond is picked up, it will be subtracted 1
+								//until it reaches a value of 0, and the signal will become true
 
 	/** @return (float): camera scale factor, assume it is the same in x and y direction */
 	public abstract float getCameraScaleFactor();

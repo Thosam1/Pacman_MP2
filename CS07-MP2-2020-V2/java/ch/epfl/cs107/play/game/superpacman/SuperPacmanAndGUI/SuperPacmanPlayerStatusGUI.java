@@ -17,19 +17,20 @@ public class SuperPacmanPlayerStatusGUI implements Graphics{
 	private float height;
 	private float width;
 	private Vector anchor;
-	private TextGraphics score;
+	private TextGraphics scoreTextGraphic;
 	private ImageGraphics lifeYellow;
 	private ImageGraphics lifeGray;
 	private final float DEPTH = 10000;//nombre élevé pour avoir la priorité
 	
-	SuperPacmanPlayerStatusGUI(Canvas canvas, SuperPacmanPlayer player, float DEPTH){
-	width = canvas.getScaledWidth();
-	height = canvas.getScaledHeight();
-	this.player = player;
+	public SuperPacmanPlayerStatusGUI(SuperPacmanPlayer player){
+	/*width = canvas.getScaledWidth();
+	height = canvas.getScaledHeight();*/
+		this.player = player;
 
 	
-	anchor = canvas.getTransform().getOrigin().sub(new Vector(width/2, height/2));
-	score = new TextGraphics(String.valueOf(player.score), 1.f, Color.YELLOW, Color.BLACK, 2.f, true, true, new Vector(width/2, 0.f)); 
+	/*anchor = canvas.getTransform().getOrigin().sub(new Vector(width/2, height/2));
+	scoreTextGraphic = new TextGraphics(String.valueOf(player.score), 1.f, Color.YELLOW, Color.BLACK, 2.f, true, true, new Vector(width/2, 0.f)); 
+	
 	lifeYellow = new
 			ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplay"),
 			1.f, 1.f, new RegionOfInterest(0, 0, 64, 64),
@@ -37,14 +38,16 @@ public class SuperPacmanPlayerStatusGUI implements Graphics{
 	lifeGray = new
 			ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplay"),
 			1.f, 1.f, new RegionOfInterest(64, 0, 64, 64),
-			anchor.add(new Vector(0, height - 1.375f)), 1, DEPTH);
+			anchor.add(new Vector(0, height - 1.375f)), 1, DEPTH);*/
 	
 	//comment faire pour faire en sorte que cette classe soit seulement accessible a la classe SuperPacman ou a ses sous classes
 	//Ca ne fonctionne pas en passant la classe en protected
 	}
 	public void update(float deltaTime) {
-		score.setText(Integer.toString((int)player.score));
-		for (int i=0; i<5; i++) {
+		//scoreTextGraphic.setText(Integer.toString((int)player.score));
+		
+		
+		/*for (int i=0; i<5; i++) {
 			for(int j=0; j<player.hp; ++j){
 				
 				ImageGraphics life = new
@@ -58,11 +61,34 @@ public class SuperPacmanPlayerStatusGUI implements Graphics{
 					1.f, 1.f, new RegionOfInterest(64, 0, 64, 64),
 					anchor.add(new Vector(0.5f+i*10, height - 1.375f)), 1, DEPTH);
 			}
+		}*/
+	}
+	public void getLife(Canvas canvas){
+		anchor = canvas.getTransform().getOrigin().sub(new Vector(width/2, height/2));
+		for (int i=0; i<5; i++) {
+			for(int j=0; j<player.hp; ++j){
+				/*new ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplay"),
+				1.f, 1.f, new RegionOfInterest(0, 0, 64, 64),
+				anchor.add(new Vector(0.5f+i*10, height - 1.375f)), 1, DEPTH).draw(canvas);
+				*/
+				new ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplay"),
+						1.f, 1.f, new RegionOfInterest(0, 0, 64, 64),
+						anchor.add(new Vector(0.5f+i*10, height - 1.375f)), 1, DEPTH).draw(canvas);}
+			for(int w=player.hp; w<5; w++) {
+				new ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplay"),
+				1.f, 1.f, new RegionOfInterest(64, 0, 64, 64),
+				anchor.add(new Vector(0.5f+i*10, height - 1.375f)), 1, DEPTH).draw(canvas);
+			}
 		}
+	}
+	public void getScore(Canvas canvas) {
+		scoreTextGraphic = new TextGraphics(String.valueOf(player.score), 1.f, Color.YELLOW, Color.BLACK, 2.f, true, true, new Vector(canvas.getScaledWidth()/2, 0.f)); 
+		scoreTextGraphic.draw(canvas);
 	}
 	@Override
 	public void draw(Canvas canvas) {
-		score.draw(canvas);
-	//	life.draw(canvas);
+		//scoreTextGraphic.setText(Integer.toString((int)player.score));
+		/*getLife(canvas);
+		getScore(canvas);*/
 		}
 	}

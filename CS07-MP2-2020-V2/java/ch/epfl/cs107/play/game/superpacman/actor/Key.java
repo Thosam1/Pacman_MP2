@@ -14,8 +14,8 @@ public class Key extends AutomaticallyCollectableAreaEntity implements Logic{
 	private boolean ramasseOuPas;
 	private Sprite sprite;
 	
-	public Key(Area area, Orientation orientation, DiscreteCoordinates position) {
-		super(area, orientation, position);
+	public Key(Area area, DiscreteCoordinates position) {
+		super(area, Orientation.RIGHT, position);
 		ramasseOuPas = false;
 		sprite = new Sprite("superpacman/key", 1.f, 1.f,this);
 	}

@@ -10,7 +10,7 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
 public class Cherry extends AutomaticallyCollectableAreaEntity {
-	public int score =200;
+	public final int SCORE = 200;
 	private Sprite sprite;
 	
 	public Cherry(Area area, Orientation orientation, DiscreteCoordinates position) {
