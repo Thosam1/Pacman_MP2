@@ -36,7 +36,7 @@ public class SuperPacmanPlayer extends Player{
 	public boolean getIMMORTAL (){
 		return IMMORTAL;
 	}
-	protected float timerImmortal = 4.f; // addedByMe, d�cr�menter cette valeur par deltaTime et remettre IMMORTAL � false, avant de r�initialiser timerImmortal � 4.f quand elle atteint 0
+	protected float timerImmortal = 4.f; // addedByMe, décrémenter cette valeur par deltaTime et remettre IMMORTAL à false, avant de r�initialiser timerImmortal � 4.f quand elle atteint 0
 	//peut �tre choisir la valeur en fonction du type de bonus ?
 	
 	private Sprite[][] sprites;	//addedByMe - i just declared them outside the constructor
@@ -54,7 +54,7 @@ public class SuperPacmanPlayer extends Player{
                 new Orientation[] {Orientation.DOWN, Orientation.LEFT, Orientation.UP, Orientation.RIGHT}); //order Orientation[] orders of frame in the image
         //array of 4 Sprite[] 1 per orientation
 		
-		animations = Animation.createAnimations(ANIMATION_DURATION / 4, sprites);	//cr�e un tableau de 4 animations
+		animations = Animation.createAnimations(ANIMATION_DURATION / 4, sprites);	//crée un tableau de 4 animations
 		handler = new SuperPacmanPlayerHandler();
 		
 	}
@@ -141,7 +141,7 @@ public class SuperPacmanPlayer extends Player{
 
 	@Override
 	public void acceptInteraction(AreaInteractionVisitor v) {
-		((SuperPacmanInteractionVisitor)v).interactWith(this); //accepte de voir ses interactions avec les autres acteurs (qui sont aussi g�r�s par SuperPacmanInteractionVisitor)
+		((SuperPacmanInteractionVisitor)v).interactWith(this); //accepte de voir ses interactions avec les autres acteurs (qui sont aussi gérés par SuperPacmanInteractionVisitor
 		
 	}
 	/* public void enterArea(Area area, DiscreteCoordinates position){
@@ -192,21 +192,23 @@ public class SuperPacmanPlayer extends Player{
     public void interactWith(Gate gate) {
     	
     }
-    public void interactWith(Ghost ghost) {
+    public void interactWith(Ghost ghost) {	//interact at distance or on contact ?!?!
 		ghostEncounter(ghost);}
     
     
 	private void ghostEncounter (Ghost ghost) {
-		if(IMMORTAL == true) {
-			ghost.killed = true;
+		if(IMMORTAL == true) {		
+			ghost.playerMemory = null;
 			score += ghost.GHOST_SCORE;
 			ghost.backToRefuge(ghost.refuge);
+			ghost.seePlayer = false;
 			}
 		if(IMMORTAL == false) {
 			ghost.backToRefuge(ghost.refuge);
 			hp -= 1;
 			setCurrentPosition(PLAYER_SPAWN_POSITION.toVector());
-			//METTRE UNE ANIMATION � ce moment l� ???
+			ghost.seePlayer = false;
+			//METTRE UNE ANIMATION à ce moment là ???
 			}
 			
 		}

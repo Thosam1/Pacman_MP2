@@ -1,15 +1,16 @@
 package ch.epfl.cs107.play.game.superpacman.area;
 
-import java.util.List;
-
+import java.util.Queue;
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.io.FileSystem;
+import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Window;
 
 abstract public class SuperPacmanArea extends Area implements Logic{
 	private Window window; //addedByMe
-	SuperPacmanBehavior behavior;	//addedByMe
+	public SuperPacmanBehavior behavior;	//addedByMe
 	
 	public final float CAMERA_SCALE_FACTOR = 15.f;
 	@Override
@@ -24,7 +25,7 @@ abstract public class SuperPacmanArea extends Area implements Logic{
 	        }
 	        return false;
 	    }
-
+	
 	@Override
 	public float getCameraScaleFactor() {
 		return CAMERA_SCALE_FACTOR;
@@ -32,7 +33,8 @@ abstract public class SuperPacmanArea extends Area implements Logic{
 	public void createArea(SuperPacmanBehavior behavior) {	//registering actors in the area //general, more detailed in subclasses/levels
 		behavior.registerActors(this);
 	}
-	/*
+	
+	
 	public void scareInBehavior (boolean choose) { //call the method in behavior to frighten the ghosts
 		if(choose == true) {
 			behavior.scareAllGhosts(true);
@@ -40,5 +42,9 @@ abstract public class SuperPacmanArea extends Area implements Logic{
 			behavior.scareAllGhosts(false);
 		}
 				
-	}*/
+	}
+	
+	public Queue<Orientation> shortestPath(DiscreteCoordinates main, DiscreteCoordinates target){
+		return behavior.shortestPath(main, target);
+	}
 }
