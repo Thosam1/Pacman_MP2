@@ -18,11 +18,6 @@ public class Level2 extends SuperPacmanArea{
 	
 	public void createArea(SuperPacmanBehavior behavior) {
         super.createArea(behavior);
-        /*
-        Key key1 = new Key(new DiscreteCoordinates(3,16));
-        Key key2 = new Key(new DiscreteCoordinates(26,16));
-        Key key3 = new Key(new DiscreteCoordinates(2,8)));
-        Key key4 = new Key(new DiscreteCoordinates(27,8));
         
         Gate gate1 = new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(8,14), key1);
         Gate gate2 = new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(5,12), key1);

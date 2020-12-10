@@ -2,7 +2,6 @@ package ch.epfl.cs107.play.game.superpacman.area;
 
 import java.util.List;
 import java.util.Queue;
-
 import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.AreaGraph;
@@ -46,7 +45,6 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	        		SuperPacmanCellType cellType= getCellType(x,y);
 	        		if(cellType == SuperPacmanCellType.WALL) {
 	        			area.registerActor(new Wall(area, new DiscreteCoordinates(x,y), getNeighbours(x,y))); //Constructeur d'un WALL : 1) aire d'appartenance, 2) coordonnï¿½s du mur, 3) tableau 3x3 de booleans 
-	        			
 	        		}
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_BONUS) {
 	        			area.registerActor(new Bonus(area, Orientation.UP, new DiscreteCoordinates(x,y))); //Constructeur d'un Bonus) aire d'appartenance, 2) orientation, 3) coordonnÃ©es
@@ -56,30 +54,33 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	        		}
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_DIAMOND) {
   						area.registerActor(new Diamond(area, Orientation.UP, new DiscreteCoordinates(x,y))); //Constructeur d'un Diamond : 1) aire d'appartenance, 2) orientation 3) coordonnÃ©es
+  						area.numberOfDiamonds +=1;
 	        		}  
-	        		if(cellType == SuperPacmanCellType.FREE_WITH_BLINKY) {
+/*	        		if(cellType == SuperPacmanCellType.FREE_WITH_BLINKY) {
 	        			Blinky blinky = new Blinky(area, new DiscreteCoordinates(x,y));	 
 	        			area.registerActor(blinky);	
 	        			currentGhosts.add(blinky);
-	        		}
-	        		if(cellType == SuperPacmanCellType.FREE_WITH_INKY) {
+	        		}*/
+
+/*	        		if(cellType == SuperPacmanCellType.FREE_WITH_INKY) {
 	        			Inky inky = new Inky(area, new DiscreteCoordinates(x,y));	 
 	        			area.registerActor(inky);	
 	        			currentGhosts.add(inky);
-	        		}
-//	        		if(cellType == SuperPacmanCellType.FREE_WITH_PINKY) {
-//	        			Pinky pinky = new Pinky(area, new DiscreteCoordinates(x,y));	 
-//	        			area.registerActor(pinky);	
-//	        			currentGhosts.add(pinky);
-//	        		}
-	        		if(cellType != SuperPacmanCellType.WALL) { //adding nodes in graph
+	        		}*/
+/*	        		if(cellType == SuperPacmanCellType.FREE_WITH_PINKY) {
+        				Pinky pinky = new Pinky(area, new DiscreteCoordinates(x,y));	 
+	        			area.registerActor(pinky);	
+	        			currentGhosts.add(pinky);
+*/	        		
+
+/*	        		if(cellType != SuperPacmanCellType.WALL) { //adding nodes in graph
 	        			boolean hasLeftEdge = ((x > 0) && getCellType(x-1, y) != SuperPacmanCellType.WALL);	//depends if it st
 	        			boolean hasUpEdge = ((y < getHeight()-1) && getCellType(x, y+1) != SuperPacmanCellType.WALL);
 	        			boolean hasRightEdge = ((x < getWidth()-1) && getCellType(x+1, y) != SuperPacmanCellType.WALL);
 	        			boolean hasDownEdge = ((y > 0) && getCellType(x, y-1) != SuperPacmanCellType.WALL);     			
 	        			
 	        			graph.addNode(new DiscreteCoordinates(x,y), hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge);
-	        		}
+	        		}*/
 	        	}
 	        		    
 	        }       

@@ -19,14 +19,29 @@ public class Level1 extends SuperPacmanArea{
 	
 	public void createArea(SuperPacmanBehavior behavior) {
         super.createArea(behavior);
-        Door door1 = new Door("superpacman/Level1", Level2.PLAYER_SPAWN_POSITION, Logic.TRUE, this, Orientation.DOWN,new DiscreteCoordinates(14,0));
-        Door door2 = new Door("superpacman/Level1", Level2.PLAYER_SPAWN_POSITION, Logic.TRUE, this, Orientation.DOWN,new DiscreteCoordinates(15,0));
-        registerActor(door1);
-        registerActor(door2);
-        /*
-        Gate gate1 = new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(14,3), signal);
-        Gate gate2 = new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(15,3), signal);
-        */
-        
+        registerActor(new Door("superpacman/Level1", Level2.PLAYER_SPAWN_POSITION, Logic.TRUE, this, Orientation.DOWN,new DiscreteCoordinates(14,0)));
+        registerActor(new Door("superpacman/Level1", Level2.PLAYER_SPAWN_POSITION, Logic.TRUE, this, Orientation.DOWN,new DiscreteCoordinates(15,0)));
+        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(14,3), this));
+        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(15,3), this));
+        }
+
+	@Override
+	public boolean isOn() {
+		if(numberOfDiamonds>0) {
+			return false;
+			}
+		else return true;
+	}
+
+	@Override
+	public boolean isOff() {
+		// we are not using this method for now
+		return false;
+	}
+
+	@Override
+	public float getIntensity() {
+		// we are not using this method for now
+		return 0;
 	}
 }

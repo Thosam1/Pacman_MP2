@@ -8,10 +8,12 @@ import java.util.Random;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Animation;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
+import ch.epfl.cs107.play.game.areagame.actor.Path;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
 import ch.epfl.cs107.play.game.superpacman.actor.Ghost.SuperPacmanGhostHandler;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.window.Canvas;
 
 public class Inky extends Ghost {
 
@@ -85,7 +87,6 @@ public class Inky extends Ghost {
 		}
 		
 		if(reevaluate == true) {	//then check for the new path
-			
 			if(this.AFRAID == true) {
 				targetPos = randomEscapeCoordinates(refuge);
 			}else{
@@ -98,15 +99,22 @@ public class Inky extends Ghost {
 		}
 		
 		Queue<Orientation> path = area.shortestPath(getCurrentMainCellCoordinates(), targetPos); //we ask to the area, the area asks to the behavior/graph
+		Path graphicPath = new Path(this.getPosition(), new LinkedList<Orientation>(path));
 		return path.poll();						
+	}
+	
+	@Override
+	public void draw(Canvas canvas) {
+		super(canvas);
+		if(AFRAID == false) {
+			
+		}
+		
+	
 	}
 	
 	
 	private class SuperPacmanBlinkyHandler extends SuperPacmanGhostHandler {
-		@Override
-		public void interactWith(SuperPacmanPlayer player) {
-			playerMemory = player; //when in field of vision, memorise player
-			seePlayer = true;	// !!! how to set it back to false ?!
-		}
+		
 	}
 }

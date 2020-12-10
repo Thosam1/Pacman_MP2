@@ -29,6 +29,7 @@ public class SuperPacmanPlayer extends Player{
 	private int SPEED = 6;
 	public Orientation desiredOrientation;
 	private Area area;
+	private SuperPacmanPlayerStatusGUI status;
 	private DiscreteCoordinates PLAYER_SPAWN_POSITION; //d�pend de l'aire actuelle !
 	private final SuperPacmanPlayerHandler handler;
 	private boolean IMMORTAL = false;	//addedByMe
@@ -45,9 +46,10 @@ public class SuperPacmanPlayer extends Player{
 		super(area, Orientation.RIGHT, coordinates);
 		this.area = area;
 		PLAYER_SPAWN_POSITION = coordinates;
-		hp = 3;
+		hp = 5;
 		desiredOrientation = Orientation.RIGHT;
 		score = 0;
+		status = new SuperPacmanPlayerStatusGUI(this);
 		sprites = RPGSprite.extractSprites("superpacman/pacman", 4, 1, 1, this, 64, 64,	//4 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
                 new Orientation[] {Orientation.DOWN, Orientation.LEFT, Orientation.UP, Orientation.RIGHT}); //order Orientation[] orders of frame in the image
         //array of 4 Sprite[] 1 per orientation
@@ -142,24 +144,23 @@ public class SuperPacmanPlayer extends Player{
 		((SuperPacmanInteractionVisitor)v).interactWith(this); //accepte de voir ses interactions avec les autres acteurs (qui sont aussi gérés par SuperPacmanInteractionVisitor
 		
 	}
-	 public void enterArea(Area area, DiscreteCoordinates position){
+	/* public void enterArea(Area area, DiscreteCoordinates position){
 	        area.registerActor(this);
 	        area.setViewCandidate(this);
 	        setOwnerArea(area);
 	        setCurrentPosition(position.toVector());
 	        resetMotion();
 	    }
-	 
+	 *//*
 	  public void leaveArea(){
 	        getOwnerArea().unregisterActor(this);
-	    }
+	    }*/
 	  
 	@Override
 	public void draw(Canvas canvas) {
 		animations[this.getOrientation().ordinal()].draw(canvas);
+		status.draw(canvas);
 		
-		
-//		SuperPacmanPlayerStatusGUI.draw(canvas);
 	}
 		
 
@@ -179,11 +180,14 @@ public class SuperPacmanPlayer extends Player{
     }
     public void interactWith(Cherry cherry) {
     	cherry.collect();
-    	score += cherry.score;
+    	score += cherry.SCORE;
+//    	//System.out.println(score);   Test score
     }
     public void interactWith(Diamond diamond) {
     	diamond.collect();
-    	score += diamond.score;
+    	score += diamond.SCORE;
+    	area.numberOfDiamonds -=1;
+//    	System.out.println(score);     Test score
     	}
     public void interactWith(Gate gate) {
     	
@@ -194,19 +198,23 @@ public class SuperPacmanPlayer extends Player{
     
 	private void ghostEncounter (Ghost ghost) {
 		if(IMMORTAL == true) {		
-			ghost.playerMemory = null;
+			basicForget(ghost);
 			score += ghost.GHOST_SCORE;
-			ghost.backToRefuge(ghost.refuge);
-			ghost.seePlayer = false;
 			}
 		if(IMMORTAL == false) {
-			ghost.backToRefuge(ghost.refuge);
+			basicForget(ghost);
 			hp -= 1;
-			setCurrentPosition(PLAYER_SPAWN_POSITION.toVector());
-			ghost.seePlayer = false;
+			setCurrentPosition(PLAYER_SPAWN_POSITION.toVector());			
 			//METTRE UNE ANIMATION à ce moment là ???
 			}
+		
+		
 			
 		}
+	private void basicForget(Ghost ghost) {
+		ghost.playerMemory = null;
+		ghost.backToRefuge(ghost.refuge);
+		ghost.seePlayer = false;
+	}
 }
 }
