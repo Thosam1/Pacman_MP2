@@ -30,19 +30,19 @@ public class SuperPacmanPlayer extends Player{
 	public Orientation desiredOrientation;
 	private Area area;
 	private SuperPacmanPlayerStatusGUI status;
-	private DiscreteCoordinates PLAYER_SPAWN_POSITION; //d�pend de l'aire actuelle !
+	private DiscreteCoordinates PLAYER_SPAWN_POSITION; //dépend de l'aire actuelle !
 	private final SuperPacmanPlayerHandler handler;
 	private boolean IMMORTAL = false;	//addedByMe
 	public boolean getIMMORTAL (){
 		return IMMORTAL;
 	}
-	protected float timerImmortal = 4.f; // addedByMe, décrémenter cette valeur par deltaTime et remettre IMMORTAL à false, avant de r�initialiser timerImmortal � 4.f quand elle atteint 0
-	//peut �tre choisir la valeur en fonction du type de bonus ?
+	protected float timerImmortal = 4.f; // addedByMe, décrémenter cette valeur par deltaTime et remettre IMMORTAL à false, avant de réinitialiser timerImmortal 4.f quand elle atteint 0
+	//peut etre choisir la valeur en fonction du type de bonus ?
 	
 	private Sprite[][] sprites;	//addedByMe - i just declared them outside the constructor
 	private Animation[] animations;
 	
-	public SuperPacmanPlayer(Area area, DiscreteCoordinates coordinates) {	//constructeur	-area = aire o� il appartient
+	public SuperPacmanPlayer(Area area, DiscreteCoordinates coordinates) {	//constructeur	-area = aire ou il appartient
 		super(area, Orientation.RIGHT, coordinates);
 		this.area = area;
 		PLAYER_SPAWN_POSITION = coordinates;
@@ -159,7 +159,7 @@ public class SuperPacmanPlayer extends Player{
 	@Override
 	public void draw(Canvas canvas) {
 		animations[this.getOrientation().ordinal()].draw(canvas);
-		status.draw(canvas);
+		status.draw(canvas);//draw les vies et le score
 		
 	}
 		
