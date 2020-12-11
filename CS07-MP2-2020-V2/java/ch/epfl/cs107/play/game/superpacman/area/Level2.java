@@ -25,7 +25,11 @@ public class Level2 extends SuperPacmanArea{
         Key key2 = new Key(this, new DiscreteCoordinates(26,16));
         Key key3 = new Key(this, new DiscreteCoordinates(2,8));
         Key key4 = new Key(this, new DiscreteCoordinates(27,8));
-        
+        registerActor(key1);
+        registerActor(key2);
+        registerActor(key3);
+        registerActor(key4);
+       
         registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(8,14), key1));
         registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(5,12), key1));
         registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(8,10), key1));

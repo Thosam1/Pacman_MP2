@@ -45,16 +45,16 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	        	for (int y=0; y<getHeight(); y++) {
 	        		SuperPacmanCellType cellType= getCellType(x,y);
 	        		if(cellType == SuperPacmanCellType.WALL) {
-	        			area.registerActor(new Wall(area, new DiscreteCoordinates(x,y), getNeighbours(x,y))); //Constructeur d'un WALL : 1) aire d'appartenance, 2) coordonnï¿½s du mur, 3) tableau 3x3 de booleans 
+	        			area.registerActor(new Wall(area, new DiscreteCoordinates(x,y), getNeighbours(x,y))); //Constructeur d'un WALL : 1) aire d'appartenance, 2) coordonnées du mur, 3) tableau 3x3 de booleans 
 	        		}
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_BONUS) {
-	        			area.registerActor(new Bonus(area, Orientation.UP, new DiscreteCoordinates(x,y))); //Constructeur d'un Bonus) aire d'appartenance, 2) orientation, 3) coordonnÃ©es
+	        			area.registerActor(new Bonus(area, Orientation.UP, new DiscreteCoordinates(x,y))); //Constructeur d'un Bonus) aire d'appartenance, 2) orientation, 3) coordonnéees
 	        		}
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_CHERRY) {
-	        			area.registerActor(new Cherry(area, Orientation.UP, new DiscreteCoordinates(x,y))); //Constructeur d'un Cherry : 1) aire d'appartenance, 2) orientation, 3) coordonnÃ©es
+	        			area.registerActor(new Cherry(area, Orientation.UP, new DiscreteCoordinates(x,y))); //Constructeur d'un Cherry : 1) aire d'appartenance, 2) orientation, 3) coordonnées
 	        		}
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_DIAMOND) {
-  						area.registerActor(new Diamond(area, Orientation.UP, new DiscreteCoordinates(x,y))); //Constructeur d'un Diamond : 1) aire d'appartenance, 2) orientation 3) coordonnÃ©es
+  						area.registerActor(new Diamond(area, Orientation.UP, new DiscreteCoordinates(x,y))); //Constructeur d'un Diamond : 1) aire d'appartenance, 2) orientation 3) coordonnées
   						area.numberOfDiamonds +=1;
 	        		}  
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_BLINKY) {
@@ -101,7 +101,7 @@ public class SuperPacmanBehavior extends AreaBehavior {
 		    			if (getCellType(x+i,y+j)==SuperPacmanCellType.WALL) {			// -1 | 0 | +1			//  0,0 |   |
 		    				neighbourhood[i+1][1-j] = true;
 		    			}
-		    		}//if ((x+i<getWidth())&&(x+i>-1)&&(y+j<getHeight())&&(y+j>-1)) {
+		    		}
 		       }     
 		    }
 		    return neighbourhood;
@@ -152,7 +152,7 @@ public class SuperPacmanBehavior extends AreaBehavior {
 
 	
 
-	public class SuperPacmanCell extends Cell{	//classe imbriquï¿½e
+	public class SuperPacmanCell extends Cell{	//classe imbriquée
 		private SuperPacmanCellType type;
 		public SuperPacmanCell(int x, int y,SuperPacmanCellType type ) {	//constructeur
 			super(x, y);

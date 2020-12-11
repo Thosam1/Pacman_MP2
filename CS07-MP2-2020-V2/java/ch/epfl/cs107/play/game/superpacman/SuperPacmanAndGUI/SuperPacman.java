@@ -41,8 +41,6 @@ public class SuperPacman extends RPG{
 	public void end() {}
 	
 	public boolean begin(Window window, FileSystem fileSystem) {
-
-
 		if (super.begin(window, fileSystem)) {
 
 			createAreas();

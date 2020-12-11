@@ -17,7 +17,14 @@ public final class And extends LogicGate {
         this.signal1 = signal1;
         this.signal2 = signal2;
     }
-
+    //Override de isOn qui rend true si les deux signaux sont On
+    @Override
+    public boolean isOn(){
+    	if ((signal1.isOn())&&(signal2.isOn())) {
+    		return true;
+    	}
+    	else return false;
+    }
     /// And extends logicGate
 
     @Override
