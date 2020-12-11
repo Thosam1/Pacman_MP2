@@ -198,19 +198,23 @@ public class SuperPacmanPlayer extends Player{
     
 	private void ghostEncounter (Ghost ghost) {
 		if(IMMORTAL == true) {		
-			ghost.playerMemory = null;
+			basicForget(ghost);
 			score += ghost.GHOST_SCORE;
-			ghost.backToRefuge(ghost.refuge);
-			ghost.seePlayer = false;
 			}
 		if(IMMORTAL == false) {
-			ghost.backToRefuge(ghost.refuge);
+			basicForget(ghost);
 			hp -= 1;
-			setCurrentPosition(PLAYER_SPAWN_POSITION.toVector());
-			ghost.seePlayer = false;
+			setCurrentPosition(PLAYER_SPAWN_POSITION.toVector());			
 			//METTRE UNE ANIMATION à ce moment là ???
 			}
+		
+		
 			
 		}
+	private void basicForget(Ghost ghost) {
+		ghost.playerMemory = null;
+		ghost.backToRefuge(ghost.refuge);
+		ghost.seePlayer = false;
+	}
 }
 }
