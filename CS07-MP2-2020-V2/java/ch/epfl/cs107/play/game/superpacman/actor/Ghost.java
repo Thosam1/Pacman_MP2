@@ -25,11 +25,11 @@ import ch.epfl.cs107.play.window.Keyboard;
 public class Ghost extends Player {
 
 	//General 
-	protected DiscreteCoordinates refuge;
+	public DiscreteCoordinates refuge; 	//BACK TO PROTECTED
 	private Sprite[] afraidSprites;	//only 2 images for afraid
 	private Animation[] afraidAnimations;
 	
-	protected boolean AFRAID = false;
+	protected static boolean AFRAID = false;
 	
 	protected final int GHOST_SCORE = 500;
     private final int FIELD_OF_VIEW = 5;
@@ -151,8 +151,8 @@ public class Ghost extends Player {
 
 	@Override
 	public boolean wantsCellInteraction() {
-		return false;
-	}
+		return true;
+	} //SET TO FALSE !!
 
 	@Override
 	public boolean wantsViewInteraction() {
@@ -225,15 +225,22 @@ public class Ghost extends Player {
 //			}
 //		}
 		
-		public void setAfraid() {	//for Friday
-			AFRAID = true;			
-		}
-		public void setNotAfraid() {
-			AFRAID = false;
+		public void setAfraid(boolean afraid) {	//for Friday
+			if(afraid){
+				AFRAID = true;
+			}else{
+				AFRAID = false;
+			}
+
 		}
 		
-		protected void backToRefuge(DiscreteCoordinates refuge) {
-			setCurrentPosition(refuge.toVector());
+		public void backToRefuge() {
+			playerMemory = null;
+			seePlayer = false;
+			area.leaveAreaCells(this, getEnteredCells());
+			setCurrentPosition(this.refuge.toVector());
+			area.enterAreaCells(this, getCurrentCells());
+			resetMotion();
 		}
 
 		

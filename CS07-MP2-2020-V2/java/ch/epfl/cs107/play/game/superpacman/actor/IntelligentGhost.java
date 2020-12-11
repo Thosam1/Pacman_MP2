@@ -65,7 +65,7 @@ public class IntelligentGhost extends Ghost {
         }
 
         if(reevaluate == true) {	//then check for the new path
-            if(this.AFRAID == true) {
+            if(AFRAID == true) {
                     targetPos = randomEscapeCoordinates(from, maxWhenScared);
                 }else{
                     if(seePlayer == true) {	//move towards player
@@ -74,17 +74,17 @@ public class IntelligentGhost extends Ghost {
                         targetPos = randomEscapeCoordinates(fromNot, maxWhenNotScared);
                     }
             }
-
             setReevaluate(false);
         }
 
+
         path = area.shortestPath(getCurrentMainCellCoordinates(), targetPos); //we ask to the area, the area asks to the behavior/graph //dessiner un trait
         if(path == null){
-            graphicPath = new Path(this.getPosition(), new LinkedList<Orientation>());
+            graphicPath = new Path(this.getPosition(), new LinkedList<Orientation>());  //dessin
             return getOrientation(); //possible!!!! -> take stay in the same orientation
         }else{
             pathList = new LinkedList<Orientation>(path);
-            graphicPath = new Path(this.getPosition(), pathList);
+            graphicPath = new Path(this.getPosition(), pathList);   //dessin
             return path.poll();
         }
 

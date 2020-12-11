@@ -31,11 +31,11 @@ public class Inky extends IntelligentGhost {
 	protected void deplacement(Orientation next, int speed, int afraidSpeed) {
 		orientate(next);    //orientate the ghost
 		deplacement(afraidSpeed, speed); //moving the ghost in the orientation needed
-		System.out.println("inky actual orientation : " + getOrientation()
+		/*System.out.println("inky actual orientation : " + getOrientation()
 			+ " inky deplacement occuring : " + isDisplacementOccurs()
 			+ " targetPos : " + targetPos
 			+ " current position : " + getPosition()
-			+ " seePlayer : " + seePlayer);
+			+ " seePlayer : " + seePlayer);*/
 	}
 
 

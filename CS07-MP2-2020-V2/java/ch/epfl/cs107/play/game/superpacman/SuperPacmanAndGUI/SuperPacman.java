@@ -28,7 +28,7 @@ public class SuperPacman extends RPG{
 	
 	public void update(float deltaTime) {
 		super.update(deltaTime);
-	//	scareGhosts();
+		//scareGhosts();
 	}
 
 	private void createAreas(){
@@ -52,8 +52,8 @@ public class SuperPacman extends RPG{
 		}
 		return false;
 	}
-
-	private void scareGhosts(){
+/*
+	private void scareGhosts(){													//cette methode complique les choses, directement appeler cela dans une méthode dans SuperPacmanPlayer - timer / au début et à la fin de l'invincibilité
 		SuperPacmanArea area = (SuperPacmanArea) getCurrentArea();
 		if(player.getIMMORTAL()) {	//if immortal, set all ghosts to scared			
 			area.scareInBehavior(true);			
@@ -61,4 +61,5 @@ public class SuperPacman extends RPG{
 			area.scareInBehavior(false);	//if not, set all ghosts to not afraid
 		}
 	}
+ */
 }

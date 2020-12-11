@@ -15,6 +15,7 @@ import ch.epfl.cs107.play.game.rpg.actor.Player;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
 import ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI.Gate;
 import ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI.SuperPacmanPlayerStatusGUI;
+import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Button;
@@ -29,22 +30,26 @@ public class SuperPacmanPlayer extends Player{
 	private int SPEED = 6;
 	public Orientation desiredOrientation;
 	private Area area;
+	private SuperPacmanArea superArea;	//for interaction with ghost - method to setAllGhosts to the same place
 	private SuperPacmanPlayerStatusGUI status;
 	private DiscreteCoordinates PLAYER_SPAWN_POSITION; //dépend de l'aire actuelle !
 	private final SuperPacmanPlayerHandler handler;
 	private boolean IMMORTAL = false;	//addedByMe
-	public boolean getIMMORTAL (){
+	public boolean getIMMORTAL () {
 		return IMMORTAL;
 	}
-	protected float timerImmortal = 4.f; // addedByMe, décrémenter cette valeur par deltaTime et remettre IMMORTAL à false, avant de réinitialiser timerImmortal 4.f quand elle atteint 0
+	private float timerImmortal = 4.f; // addedByMe, décrémenter cette valeur par deltaTime et remettre IMMORTAL à false, avant de réinitialiser timerImmortal 4.f quand elle atteint 0
 	//peut etre choisir la valeur en fonction du type de bonus ?
-	
+	private final float timeImmortal = 4.f;
+
 	private Sprite[][] sprites;	//addedByMe - i just declared them outside the constructor
 	private Animation[] animations;
 	
 	public SuperPacmanPlayer(Area area, DiscreteCoordinates coordinates) {	//constructeur	-area = aire ou il appartient
 		super(area, Orientation.RIGHT, coordinates);
 		this.area = area;
+		this.superArea = (SuperPacmanArea) area; //for the interaction with ghost - method to setAllGhosts to the same place
+
 		PLAYER_SPAWN_POSITION = coordinates;
 		hp = 5;
 		desiredOrientation = Orientation.RIGHT;
@@ -170,7 +175,14 @@ public class SuperPacmanPlayer extends Player{
 
 		
 
-
+	/*private void immortalityTimer(){
+		setIMMORTAL(true);
+		timerImmortal = timeImmortal;
+		timerImmortal -= 1;
+		if(timerImmortal <= 0){
+			setIMMORTAL(false);
+		}
+	}*/
 	private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{	//gets called whenever in field of vision or when there is an interaction
 		
 
@@ -208,20 +220,17 @@ public class SuperPacmanPlayer extends Player{
 			score += ghost.GHOST_SCORE;
 			}
 		if(IMMORTAL == false) {
-			basicForget(ghost);
+			//basicForget(ghost);
+			superArea.allGhostToRefugeBehavior();
 			hp -= 1;
 			setCurrentPosition(PLAYER_SPAWN_POSITION.toVector());
 			resetMotion();
 			//METTRE UNE ANIMATION à ce moment là ???
 			}
-		
-		
-			
 		}
 	private void basicForget(Ghost ghost) {
-		ghost.playerMemory = null;
-		ghost.backToRefuge(ghost.refuge);
-		ghost.seePlayer = false;
+		ghost.backToRefuge();
 	}
+
 }
 }
