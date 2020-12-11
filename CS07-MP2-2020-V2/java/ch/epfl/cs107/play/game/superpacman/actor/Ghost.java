@@ -1,6 +1,7 @@
 package ch.epfl.cs107.play.game.superpacman.actor;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import ch.epfl.cs107.play.game.actor.TextGraphics;
@@ -32,9 +33,9 @@ public class Ghost extends Player {
 	
 	protected final int GHOST_SCORE = 500;
     private final int FIELD_OF_VIEW = 5;
-    protected boolean reevaluate = false;	//for pinky and inky
+    protected boolean reevaluate = true;	//for pinky and inky
     public void setReevaluate(boolean c) {
-    	if(c == true) {
+    	if(c) {
     		reevaluate = true;
     	}else {
     		reevaluate = false;
@@ -56,9 +57,9 @@ public class Ghost extends Player {
 	private Animation[] mainAnimations;
 	
 	private String nameOfMainSprite = "superpacman/ghost.blinky";
-	protected void setNameOfMainSprite(String newName) {
+	/*protected void setNameOfMainSprite(String newName) {
 		nameOfMainSprite = newName;
-	}
+	}*/
 	
 //	protected Orientation nextOrientation;
 //	protected Orientation actualOrientation;
@@ -79,14 +80,16 @@ public class Ghost extends Player {
 		refuge = coordinates;
 		
 		//sprite will be afraidSprites default, when not afraid the animation will be above
-		afraidSprites = RPGSprite.extractSprites("superpacman/ghost.afraid", 2, 1, 1, this, 16, 16);	//2 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame  
-		
-		mainSprites = RPGSprite.extractSprites(nameOfMainSprite, 2, 1, 1, this, 16, 16,	//4 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
-                new Orientation[] {Orientation.DOWN, Orientation.LEFT, Orientation.UP, Orientation.RIGHT}); //order Orientation[] orders of frame in the image
-		//array of 4 Sprite[] 1 per orientation
-		mainAnimations = Animation.createAnimations(ANIMATION_DURATION / 4, mainSprites);	//cr�e un tableau de 4 animations
+		afraidSprites = RPGSprite.extractSprites("superpacman/ghost.afraid", 2, 1, 1, this, 16, 16);	//2 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
 		
 		handler = new SuperPacmanGhostHandler();
+	}
+	public void attributeMainSprite(String nameSprite){
+		nameOfMainSprite = nameSprite;
+		mainSprites = RPGSprite.extractSprites(nameOfMainSprite, 2, 1, 1, this, 16, 16,	//4 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
+				new Orientation[] {Orientation.DOWN, Orientation.LEFT, Orientation.UP, Orientation.RIGHT}); //order Orientation[] orders of frame in the image
+		//array of 4 Sprite[] 1 per orientation
+		mainAnimations = Animation.createAnimations(ANIMATION_DURATION / 4, mainSprites);	//cr�e un tableau de 4 animations
 	}
 	
 	public void update(float deltaTime) { // check constantly if the player is immortal or not, so the animation can change
@@ -96,8 +99,6 @@ public class Ghost extends Player {
 		if(AFRAID == false) {
 			mainAnimations[this.getOrientation().ordinal()].update(deltaTime);
 		}
-		
-//		deplacement();
 		super.update(deltaTime);
 	}
 	
@@ -133,7 +134,8 @@ public class Ghost extends Player {
 	@SuppressWarnings("null")	//for view = null
 	@Override
 	public List<DiscreteCoordinates> getFieldOfViewCells() {	//no vision field
-		List<DiscreteCoordinates> view = null;
+		List<DiscreteCoordinates> view = new LinkedList<>();
+
 		DiscreteCoordinates main = getCurrentMainCellCoordinates();
 		Vector current = main.toVector();
 		
@@ -164,7 +166,7 @@ public class Ghost extends Player {
 
 	@Override
 	public boolean takeCellSpace() {	//non traversable 
-		return true;
+		return false;
 	}
 
 	@Override
@@ -200,7 +202,7 @@ public class Ghost extends Player {
 	 * All methods that are useful for ghost
 	 */
 		
-		private void seePlayer() {
+		/*private void seePlayer() {
 			List<DiscreteCoordinates> field = getFieldOfViewCells();
 			boolean here = false;
 			for(int i = 0; i < field.size(); i++) {
@@ -212,7 +214,7 @@ public class Ghost extends Player {
 			if(here = true) {
 				seePlayer = true;
 			}
-		}
+		}*/
 		
 //		private void checkAfraid() {	//invincibility of player is treated by methods that will affect all ghosts at the same time. (in )
 //			if(playerMemory.IMMORTAL == true) {
@@ -233,20 +235,13 @@ public class Ghost extends Player {
 		protected void backToRefuge(DiscreteCoordinates refuge) {
 			setCurrentPosition(refuge.toVector());
 		}
+
 		
-		//in update
-		// if in movement, let it be, only check the animation
-		// if not in movement, chose an orientation
-		
-//		private Orientation getNextOrientation() {	//to redefine
-//			
-//			return Orientation.UP;
-//		}
-		
-		protected void deplacement(Orientation next) {
-			if(!this.isDisplacementOccurs()) {	//true if not moving
-				this.orientate(next);	//orientate the ghost
-				this.move(SPEED);
+		protected void deplacement(int afraidSpeed, int normalSpeed) {
+			if(AFRAID == true){
+				this.move(afraidSpeed);
+			}else {
+				this.move(normalSpeed);
 			}
 		}
 		

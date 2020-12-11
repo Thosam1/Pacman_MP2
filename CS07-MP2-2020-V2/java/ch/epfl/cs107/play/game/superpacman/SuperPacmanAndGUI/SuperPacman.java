@@ -46,7 +46,7 @@ public class SuperPacman extends RPG{
 		if (super.begin(window, fileSystem)) {
 
 			createAreas();
-			areaIndex = 0;
+			areaIndex = 1;
 			Area area = setCurrentArea(areas[areaIndex], true);
 			player = new SuperPacmanPlayer(area, startingPositions[areaIndex]);
 			initPlayer(player);
@@ -54,7 +54,7 @@ public class SuperPacman extends RPG{
 		}
 		return false;
 	}
-	/*
+
 	private void scareGhosts(){
 		SuperPacmanArea area = (SuperPacmanArea) getCurrentArea();
 		if(player.getIMMORTAL()) {	//if immortal, set all ghosts to scared			
@@ -62,5 +62,5 @@ public class SuperPacman extends RPG{
 		}else {
 			area.scareInBehavior(false);	//if not, set all ghosts to not afraid
 		}
-	}*/
+	}
 }

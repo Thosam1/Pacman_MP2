@@ -162,6 +162,12 @@ public class SuperPacmanPlayer extends Player{
 		status.draw(canvas);
 		
 	}
+
+	public DiscreteCoordinates getPlayerPosition(){
+		DiscreteCoordinates pos = new DiscreteCoordinates((int) getPosition().x, (int) getPosition().y);
+		return pos;
+	}
+
 		
 
 
@@ -204,7 +210,8 @@ public class SuperPacmanPlayer extends Player{
 		if(IMMORTAL == false) {
 			basicForget(ghost);
 			hp -= 1;
-			setCurrentPosition(PLAYER_SPAWN_POSITION.toVector());			
+			setCurrentPosition(PLAYER_SPAWN_POSITION.toVector());
+			resetMotion();
 			//METTRE UNE ANIMATION à ce moment là ???
 			}
 		
