@@ -1,5 +1,6 @@
 package ch.epfl.cs107.play.game.superpacman.area;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import ch.epfl.cs107.play.game.actor.Actor;
@@ -23,7 +24,7 @@ import ch.epfl.cs107.play.window.Window;
 
 public class SuperPacmanBehavior extends AreaBehavior {
 	
-	private List<Ghost> currentGhosts;
+	private List<Ghost> currentGhosts = new ArrayList<>();
 	private final AreaGraph graph;
 	
 	public SuperPacmanBehavior(Window window, String name) {	//constructeur du behavior
@@ -56,41 +57,38 @@ public class SuperPacmanBehavior extends AreaBehavior {
   						area.registerActor(new Diamond(area, Orientation.UP, new DiscreteCoordinates(x,y))); //Constructeur d'un Diamond : 1) aire d'appartenance, 2) orientation 3) coordonnées
   						area.numberOfDiamonds +=1;
 	        		}  
-/*	        		if(cellType == SuperPacmanCellType.FREE_WITH_BLINKY) {
+	        		if(cellType == SuperPacmanCellType.FREE_WITH_BLINKY) {
 	        			Blinky blinky = new Blinky(area, new DiscreteCoordinates(x,y));	 
 	        			area.registerActor(blinky);	
 	        			currentGhosts.add(blinky);
-	        		}*/
+	        		}
 
-/*	        		if(cellType == SuperPacmanCellType.FREE_WITH_INKY) {
+	        		if(cellType == SuperPacmanCellType.FREE_WITH_INKY) {
 	        			Inky inky = new Inky(area, new DiscreteCoordinates(x,y));	 
 	        			area.registerActor(inky);	
 	        			currentGhosts.add(inky);
-	        		}*/
-/*	        		if(cellType == SuperPacmanCellType.FREE_WITH_PINKY) {
-        				Pinky pinky = new Pinky(area, new DiscreteCoordinates(x,y));	 
-	        			area.registerActor(pinky);	
-	        			currentGhosts.add(pinky);
-*/	        		
+	        		}
+	        		if(cellType == SuperPacmanCellType.FREE_WITH_PINKY) {
+						Pinky pinky = new Pinky(area, new DiscreteCoordinates(x, y));
+						area.registerActor(pinky);
+						currentGhosts.add(pinky);
+					}
 
-/*	        		if(cellType != SuperPacmanCellType.WALL) { //adding nodes in graph
+
+	        		if(cellType != SuperPacmanCellType.WALL) { //adding nodes in graph
 	        			boolean hasLeftEdge = ((x > 0) && getCellType(x-1, y) != SuperPacmanCellType.WALL);	//depends if it st
 	        			boolean hasUpEdge = ((y < getHeight()-1) && getCellType(x, y+1) != SuperPacmanCellType.WALL);
 	        			boolean hasRightEdge = ((x < getWidth()-1) && getCellType(x+1, y) != SuperPacmanCellType.WALL);
 	        			boolean hasDownEdge = ((y > 0) && getCellType(x, y-1) != SuperPacmanCellType.WALL);     			
 	        			
 	        			graph.addNode(new DiscreteCoordinates(x,y), hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge);
-	        		}*/
+	        		}
 	        	}
 	        		    
 	        }       
 
 	}
-	
-	
-	
-	
-	
+
 	private SuperPacmanCellType getCellType(int x, int y) {
 		return ((SuperPacmanCell)getCell(x,y)).type;
 	}
@@ -191,17 +189,31 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	 * @param choose
 	 */
 	
-	public void scareAllGhosts(boolean choose) {
+	protected void scareAllGhosts(boolean choose) {
+		/*if(choose == true){
+			currentGhosts.get(i).setAfraid(true);
+		}else{
+
+		}*/
 		for(int i = 0; i < currentGhosts.size(); i++) {
-			if(choose == true) {
-				currentGhosts.get(i).setAfraid();
+			/*if(choose == true) {
+				currentGhosts.get(i).setAfraid(ture);
 				currentGhosts.get(i).setReevaluate(true);
 			}else {
-				currentGhosts.get(i).setNotAfraid();
-				currentGhosts.get(i).setAfraid();
+				currentGhosts.get(i).setAfraid(false);
 				currentGhosts.get(i).setReevaluate(true);
-			}			
+			}*/
+
+			System.out.println(currentGhosts + "All Ghosts scared");
 		}
+	}
+	protected void allGhostToRefuge() {
+		for (int i = 0; i < currentGhosts.size(); i++) {
+			System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "refuge : " + currentGhosts.get(i).refuge);
+			currentGhosts.get(i).backToRefuge();
+			System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "position : " + currentGhosts.get(i).getPosition());
+		}
+		//System.out.println(currentGhosts + "All Ghosts back to refuge");
 	}
 	
 	protected Queue<Orientation> shortestPath(DiscreteCoordinates main, DiscreteCoordinates target){

@@ -14,15 +14,23 @@ public class Blinky extends Ghost {
 	
 	public Blinky(Area area, DiscreteCoordinates coordinates) {
 		super(area, coordinates);
-		setNameOfMainSprite("superpacman/ghost.blinky");
+		this.attributeMainSprite("superpacman/ghost.blinky");
 	}
 
 	public void update(float deltaTime) { // ?necessary?
 		super.update(deltaTime); //taking care of afraid animation
-		deplacement(getNextOrientation());
+		deplacement(getNextOrientation(), SPEED, SPEED);
 	}
-	
-	
+
+	private void deplacement(Orientation next, int speed, int afraidSpeed) {
+		if(!this.isDisplacementOccurs()) {	//true if not moving	OR ON AN INTERSECTION? NODE IN THE GRAPH
+			this.orientate(next);	//orientate the ghost
+			deplacement(afraidSpeed, speed);
+		} /*else {
+			deplacement(afraidSpeed, speed);
+		}*/
+
+	}
 //	@Override	//why override DOESNT WORK ?!????????
 	private Orientation getNextOrientation() {	//to redefine
 		//how to find the next orientation

@@ -43,6 +43,10 @@ abstract public class SuperPacmanArea extends Area implements Logic{
 		}
 				
 	}
+
+	public void allGhostToRefugeBehavior(){
+		behavior.allGhostToRefuge();
+	}
 	
 	public Queue<Orientation> shortestPath(DiscreteCoordinates main, DiscreteCoordinates target){
 		return behavior.shortestPath(main, target);
