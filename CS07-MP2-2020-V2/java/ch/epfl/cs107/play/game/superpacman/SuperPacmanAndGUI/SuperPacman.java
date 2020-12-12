@@ -15,6 +15,7 @@ import ch.epfl.cs107.play.window.Window;
 public class SuperPacman extends RPG{
 
 	private SuperPacmanPlayer player;
+	//private SuperPacmanPlayer player2;
 	private final String[] areas = {"superpacman/Level0", "superpacman/Level1","superpacman/Level2"};
 	private final DiscreteCoordinates[] startingPositions = {new DiscreteCoordinates(10,1), 
 															 new DiscreteCoordinates(15,6),
@@ -46,6 +47,8 @@ public class SuperPacman extends RPG{
 			Area area = setCurrentArea(areas[areaIndex], true);
 			player = new SuperPacmanPlayer(area, startingPositions[areaIndex]);
 			initPlayer(player);
+			/*player2 = new SuperPacmanPlayer(area, startingPositions[areaIndex]);
+			initPlayer(player2);*/
 			return true;
 		}
 		return false;

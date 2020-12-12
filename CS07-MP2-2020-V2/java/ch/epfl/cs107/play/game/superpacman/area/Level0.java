@@ -26,10 +26,9 @@ public class Level0 extends SuperPacmanArea{
         Key key = new Key(this, new DiscreteCoordinates(3,4));
         registerActor(key);
         registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(5,8), key));
-        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(6,8), key));
-        
+        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(6,8), key));
 	}
-
+	
 	@Override
 	public boolean isOn() {//we are not using this method, but it allows us to open Gates when all diamonds have been picked up
 		if(numberOfDiamonds>0) {

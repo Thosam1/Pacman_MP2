@@ -29,7 +29,7 @@ public class SuperPacmanPlayer extends Player{
 	public int hp;
 	public float score;
 	protected final static int ANIMATION_DURATION = 8;
-	private int SPEED = 6;
+	public int speed = 5;//low value ==> high speed
 	public Orientation desiredOrientation;
 	private Area area;
 	private SuperPacmanArea superArea;	//for interaction with ghost - method to setAllGhosts to the same place
@@ -60,6 +60,7 @@ public class SuperPacmanPlayer extends Player{
 		hp = 5;
 		desiredOrientation = Orientation.RIGHT;
 		score = 0;
+		
 		status = new SuperPacmanPlayerStatusGUI(this);
 		sprites = RPGSprite.extractSprites("superpacman/pacman", 4, 1, 1, this, 64, 64,	//4 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
                 new Orientation[] {Orientation.DOWN, Orientation.LEFT, Orientation.UP, Orientation.RIGHT}); //order Orientation[] orders of frame in the image
@@ -71,7 +72,6 @@ public class SuperPacmanPlayer extends Player{
 	}
 	
 	public void update(float deltaTime) {
-		super.update(deltaTime);
 		Keyboard keyboard = getOwnerArea().getKeyboard();
 			
 	    orientatePlayer(Orientation.LEFT,keyboard.get(Keyboard.LEFT)); // for example, of Keyboard.LEFT is pressed, the desiredOrientation becomes LEFT
@@ -80,24 +80,31 @@ public class SuperPacmanPlayer extends Player{
 	    orientatePlayer(Orientation.DOWN,keyboard.get(Keyboard.DOWN));
 	        
 	       	
-	    animations[this.getOrientation().ordinal()].update(deltaTime);
+	    //animations[this.getOrientation().ordinal()].update(deltaTime);
 	        
 	    if (!(isDisplacementOccurs())) {	//control if the player is moving at the time
 	        										// -> if the player is not moving
 	    	if (desiredOrientation!=null) {		//and if there is a desiredOrientation
 	        	
-	    		if (area.canEnterAreaCells(this,Collections.singletonList(getCurrentMainCellCoordinates().jump(desiredOrientation.toVector())))) {	//and if the area (in front of desiredOrientation) allows the player to enter
+	    		if (getOwnerArea().canEnterAreaCells(this,Collections.singletonList(getCurrentMainCellCoordinates().jump(desiredOrientation.toVector())))) {	//and if the area (in front of desiredOrientation) allows the player to enter
 	        			
 	    			orientate(desiredOrientation);
-//	        			animations[desiredOrientation.ordinal()];
+        			animations[desiredOrientation.ordinal()].reset();
 
 	        		}
-	    		this.move(SPEED);
+	    		/*if (speed<6) {
+	    			speed+=0.5;
+	    			this.move(speed);
+	    			System.out.println(speed);
+		    		System.out.println("Test");
+	    		}
+	    		else {*/
+	    			this.move(speed);//}
 	       
 	        }
 	       }
 	    else {
-	       	animations[desiredOrientation.ordinal()].reset();
+	       	animations[desiredOrientation.ordinal()].update(deltaTime);
 	        		
 	        	}
 
@@ -183,18 +190,6 @@ public class SuperPacmanPlayer extends Player{
 		((SuperPacmanInteractionVisitor)v).interactWith(this); //accepte de voir ses interactions avec les autres acteurs (qui sont aussi gérés par SuperPacmanInteractionVisitor
 		
 	}
-	/* public void enterArea(Area area, DiscreteCoordinates position){
-	        area.registerActor(this);
-	        area.setViewCandidate(this);
-	        setOwnerArea(area);
-	        setCurrentPosition(position.toVector());
-	        resetMotion();
-	    }
-	 *//*
-	  public void leaveArea(){
-	        getOwnerArea().unregisterActor(this);
-	    }*/
-	  
 	@Override
 	public void draw(Canvas canvas) {
 		animations[this.getOrientation().ordinal()].draw(canvas);
@@ -263,6 +258,7 @@ public class SuperPacmanPlayer extends Player{
     public void interactWith(Cherry cherry) {
     	cherry.collect();
     	score += cherry.SCORE;
+    	//speed -= 3;
 //    	//System.out.println(score);   Test score
     }
     public void interactWith(Diamond diamond) {
