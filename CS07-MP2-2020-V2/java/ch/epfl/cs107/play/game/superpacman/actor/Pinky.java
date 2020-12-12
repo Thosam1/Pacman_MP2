@@ -61,8 +61,8 @@ public class Pinky extends IntelligentGhost {
 		}
 	}
 
-	private class SuperPacmanPinkyHandler extends SuperPacmanGhostHandler {
+	/*private class SuperPacmanPinkyHandler extends SuperPacmanGhostHandler {
 
-	}
+	}*/
 
 }

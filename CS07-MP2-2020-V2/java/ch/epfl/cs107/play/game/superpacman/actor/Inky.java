@@ -38,14 +38,10 @@ public class Inky extends IntelligentGhost {
 			+ " seePlayer : " + seePlayer);*/
 	}
 
-
+	/*
 	private class SuperPacmanInkyHandler extends SuperPacmanGhostHandler {
-		public void interactWith(SuperPacmanPlayer player) {
-			playerMemory = player; //when in field of vision, memorise player
-			seePlayer = true;	// back to false if eaten by player
-			reevaluate = true;
-		}
-	}
+
+	}*/
 
 }
 

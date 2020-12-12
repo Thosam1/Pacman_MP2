@@ -190,30 +190,25 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	 */
 	
 	protected void scareAllGhosts(boolean choose) {
-		/*if(choose == true){
-			currentGhosts.get(i).setAfraid(true);
-		}else{
-
-		}*/
 		for(int i = 0; i < currentGhosts.size(); i++) {
-			/*if(choose == true) {
-				currentGhosts.get(i).setAfraid(ture);
-				currentGhosts.get(i).setReevaluate(true);
+			if(choose == true) {
+				currentGhosts.get(i).setAfraid(true);
+				currentGhosts.get(i).setReevaluate(true);	//let them reevaluate their path
 			}else {
 				currentGhosts.get(i).setAfraid(false);
-				currentGhosts.get(i).setReevaluate(true);
-			}*/
+				currentGhosts.get(i).setReevaluate(true);	//let them reevaluate their path
+			}
 
-			System.out.println(currentGhosts + "All Ghosts scared");
+			System.out.println(currentGhosts + "All Ghosts scared -");
 		}
 	}
 	protected void allGhostToRefuge() {
 		for (int i = 0; i < currentGhosts.size(); i++) {
-			System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "refuge : " + currentGhosts.get(i).refuge);
+			//System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "refuge : " + currentGhosts.get(i).refuge);
 			currentGhosts.get(i).backToRefuge();
-			System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "position : " + currentGhosts.get(i).getPosition());
+			//System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "position : " + currentGhosts.get(i).getPosition());
 		}
-		//System.out.println(currentGhosts + "All Ghosts back to refuge");
+		//System.out.println(currentGhosts + "All Ghosts back to refuge -");
 	}
 	
 	protected Queue<Orientation> shortestPath(DiscreteCoordinates main, DiscreteCoordinates target){

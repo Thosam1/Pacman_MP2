@@ -57,9 +57,6 @@ public class Ghost extends Player {
 	private Animation[] mainAnimations;
 	
 	private String nameOfMainSprite = "superpacman/ghost.blinky";
-	/*protected void setNameOfMainSprite(String newName) {
-		nameOfMainSprite = newName;
-	}*/
 	
 //	protected Orientation nextOrientation;
 //	protected Orientation actualOrientation;
@@ -73,7 +70,7 @@ public class Ghost extends Player {
 	 * 
 	 */
 
-	public Ghost(Area area, DiscreteCoordinates coordinates) {	//constructeur	-area = aire o� il appartient
+	public Ghost(Area area, DiscreteCoordinates coordinates) {	//constructeur	-area = aire où il appartient
 		super(area, Orientation.UP, coordinates);
 		this.area = area;
 
@@ -108,22 +105,11 @@ public class Ghost extends Player {
 			mainAnimations[this.getOrientation().ordinal()].draw(canvas);
 		}
 		if(AFRAID == true) {
-			
+
 		}
 	
 	}
-	
-//	//Questions
-	
-//	1) comment update et animer les fantomes effray�s et leur lien avec draw ?
-	
-//	2) l'int�r�t du Pacman handler, est-ce qu'il est appel� � chaque update ? j'ai l'impression qu'il faut l'utilser pour savoir quand activer la peur des fantomes
-	
-//	3) est-ce que le getFieldOfViewCells est bien appel�e � chaque update ou faut-il l'invoquer dans update pour savoir quand le personnage est l�
-	
-//	4) faut-il mettre abstract devant les fonctions qu'on va red�finir pour les sous-classes et faire la classe ghost une abstract class?
-	
-	
+
 	
 	@Override
 	public List<DiscreteCoordinates> getCurrentCells() {
@@ -183,19 +169,7 @@ public class Ghost extends Player {
 	public void acceptInteraction(AreaInteractionVisitor v) {
 		((SuperPacmanInteractionVisitor)v).interactWith(this); //accepte de voir ses interactions avec les autres acteurs (qui sont aussi g�r�s par SuperPacmanInteractionVisitor)
 		
-	}	
-	
-//	 public void enterArea(Area area, DiscreteCoordinates position){
-//	        area.registerActor(this);
-//	        area.setViewCandidate(this);
-//	        setOwnerArea(area);
-//	        setCurrentPosition(position.toVector());
-//	        resetMotion();
-//	    }
-//	 
-//	  public void leaveArea(){
-//	        getOwnerArea().unregisterActor(this);
-//	    }
+	}
 	
 	
 	/**
@@ -215,15 +189,7 @@ public class Ghost extends Player {
 				seePlayer = true;
 			}
 		}*/
-		
-//		private void checkAfraid() {	//invincibility of player is treated by methods that will affect all ghosts at the same time. (in )
-//			if(playerMemory.IMMORTAL == true) {
-//				this.AFRAID = true;
-//			}
-//			if(playerMemory.IMMORTAL == false) {
-//				this.AFRAID = false;
-//			}
-//		}
+
 		
 		public void setAfraid(boolean afraid) {	//for Friday
 			if(afraid){
@@ -242,7 +208,6 @@ public class Ghost extends Player {
 			area.enterAreaCells(this, getCurrentCells());
 			resetMotion();
 		}
-
 		
 		protected void deplacement(int afraidSpeed, int normalSpeed) {
 			if(AFRAID == true){
@@ -251,8 +216,6 @@ public class Ghost extends Player {
 				this.move(normalSpeed);
 			}
 		}
-		
-		
 
 
 		public class SuperPacmanGhostHandler implements SuperPacmanInteractionVisitor{

@@ -2,6 +2,7 @@ package ch.epfl.cs107.play.game.superpacman.actor;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
 
 import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.areagame.Area;
@@ -14,6 +15,7 @@ import ch.epfl.cs107.play.game.rpg.actor.Door;
 import ch.epfl.cs107.play.game.rpg.actor.Player;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
 import ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI.Gate;
+import ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI.SuperPacman;
 import ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI.SuperPacmanPlayerStatusGUI;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
@@ -38,9 +40,13 @@ public class SuperPacmanPlayer extends Player{
 	public boolean getIMMORTAL () {
 		return IMMORTAL;
 	}
-	private float timerImmortal = 4.f; // addedByMe, décrémenter cette valeur par deltaTime et remettre IMMORTAL à false, avant de réinitialiser timerImmortal 4.f quand elle atteint 0
+	private float timerImmortal = 10.f; // addedByMe, décrémenter cette valeur par deltaTime et remettre IMMORTAL à false, avant de réinitialiser timerImmortal 4.f quand elle atteint 0
 	//peut etre choisir la valeur en fonction du type de bonus ?
-	private final float timeImmortal = 4.f;
+	private final float timeImmortal = 10.f;
+	private boolean bonusEaten = false;
+	private boolean consecutiveBonus = false;
+	private boolean everyoneIsAfraid = false;
+
 
 	private Sprite[][] sprites;	//addedByMe - i just declared them outside the constructor
 	private Animation[] animations;
@@ -94,8 +100,36 @@ public class SuperPacmanPlayer extends Player{
 	       	animations[desiredOrientation.ordinal()].reset();
 	        		
 	        	}
-	        	
-	        
+
+	    //didn't find another way to set a timer ...
+		if(bonusEaten){
+			if(!everyoneIsAfraid){
+				SuperPacmanArea temp = (SuperPacmanArea) this.area;
+				temp.scareInBehavior(true);
+				everyoneIsAfraid = true;
+			}
+			if(consecutiveBonus){	//set back timer to initial
+				timerImmortal = timeImmortal;
+				consecutiveBonus = false;
+			}
+
+			this.IMMORTAL = true;
+			//System.out.println("immortality = " + IMMORTAL);
+
+			//System.out.println("timer = " + timerImmortal + " seconds" );
+			timerImmortal -= deltaTime;
+			if(timerImmortal < 0){
+				this.IMMORTAL = false;
+			//	System.out.println("immortality = " + IMMORTAL);
+				bonusEaten = false;
+				timerImmortal = timeImmortal;
+
+				SuperPacmanArea temp = (SuperPacmanArea) this.area;
+				temp.scareInBehavior(false);
+				everyoneIsAfraid = false;
+			}
+		}
+
 	    super.update(deltaTime);
 	    }
 	
@@ -173,7 +207,7 @@ public class SuperPacmanPlayer extends Player{
 		return pos;
 	}
 
-		
+
 
 	/*private void immortalityTimer(){
 		setIMMORTAL(true);
@@ -183,6 +217,31 @@ public class SuperPacmanPlayer extends Player{
 			setIMMORTAL(false);
 		}
 	}*/
+	/*
+	private void immortalityMode(int timer){
+		int countDownTime = timer;
+
+		this.IMMORTAL = true;
+		System.out.println("immortality = " + IMMORTAL);
+		while(countDownTime > 0){
+			System.out.println("timer = " + countDownTime + " seconds" );
+			countDownTime -= 1;
+		}
+		this.IMMORTAL = false;
+		System.out.println("immortality = " + IMMORTAL);
+	}*/
+	/*private void immortalityMode(float deltaTime){
+		timerImmortal = timeImmortal;
+		this.IMMORTAL = true;
+		System.out.println("immortality = " + IMMORTAL);
+		while(timerImmortal > 0){
+			System.out.println("timer = " + timerImmortal + " seconds" );
+			timerImmortal -= deltaTime;
+		}
+		this.IMMORTAL = false;
+		System.out.println("immortality = " + IMMORTAL);
+	}*/
+
 	private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{	//gets called whenever in field of vision or when there is an interaction
 		
 
@@ -195,6 +254,11 @@ public class SuperPacmanPlayer extends Player{
     }
     public void interactWith(Bonus bonus) {
     	bonus.collect();
+    	if(!bonusEaten){
+    		bonusEaten = true;
+		}else{
+    		consecutiveBonus = true;
+		}
     }
     public void interactWith(Cherry cherry) {
     	cherry.collect();
@@ -210,7 +274,7 @@ public class SuperPacmanPlayer extends Player{
     public void interactWith(Gate gate) {
     	
     }
-    public void interactWith(Ghost ghost) {	//interact at distance or on contact ?!?!
+    public void interactWith(Ghost ghost) {	//interact on contact ?!?!
 		ghostEncounter(ghost);}
     
     

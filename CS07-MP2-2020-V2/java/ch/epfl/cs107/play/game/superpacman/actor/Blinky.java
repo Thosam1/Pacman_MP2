@@ -26,9 +26,9 @@ public class Blinky extends Ghost {
 		if(!this.isDisplacementOccurs()) {	//true if not moving	OR ON AN INTERSECTION? NODE IN THE GRAPH
 			this.orientate(next);	//orientate the ghost
 			deplacement(afraidSpeed, speed);
-		} /*else {
+		}else {
 			deplacement(afraidSpeed, speed);
-		}*/
+		}
 
 	}
 //	@Override	//why override DOESNT WORK ?!????????

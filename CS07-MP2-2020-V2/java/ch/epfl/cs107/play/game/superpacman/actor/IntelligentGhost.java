@@ -77,7 +77,6 @@ public class IntelligentGhost extends Ghost {
             setReevaluate(false);
         }
 
-
         path = area.shortestPath(getCurrentMainCellCoordinates(), targetPos); //we ask to the area, the area asks to the behavior/graph //dessiner un trait
         if(path == null){
             graphicPath = new Path(this.getPosition(), new LinkedList<Orientation>());  //dessin
@@ -87,8 +86,6 @@ public class IntelligentGhost extends Ghost {
             graphicPath = new Path(this.getPosition(), pathList);   //dessin
             return path.poll();
         }
-
-
     }
 
     @Override
@@ -99,8 +96,7 @@ public class IntelligentGhost extends Ghost {
         }
     }
 
+    /*private class SuperPacmanIntelligentGhostHandler extends SuperPacmanGhostHandler {
 
-    private class SuperPacmanIntelligentGhostHandler extends SuperPacmanGhostHandler {
-
-    }
+    }*/
 }
