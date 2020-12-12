@@ -1,15 +1,13 @@
 package ch.epfl.cs107.play.game.superpacman.actor;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.areagame.Area;
-import ch.epfl.cs107.play.game.areagame.actor.Animation;
-import ch.epfl.cs107.play.game.areagame.actor.Interactable;
-import ch.epfl.cs107.play.game.areagame.actor.Orientation;
-import ch.epfl.cs107.play.game.areagame.actor.Sprite;
+import ch.epfl.cs107.play.game.areagame.actor.*;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.rpg.actor.Door;
 import ch.epfl.cs107.play.game.rpg.actor.Player;
@@ -22,11 +20,12 @@ import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
-public class Ghost extends Player {
+
+public class Ghost extends MovableAreaEntity implements Interactor{
 
 	//General 
 	public DiscreteCoordinates refuge; 	//BACK TO PROTECTED
-	private Sprite[] afraidSprites;	//only 2 images for afraid
+	private Sprite[][] afraidSprites;	//only 2 images for afraid - didnt find a way to keep []
 	private Animation[] afraidAnimations;
 	
 	protected static boolean AFRAID = false;
@@ -48,7 +47,7 @@ public class Ghost extends Player {
     protected int SPEED = 6;
     private Area area;
 	private final SuperPacmanGhostHandler handler;
-	
+
  
     
     //for specific
@@ -60,7 +59,7 @@ public class Ghost extends Player {
 	
 //	protected Orientation nextOrientation;
 //	protected Orientation actualOrientation;
-	
+
 	protected SuperPacmanPlayer playerMemory;
 	protected boolean seePlayer = false;
 	
@@ -77,8 +76,8 @@ public class Ghost extends Player {
 		refuge = coordinates;
 		
 		//sprite will be afraidSprites default, when not afraid the animation will be above
-		afraidSprites = RPGSprite.extractSprites("superpacman/ghost.afraid", 2, 1, 1, this, 16, 16);	//2 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
-		
+		afraidSprites = RPGSprite.extractSprites("superpacman/ghost.afraid", 2, 1, 1, this, 16, 16, new Orientation[] {Orientation.DOWN, Orientation.LEFT, Orientation.UP, Orientation.RIGHT});	//2 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
+		afraidAnimations = Animation.createAnimations(ANIMATION_DURATION / 4, afraidSprites);
 		handler = new SuperPacmanGhostHandler();
 	}
 	public void attributeMainSprite(String nameSprite){
@@ -91,21 +90,29 @@ public class Ghost extends Player {
 	
 	public void update(float deltaTime) { // check constantly if the player is immortal or not, so the animation can change
 //		checkAfraid();
-		if(AFRAID == true) { //if true, no animation and default sprite (afraid)			
+		if(AFRAID == true) { //if true, no animation and default sprite (afraid)
+			afraidAnimations[this.getOrientation().ordinal()].update(deltaTime);
 		}
 		if(AFRAID == false) {
 			mainAnimations[this.getOrientation().ordinal()].update(deltaTime);
 		}
+	/*
+		System.out.println(getFieldOfViewCells());
+		System.out.println();
+		System.out.println(" ------------------------------------------------------------------------------------------------------------------------ ");
+		System.out.println();
+		*/
 		super.update(deltaTime);
+
 	}
 	
 	@Override
 	public void draw(Canvas canvas) {
+		if(AFRAID == true) {
+			afraidAnimations[this.getOrientation().ordinal()].draw(canvas);
+		}
 		if(AFRAID == false) {
 			mainAnimations[this.getOrientation().ordinal()].draw(canvas);
-		}
-		if(AFRAID == true) {
-
 		}
 	
 	}
@@ -117,37 +124,33 @@ public class Ghost extends Player {
 	}
 
 	
-	@SuppressWarnings("null")	//for view = null
-	@Override
+
 	public List<DiscreteCoordinates> getFieldOfViewCells() {	//no vision field
-		List<DiscreteCoordinates> view = new LinkedList<>();
+		List<DiscreteCoordinates> view = new ArrayList<>();
 
 		DiscreteCoordinates main = getCurrentMainCellCoordinates();
-		Vector current = main.toVector();
-		
-		for(int x = (int) (current.x -FIELD_OF_VIEW); x <= FIELD_OF_VIEW; x++) {
-			for(int y = (int) (current.y-FIELD_OF_VIEW); y <= FIELD_OF_VIEW; y++) {
+		for(int x = (int) (main.x -FIELD_OF_VIEW); x <= (int) (main.x + FIELD_OF_VIEW); x++) {	//cast (int) not necessary, but why not ?
+			for(int y = (int) (main.y -FIELD_OF_VIEW); y <= (int) (main.y + FIELD_OF_VIEW); y++) {
 				DiscreteCoordinates actual = new DiscreteCoordinates(x, y);
 	            view.add(actual);
 			}
 		}
-		
 		return view; //return the arraylist of fieldofview area
 	} 
 
-	@Override
+
 	public boolean wantsCellInteraction() {
 		return true;
-	} //SET TO FALSE !!
+	} //SET TO FALSE !! - if set to false, there is a bug with the animation and I don't know how to fix this
 
-	@Override
+
 	public boolean wantsViewInteraction() {
 		return true;
 	}
 
-	@Override
+
 	public void interactWith(Interactable other) {
-		other.acceptInteraction(handler);	//interaction avec player		
+		other.acceptInteraction(handler);
 	}
 
 	@Override
@@ -161,7 +164,7 @@ public class Ghost extends Player {
 	}
 
 	@Override
-	public boolean isViewInteractable() {
+	public boolean isViewInteractable() {	//TRUE IF WE PUT LASER EXTENSION
 		return false;
 	}
 
@@ -203,10 +206,12 @@ public class Ghost extends Player {
 		public void backToRefuge() {
 			playerMemory = null;
 			seePlayer = false;
+			resetMotion();
 			area.leaveAreaCells(this, getEnteredCells());
 			setCurrentPosition(this.refuge.toVector());
 			area.enterAreaCells(this, getCurrentCells());
-			resetMotion();
+			setReevaluate(true); //so the pinky doesn't follow the player
+
 		}
 		
 		protected void deplacement(int afraidSpeed, int normalSpeed) {
@@ -218,11 +223,12 @@ public class Ghost extends Player {
 		}
 
 
-		public class SuperPacmanGhostHandler implements SuperPacmanInteractionVisitor{
+		protected class SuperPacmanGhostHandler implements SuperPacmanInteractionVisitor{
 			public void interactWith(SuperPacmanPlayer player) {
 				playerMemory = player; //when in field of vision, memorise player
 				seePlayer = true;	// back to false if eaten by player
 				reevaluate = true;
+				System.out.println("INTERACTED" + getFieldOfViewCells());
 			}
 		}
 		

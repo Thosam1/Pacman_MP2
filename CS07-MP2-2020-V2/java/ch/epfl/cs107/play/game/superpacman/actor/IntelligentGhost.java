@@ -11,12 +11,13 @@ import java.util.*;
 
 public class IntelligentGhost extends Ghost {
     private SuperPacmanArea area;
+
     DiscreteCoordinates targetPos = null;
     Queue<Orientation> path;
     Path graphicPath = null;
     LinkedList<Orientation> pathList;
     protected int SPEED_AFRAID = 8; //faster when afraid for inky and pinky
-    protected String nameSprite;
+
 
 
     public IntelligentGhost(Area area, DiscreteCoordinates coordinates) {
@@ -35,7 +36,7 @@ public class IntelligentGhost extends Ghost {
 
     @SuppressWarnings({ "null", "unused" })	//???
     private DiscreteCoordinates randomEscapeCoordinates(DiscreteCoordinates anchor, int maxRange) {
-        List<DiscreteCoordinates> possibleCases = new LinkedList<>();
+        List<DiscreteCoordinates> possibleCases = new ArrayList<>();
         DiscreteCoordinates chosenOne;
         int x = anchor.x;
         int y = anchor.y;
@@ -60,11 +61,11 @@ public class IntelligentGhost extends Ghost {
 
     protected Orientation getNextOrientation(DiscreteCoordinates from, DiscreteCoordinates fromNot,  int maxWhenScared, int maxWhenNotScared) {	//from is for when the ghost is afraid - refuge or player
 
-        if(this.getCurrentMainCellCoordinates() == targetPos) {     //|| isDisplacementOccurs() == false
+        if(this.getCurrentMainCellCoordinates() == targetPos) {     //|| isDisplacementOccurs() == false    pour les gates ?
             setReevaluate(true);
         }
 
-        if(reevaluate == true) {	//then check for the new path
+        if(reevaluate == true) {	//then check for the new path   Cases when reevaluate a path : 1) if destination is reached 2) if ghosts become scared / pacman eats becomes invincible
             if(AFRAID == true) {
                     targetPos = randomEscapeCoordinates(from, maxWhenScared);
                 }else{

@@ -121,13 +121,13 @@ public class SuperPacmanPlayer extends Player{
 			}
 
 			this.IMMORTAL = true;
-			//System.out.println("immortality = " + IMMORTAL);
+			System.out.println("immortality = " + IMMORTAL);
 
-			//System.out.println("timer = " + timerImmortal + " seconds" );
+			System.out.println("timer = " + timerImmortal + " seconds" );
 			timerImmortal -= deltaTime;
 			if(timerImmortal < 0){
 				this.IMMORTAL = false;
-			//	System.out.println("immortality = " + IMMORTAL);
+				System.out.println("immortality = " + IMMORTAL);
 				bonusEaten = false;
 				timerImmortal = timeImmortal;
 
@@ -188,7 +188,6 @@ public class SuperPacmanPlayer extends Player{
 	@Override
 	public void acceptInteraction(AreaInteractionVisitor v) {
 		((SuperPacmanInteractionVisitor)v).interactWith(this); //accepte de voir ses interactions avec les autres acteurs (qui sont aussi gérés par SuperPacmanInteractionVisitor
-		
 	}
 	@Override
 	public void draw(Canvas canvas) {
