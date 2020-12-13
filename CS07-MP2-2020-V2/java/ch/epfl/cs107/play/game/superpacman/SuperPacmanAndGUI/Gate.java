@@ -16,11 +16,15 @@ import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor
 
 public class Gate extends AreaEntity{
 	private Sprite sprite;
-	public boolean affichage = true;
+	//public boolean affichage = true;
+	public boolean affichage;
+	public boolean affichageInitilisation;
 	Logic signal;
-	public Gate(Area area, Orientation orientation, DiscreteCoordinates position, Logic signal) {
+	public Gate(Area area, Orientation orientation, DiscreteCoordinates position, Logic signal, boolean affichageInit) {
 		super(area, orientation, position);
 		this.signal = signal;
+		affichageInitilisation = affichageInit;
+		affichage = affichageInit;
 		if ((orientation == Orientation.DOWN)|(orientation == Orientation.UP)) {
 			sprite = new Sprite("superpacman/gate", 1.f, 1.f,this, new RegionOfInterest(0,0,64,64));
 			}
@@ -29,11 +33,21 @@ public class Gate extends AreaEntity{
 			}
 	}
 	public void update(float deltaTime) {
-		if (signal.isOn()) {
-			affichage = false; 
-			//getOwnerArea().unregisterActor(this);//permet de retirer le player quand le signal est off
+		if(affichageInitilisation) {
+			if (signal.isOn()) {
+				affichage = false; 
+				//getOwnerArea().unregisterActor(this);//permet de retirer le player quand le signal est off
+			}
+				else affichage = true;
 		}
-	}
+		else {
+			if (signal.isOn()) {
+				affichage = true; 
+				//getOwnerArea().unregisterActor(this);//permet de retirer le player quand le signal est off
+			}
+				else affichage = false;
+			}
+		}
 	@Override
 	public List<DiscreteCoordinates> getCurrentCells() {
 		return Collections.singletonList(getCurrentMainCellCoordinates());

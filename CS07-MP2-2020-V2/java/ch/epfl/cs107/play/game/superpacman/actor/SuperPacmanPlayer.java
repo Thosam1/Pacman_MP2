@@ -261,6 +261,9 @@ public class SuperPacmanPlayer extends Player{
     		consecutiveBonus = true;
 		}
     }
+    public void interactWith(Lever lever) {
+    	lever.changeSignal();
+    }
     public void interactWith(Cherry cherry) {
     	cherry.collect();
     	score += cherry.SCORE;

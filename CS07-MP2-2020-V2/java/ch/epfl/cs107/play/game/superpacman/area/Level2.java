@@ -30,20 +30,20 @@ public class Level2 extends SuperPacmanArea{
         registerActor(key3);
         registerActor(key4);
        
-        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(8,14), key1));
-        registerActor(new Gate(this, Orientation.DOWN, new DiscreteCoordinates(5,12), key1));
-        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(8,10), key1));
-        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(8,8), key1));
-        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(21,14), key2));
-        registerActor(new Gate(this, Orientation.DOWN, new DiscreteCoordinates(24,12), key2));
-        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(21,10), key2));
-        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(21,8), key2));
-        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(10,2), new And(key3, key4)));
-        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(19,2), new And(key3, key4)));
-        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(12,8), new And(key3, key4)));
-        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(17,8), new And(key3, key4)));
-        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(14,3), this));
-        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(15,3), this));
+        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(8,14), key1, true));
+        registerActor(new Gate(this, Orientation.DOWN, new DiscreteCoordinates(5,12), key1, true));
+        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(8,10), key1, true));
+        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(8,8), key1, true));
+        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(21,14), key2, true));
+        registerActor(new Gate(this, Orientation.DOWN, new DiscreteCoordinates(24,12), key2 ,true));
+        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(21,10), key2,true));
+        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(21,8), key2,true));
+        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(10,2), new And(key3, key4),true));
+        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(19,2), new And(key3, key4),true));
+        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(12,8), new And(key3, key4),true));
+        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(17,8), new And(key3, key4),true));
+        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(14,3), this,true));
+        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(15,3), this,true));
 	}
 	
 	@Override

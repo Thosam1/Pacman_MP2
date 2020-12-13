@@ -20,8 +20,8 @@ public class Level1 extends SuperPacmanArea{
 	public void createArea(SuperPacmanBehavior behavior) {
         super.createArea(behavior);
         registerActor(new Door("superpacman/Level2", Level2.PLAYER_SPAWN_POSITION, Logic.TRUE, this, Orientation.DOWN, new DiscreteCoordinates(14,0), new DiscreteCoordinates(15,0)));
-        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(14,3), this));
-        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(15,3), this));
+        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(14,3), this, true));
+        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(15,3), this, true));
         }
 
 	@Override
