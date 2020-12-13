@@ -19,7 +19,7 @@ public class Blinky extends Ghost {
 
 	public void update(float deltaTime) { // ?necessary?
 		super.update(deltaTime); //taking care of afraid animation
-		deplacement(getNextOrientation(), SPEED, SPEED);
+		deplacement(getNextOrientation(), SPEED, SPEED);//possibilité d avoir deux vitesses différentes
 	}
 
 	private void deplacement(Orientation next, int speed, int afraidSpeed) {

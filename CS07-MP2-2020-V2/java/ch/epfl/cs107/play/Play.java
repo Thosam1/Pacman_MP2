@@ -38,7 +38,7 @@ public class Play {
         // Create a demo game :
 		// (it is expected that at the beginning, the provided file does not compile)
        
-        final SuperPacman game = new SuperPacman();
+        final SuperPacman game = new SuperPacman();                              
 		//final AreaGame game = new Tuto1();
 		//final Game game = new Tuto2();
 		// Use Swing display
@@ -49,7 +49,7 @@ public class Play {
 		RecordReplayer replayer = new RecordReplayer(window);
 		try {
 
-			if (game.begin(window, fileSystem)) {
+			if (game.begin(window, fileSystem)) {                          
 				//recorder.start();
 				//replayer.start("record1.xml");
 
