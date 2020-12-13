@@ -19,8 +19,7 @@ public interface SuperPacmanInteractionVisitor  extends RPGInteractionVisitor{
 	default void interactWith(Lever lever) {}
 	default void interactWith(Gate gate) {}
 	default void interactWith(Ghost ghost) {}
-	default void interactWith(IntelligentGhost smartGhost) {}
 	default void interactWith(SuperPacmanPlayer player) {}
 
-	default void interactWith(Spirit spirit){}
+	//default void interactWith(Spirit spirit){}
 }//interaction avec Door et Wall déja implémenté
