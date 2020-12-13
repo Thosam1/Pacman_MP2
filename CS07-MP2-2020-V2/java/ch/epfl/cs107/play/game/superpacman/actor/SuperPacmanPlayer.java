@@ -264,7 +264,7 @@ public class SuperPacmanPlayer extends Player{
     public void interactWith(Cherry cherry) {
     	cherry.collect();
     	score += cherry.SCORE;
-    	speed = 3;
+    	speed = 3;// manger un Cherry augmente la vitesse du player
 //    	System.out.println(score);   Test score
     }
     public void interactWith(Diamond diamond) {

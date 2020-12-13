@@ -16,6 +16,7 @@ import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor
 
 public class Gate extends AreaEntity{
 	private Sprite sprite;
+	public boolean affichage = true;
 	Logic signal;
 	public Gate(Area area, Orientation orientation, DiscreteCoordinates position, Logic signal) {
 		super(area, orientation, position);
@@ -29,7 +30,8 @@ public class Gate extends AreaEntity{
 	}
 	public void update(float deltaTime) {
 		if (signal.isOn()) {
-			 getOwnerArea().unregisterActor(this);
+			affichage = false; 
+			//getOwnerArea().unregisterActor(this);//permet de retirer le player quand le signal est off
 		}
 	}
 	@Override
@@ -39,7 +41,9 @@ public class Gate extends AreaEntity{
 
 	@Override
 	public boolean takeCellSpace() {
-		return true;
+		if(affichage) {
+			return true;}
+		else return false;
 	}
 
 	@Override
@@ -60,9 +64,9 @@ public class Gate extends AreaEntity{
 
 	@Override
 	public void draw(Canvas canvas) {
-	
-		sprite.draw(canvas);
-		
+		if (affichage) {
+			sprite.draw(canvas);
+			}
 	}
 
 }
