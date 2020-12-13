@@ -41,7 +41,7 @@ Pour gagner des points il existe 3 moyens:
 # Comment démarrer le jeu
 Pour démarrer le jeu, le joueur doit tout simplement lancer le programme. Le pacman apparaitra alors sur le premier niveau.
 
-# Fin du jeu
+## Fin du jeu
 La fin du jeu n'a pas été spécifiquement implémenté.
 Néanmoins, nous éstimons que le joueur a perdu si il perd ses 5 vies, mais qu'il a gagné si il parvient à sortir du dernier niveau.
 Evidemment l'objectif est de gagner le plus de points!!!
