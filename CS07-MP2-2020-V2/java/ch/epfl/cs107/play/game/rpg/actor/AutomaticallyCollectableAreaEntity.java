@@ -13,13 +13,21 @@ public class AutomaticallyCollectableAreaEntity extends CollectableAreaEntity im
 	public AutomaticallyCollectableAreaEntity(Area area, Orientation orientation, DiscreteCoordinates position) {
 		super(area, orientation, position);//orientation n est pas utile pour les Collectables que nous avons implémenté
 	}
+	
+	/**cette méthode est appelée lors des interactions entre un SuperPacmanPlayer et une des sousclasses
+	 * de cette classe
+	 * Sa première fonction est de unregister l'entité*/
 	public void collect() {
         getOwnerArea().unregisterActor(this);
 	}
 	
+	/**Permet au SuperPacmanPlayer d'avoir des interactions avec les Collectables
+	 * Cette méthode est redéfinie par ses sous classes*/
     public void acceptInteraction(AreaInteractionVisitor v) {
         ((SuperPacmanInteractionVisitor)v).interactWith(this);
     }
+    
+    /**La méthode draw est redéfinie par les sous classes*/
 	@Override
 	public void draw(Canvas canvas) {		
 	}

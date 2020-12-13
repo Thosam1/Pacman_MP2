@@ -7,12 +7,19 @@ public class Oscillateur implements Logic {
 	private int frameInterval;
 	private boolean signalOn;
 	
+	/**Le constructeur de cette classe initialise le Timer, le frameInterval et le signalOn
+	 * frameInterval désigne le nombre de frames ou le signal sera true puis false
+	 * initialSignal est la valeur initiale du signal
+	 * */
 	public Oscillateur(int frameInterval, boolean initialSignal) {
 		Timer = 0;
 		this.frameInterval = frameInterval;
 		signalOn = initialSignal;
 		}
 	
+	/**Si Timer est égale à frameInterval alors le timer est réinitialisé et le signal est changé
+	 * sinon, le timer augmente de 1 et le signal ne change pas
+	 * return signalOn qui est true ou false*/
 		@Override
 	public boolean isOn() {
 		if(Timer==frameInterval) {
@@ -28,6 +35,7 @@ public class Oscillateur implements Logic {
 		}
 	}
 
+	/**les deux méthodes héritées suivantes ne sont pas utilisées*/
 	@Override
 	public boolean isOff() {
 		// Only isOn matters
