@@ -17,7 +17,7 @@ Les éléments principaux de ces niveaux sont les suivant:
   *
   *
 
-# Controles
+## Controles
 Le Pacman est controlé par les fleches de votre clavier
 La touche:
 *UP permet de monter
@@ -28,21 +28,21 @@ La touche:
 Le Pacman suit l'orientation commendée par ses touches et avance si il peut rentrer dans la case en face de lui.
 
 
-# Comment affronter les énemis (les Ghosts)
+## Comment affronter les énemis (les Ghosts)
 Ceux-ci cherchent la position du pacman et essayent de le manger(lui foncer dedans). En cas de contact le joueur perd une vie et respawn.
 Néanmoins, le joueur a la possibilité de les manger sans perdre de vie lorsqu'il a mangé un bonus. (la durée de ce pouvoir est limitée) Une fois mangé, le joueur gagne beaucoup de points et les Ghosts respawn.
 
-# Gagner des Points
+## Gagner des Points
 Pour gagner des points il existe 3 moyens:
   *manger un Cherry (200 points)
   *manger un Diamond (10 points)
   *manger un Bonus puis un Ghost(500 points)
 
-# Comment démarrer le jeu
+## Comment démarrer le jeu
 Pour démarrer le jeu, le joueur doit tout simplement lancer le programme. Le pacman apparaitra alors sur le premier niveau.
 
 ## Fin du jeu
 La fin du jeu n'a pas été spécifiquement implémenté.
 Néanmoins, nous éstimons que le joueur a perdu si il perd ses 5 vies, mais qu'il a gagné si il parvient à sortir du dernier niveau.
 Evidemment l'objectif est de gagner le plus de points!!!
-BONNE CHANCE
+# BONNE CHANCE
