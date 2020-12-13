@@ -27,6 +27,7 @@ import ch.epfl.cs107.play.window.Keyboard;
 
 public class SuperPacmanPlayer extends Player{
 	public int hp;
+	public int speedTimer;
 	public float score;
 	protected final static int ANIMATION_DURATION = 8;
 	public int speed = 5;//low value ==> high speed
@@ -60,13 +61,13 @@ public class SuperPacmanPlayer extends Player{
 		hp = 5;
 		desiredOrientation = Orientation.RIGHT;
 		score = 0;
-		
+		speedTimer = 0;
 		status = new SuperPacmanPlayerStatusGUI(this);
 		sprites = RPGSprite.extractSprites("superpacman/pacman", 4, 1, 1, this, 64, 64,	//4 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
                 new Orientation[] {Orientation.DOWN, Orientation.LEFT, Orientation.UP, Orientation.RIGHT}); //order Orientation[] orders of frame in the image
         //array of 4 Sprite[] 1 per orientation
 		
-		animations = Animation.createAnimations(ANIMATION_DURATION / 4, sprites);	//crée un tableau de 4 animations
+		animations = Animation.createAnimations(ANIMATION_DURATION / 4, sprites);	//créé un tableau de 4 animations
 		handler = new SuperPacmanPlayerHandler();
 		
 		
@@ -81,8 +82,8 @@ public class SuperPacmanPlayer extends Player{
 	    orientatePlayer(Orientation.DOWN,keyboard.get(Keyboard.DOWN));
 	        
 	       	
-	    //animations[this.getOrientation().ordinal()].update(deltaTime);
-	        
+	    
+	    
 	    if (!(isDisplacementOccurs())) {	//control if the player is moving at the time
 	        										// -> if the player is not moving
 	    	if (desiredOrientation!=null) {		//and if there is a desiredOrientation
@@ -93,14 +94,8 @@ public class SuperPacmanPlayer extends Player{
         			animations[desiredOrientation.ordinal()].reset();
 
 	        		}
-	    		/*if (speed<6) {
-	    			speed+=0.5;
-	    			this.move(speed);
-	    			System.out.println(speed);
-		    		System.out.println("Test");
-	    		}
-	    		else {*/
-	    			this.move(speed);//}
+	    		speedVariation();
+	    		this.move(speed);
 	       
 	        }
 	       }
@@ -141,6 +136,17 @@ public class SuperPacmanPlayer extends Player{
 	    super.update(deltaTime);
 	    }
 	
+	public void speedVariation() {//cette méthode est utilisé pour rendre le personnage plus rapide quand il mange un Cherry
+		if ((speed<5)&&(speedTimer == 60)) {//24 fps ==> toutes les 2.5s speed augmente de 1 jusqu'à atteindre 5
+			//augmenter speed, diminue la vitesse du player, ainsi il est plus rapide pendant 5 secondes
+			speed +=1;
+			speedTimer=0; //réinitialise le timer
+		}
+		else if ((speed<5)&&(speedTimer!=60)){
+			speedTimer += 1;
+		}//else quand la vitesse est égale à 5, ne rien changer
+		
+	}
 	public void orientatePlayer(Orientation keyOrientation, Button b) {	// look if a button is pressed and change the desiredOrientation accordingly
 		if (b.isDown()) {
 			desiredOrientation = keyOrientation;
@@ -211,7 +217,7 @@ public class SuperPacmanPlayer extends Player{
 		if(timerImmortal <= 0){
 			setIMMORTAL(false);
 		}
-	}*/
+	}
 	/*
 	private void immortalityMode(int timer){
 		int countDownTime = timer;
@@ -258,8 +264,8 @@ public class SuperPacmanPlayer extends Player{
     public void interactWith(Cherry cherry) {
     	cherry.collect();
     	score += cherry.SCORE;
-    	//speed -= 3;
-//    	//System.out.println(score);   Test score
+    	speed = 3;
+//    	System.out.println(score);   Test score
     }
     public void interactWith(Diamond diamond) {
     	diamond.collect();
