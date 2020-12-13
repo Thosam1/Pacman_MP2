@@ -10,16 +10,22 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
 public class Cherry extends AutomaticallyCollectableAreaEntity {
-	public final int SCORE = 200;
+	public final int SCORE = 200; //score gagné quand un cherry est mangé
 	private Sprite sprite;
 	
+	/**area désigne le niveau et DiscreteCoordinates permet de connaitre la position initiale
+	 * le constructeur initialise l'animation du Cherry qui permettra de créer la sensation de rotation*/
 	public Cherry(Area area, Orientation orientation, DiscreteCoordinates position) {
 		super(area, orientation, position);
 		sprite = new Sprite("superpacman/cherry", 1.f, 1.f,this);
 	}
+	
+	/** la méthode draw est appelée sur sprite à chaque frame tant que le Cherry n a pas été mangé*/
 	public void draw(Canvas canvas) {
 		sprite.draw(canvas);
 	}
+	
+	/** permet les interactions avec les interactors*/
 	public void acceptInteraction(AreaInteractionVisitor v) {
         ((SuperPacmanInteractionVisitor)v).interactWith(this);
     }
