@@ -24,9 +24,6 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
-import ch.epfl.cs107.play.window.Window;
-import ch.epfl.cs107.play.window.swing.SwingWindow;
-
 
 public class SuperPacmanPlayer extends Player{
 	public int hp;
@@ -72,8 +69,7 @@ public class SuperPacmanPlayer extends Player{
 		animations = Animation.createAnimations(ANIMATION_DURATION / 4, sprites);	//crée un tableau de 4 animations
 		handler = new SuperPacmanPlayerHandler();
 		
-		/*final Window window2 = new SwingWindow(game.getTitle(), fileSystem, 550, 550); //////
-		window.registerFonts(ResourcePath.FONTS);*/
+		
 	}
 	
 	public void update(float deltaTime) {
