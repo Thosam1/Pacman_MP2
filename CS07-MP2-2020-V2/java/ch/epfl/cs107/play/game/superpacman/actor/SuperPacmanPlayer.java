@@ -37,12 +37,12 @@ public class SuperPacmanPlayer extends Player{
 	private SuperPacmanPlayerStatusGUI status;
 	private DiscreteCoordinates PLAYER_SPAWN_POSITION; //dépend de l'aire actuelle !
 	private final SuperPacmanPlayerHandler handler;
+
 	private boolean IMMORTAL = false;	//addedByMe
 	public boolean getIMMORTAL () {
 		return IMMORTAL;
 	}
-	private float timerImmortal = 10.f; // addedByMe, décrémenter cette valeur par deltaTime et remettre IMMORTAL à false, avant de réinitialiser timerImmortal 4.f quand elle atteint 0
-	//peut etre choisir la valeur en fonction du type de bonus ?
+	private float timerImmortal = 10.f; // décrémenter cette valeur par deltaTime et remettre IMMORTAL à false, avant de réinitialiser timerImmortal 4.f quand elle atteint 0
 	private final float timeImmortal = 10.f;
 	private boolean bonusEaten = false;
 	private boolean consecutiveBonus = false;
@@ -101,10 +101,12 @@ public class SuperPacmanPlayer extends Player{
 	       }
 	    else {
 	       	animations[desiredOrientation.ordinal()].update(deltaTime);
-	        		
-	        	}
+	    }
 
-	    //didn't find another way to set a timer ...
+		/**
+		 * 		Code that make the bonus buff lasts, eating consecutive bonuses will only set the timer back to its initial value --- 	{didn't find another way to set a timer ...}	---
+		 */
+
 		if(bonusEaten){
 			if(!everyoneIsAfraid){
 				SuperPacmanArea temp = (SuperPacmanArea) this.area;
@@ -117,9 +119,9 @@ public class SuperPacmanPlayer extends Player{
 			}
 
 			this.IMMORTAL = true;
-			System.out.println("immortality = " + IMMORTAL);
+			//System.out.println("immortality = " + IMMORTAL);
 
-			System.out.println("timer = " + timerImmortal + " seconds" );
+			//System.out.println("timer = " + timerImmortal + " seconds" );
 			timerImmortal -= deltaTime;
 			if(timerImmortal < 0){
 				this.IMMORTAL = false;
@@ -134,47 +136,22 @@ public class SuperPacmanPlayer extends Player{
 		}
 
 	    super.update(deltaTime);
-	    }
-	
-	public void speedVariation() {//cette méthode est utilisé pour rendre le personnage plus rapide quand il mange un Cherry
-		if ((speed<5)&&(speedTimer == 60)) {//24 fps ==> toutes les 2.5s speed augmente de 1 jusqu'à atteindre 5
-			//augmenter speed, diminue la vitesse du player, ainsi il est plus rapide pendant 5 secondes
-			speed +=1;
-			speedTimer=0; //réinitialise le timer
-		}
-		else if ((speed<5)&&(speedTimer!=60)){
-			speedTimer += 1;
-		}//else quand la vitesse est égale à 5, ne rien changer
-		
 	}
-	public void orientatePlayer(Orientation keyOrientation, Button b) {	// look if a button is pressed and change the desiredOrientation accordingly
-		if (b.isDown()) {
-			desiredOrientation = keyOrientation;
-		}
+
+	@Override
+	public void draw(Canvas canvas) {
+		animations[this.getOrientation().ordinal()].draw(canvas);
+		status.draw(canvas);//draw les vies et le score
+
 	}
+
+	/**
+	 * All methods related to interactable
+	 */
+
 	@Override
 	public List<DiscreteCoordinates> getCurrentCells() {
 		return Collections.singletonList(getCurrentMainCellCoordinates());	//main cell
-	}
-
-	@Override
-	public List<DiscreteCoordinates> getFieldOfViewCells() {	//no vision field
-		return null;
-	}
-
-	@Override
-	public boolean wantsCellInteraction() {
-		return true;
-	}
-
-	@Override
-	public boolean wantsViewInteraction() {
-		return false;
-	}
-
-	@Override
-	public void interactWith(Interactable other) {
-		other.acceptInteraction(handler);
 	}
     
 	@Override
@@ -196,52 +173,63 @@ public class SuperPacmanPlayer extends Player{
 	public void acceptInteraction(AreaInteractionVisitor v) {
 		((SuperPacmanInteractionVisitor)v).interactWith(this); //accepte de voir ses interactions avec les autres acteurs (qui sont aussi gérés par SuperPacmanInteractionVisitor
 	}
+
+	/**
+	 * All methods related to interactor
+	 */
+
 	@Override
-	public void draw(Canvas canvas) {
-		animations[this.getOrientation().ordinal()].draw(canvas);
-		status.draw(canvas);//draw les vies et le score
-		
+	public List<DiscreteCoordinates> getFieldOfViewCells() {	//no vision field
+		return null;
 	}
 
-	public DiscreteCoordinates getPlayerPosition(){
+	@Override
+	public boolean wantsCellInteraction() {
+		return true;
+	}
+
+	@Override
+	public boolean wantsViewInteraction() {
+		return false;
+	}
+
+	@Override
+	public void interactWith(Interactable other) {
+		other.acceptInteraction(handler);
+	}
+
+	/**
+	 *	All methods that are useful for SuperPacmanPlayer
+	 */
+
+	/*public DiscreteCoordinates getPlayerPosition(){
 		DiscreteCoordinates pos = new DiscreteCoordinates((int) getPosition().x, (int) getPosition().y);
 		return pos;
+	}*/
+
+	/**
+	 * speed up the player when a cherry is eaten
+	 */
+	public void speedVariation() {//cette méthode est utilisé pour rendre le personnage plus rapide quand il mange un Cherry
+		if ((speed<5)&&(speedTimer == 60)) {//24 fps ==> toutes les 2.5s speed augmente de 1 jusqu'à atteindre 5
+			//augmenter speed, diminue la vitesse du player, ainsi il est plus rapide pendant 5 secondes
+			speed +=1;
+			speedTimer=0; //réinitialise le timer
+		}
+		else if ((speed<5)&&(speedTimer!=60)){
+			speedTimer += 1;
+		}//else quand la vitesse est égale à 5, ne rien changer
+
 	}
 
-
-
-	/*private void immortalityTimer(){
-		setIMMORTAL(true);
-		timerImmortal = timeImmortal;
-		timerImmortal -= 1;
-		if(timerImmortal <= 0){
-			setIMMORTAL(false);
+	/**
+	 *	look if a button is pressed and change the desiredOrientation accordingly
+	 */
+	public void orientatePlayer(Orientation keyOrientation, Button b) {
+		if (b.isDown()) {
+			desiredOrientation = keyOrientation;
 		}
 	}
-	/*
-	private void immortalityMode(int timer){
-		int countDownTime = timer;
-
-		this.IMMORTAL = true;
-		System.out.println("immortality = " + IMMORTAL);
-		while(countDownTime > 0){
-			System.out.println("timer = " + countDownTime + " seconds" );
-			countDownTime -= 1;
-		}
-		this.IMMORTAL = false;
-		System.out.println("immortality = " + IMMORTAL);
-	}*/
-	/*private void immortalityMode(float deltaTime){
-		timerImmortal = timeImmortal;
-		this.IMMORTAL = true;
-		System.out.println("immortality = " + IMMORTAL);
-		while(timerImmortal > 0){
-			System.out.println("timer = " + timerImmortal + " seconds" );
-			timerImmortal -= deltaTime;
-		}
-		this.IMMORTAL = false;
-		System.out.println("immortality = " + IMMORTAL);
-	}*/
 
 	private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{	//gets called whenever in field of vision or when there is an interaction
 		
@@ -250,53 +238,58 @@ public class SuperPacmanPlayer extends Player{
 			setIsPassingADoor(door);
 		}
 
-	public void interactWith(Key key) {
-    	key.collect();
-    }
-    public void interactWith(Bonus bonus) {
-    	bonus.collect();
-    	if(!bonusEaten){
-    		bonusEaten = true;
-		}else{
-    		consecutiveBonus = true;
+		public void interactWith(Key key) {
+			key.collect();
 		}
-    }
-    public void interactWith(Cherry cherry) {
-    	cherry.collect();
-    	score += cherry.SCORE;
-    	speed = 3;// manger un Cherry augmente la vitesse du player
-//    	System.out.println(score);   Test score
-    }
-    public void interactWith(Diamond diamond) {
-    	diamond.collect();
-    	score += diamond.SCORE;
-    	area.numberOfDiamonds -=1;
-//    	System.out.println(score);     Test score
-    	}
-    public void interactWith(Gate gate) {
-    	
-    }
-    public void interactWith(Ghost ghost) {	//interact on contact ?!?!
-		ghostEncounter(ghost);}
-    
-    
-	private void ghostEncounter (Ghost ghost) {
-		if(IMMORTAL == true) {		
-			basicForget(ghost);
-			score += ghost.GHOST_SCORE;
-			}
-		if(IMMORTAL == false) {
-			//basicForget(ghost);
-			superArea.allGhostToRefugeBehavior();
-			hp -= 1;
-			setCurrentPosition(PLAYER_SPAWN_POSITION.toVector());
-			resetMotion();
-			//METTRE UNE ANIMATION à ce moment là ???
+		public void interactWith(Bonus bonus) {
+			bonus.collect();
+			if(!bonusEaten){
+				bonusEaten = true;
+			}else{
+				consecutiveBonus = true;
 			}
 		}
-	private void basicForget(Ghost ghost) {
-		ghost.backToRefuge();
-	}
+		public void interactWith(Cherry cherry) {
+			cherry.collect();
+			score += cherry.SCORE;
+			speed = 3;// manger un Cherry augmente la vitesse du player
+	//    	System.out.println(score);   Test score
+		}
+		public void interactWith(Diamond diamond) {
+			diamond.collect();
+			score += diamond.SCORE;
+			area.numberOfDiamonds -=1;
+	//    	System.out.println(score);     Test score
+			}
+		public void interactWith(Gate gate) {
+		}
+		public void interactWith(Ghost ghost){
+		ghostEncounter(ghost);
+		}
+		public void interactWith(IntelligentGhost smartGhost) {
+			if(IMMORTAL == true){
+				smartGhost.backToRefuge();
+			}
 
-}
+		}
+
+		private void ghostEncounter (Ghost ghost) {
+			if(IMMORTAL == true) {
+				basicForget(ghost);
+				score += ghost.GHOST_SCORE;
+			}
+			if(IMMORTAL == false) {
+				//basicForget(ghost);
+				superArea.allGhostToRefugeBehavior();	//works fine
+				hp -= 1;
+				setCurrentPosition(PLAYER_SPAWN_POSITION.toVector());
+				resetMotion();
+				//METTRE UNE ANIMATION à ce moment là ???
+				}
+			}
+		private void basicForget(Ghost ghost) {
+			ghost.backToRefuge();	//just setting them back to their refuge	!!! doesnt work individually
+		}
+
+	}
 }

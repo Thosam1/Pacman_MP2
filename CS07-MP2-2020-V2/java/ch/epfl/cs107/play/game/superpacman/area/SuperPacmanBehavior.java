@@ -11,20 +11,14 @@ import ch.epfl.cs107.play.game.areagame.Cell;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.game.superpacman.actor.Blinky;
-import ch.epfl.cs107.play.game.superpacman.actor.Bonus;
-import ch.epfl.cs107.play.game.superpacman.actor.Cherry;
-import ch.epfl.cs107.play.game.superpacman.actor.Diamond;
-import ch.epfl.cs107.play.game.superpacman.actor.Ghost;
-import ch.epfl.cs107.play.game.superpacman.actor.Inky;
-import ch.epfl.cs107.play.game.superpacman.actor.Pinky;
-import ch.epfl.cs107.play.game.superpacman.actor.Wall;
+import ch.epfl.cs107.play.game.superpacman.actor.*;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
 public class SuperPacmanBehavior extends AreaBehavior {
 	
-	private List<Ghost> currentGhosts = new ArrayList<>();
+	private List<Ghost> currentDumbGhosts = new ArrayList<>();
+	private List<IntelligentGhost> currentSmartGhosts = new ArrayList<>();
 	private final AreaGraph graph;
 	
 	public SuperPacmanBehavior(Window window, String name) {	//constructeur du behavior
@@ -60,18 +54,18 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_BLINKY) {
 	        			Blinky blinky = new Blinky(area, new DiscreteCoordinates(x,y));	 
 	        			area.registerActor(blinky);	
-	        			currentGhosts.add(blinky);
+	        			currentDumbGhosts.add(blinky);
 	        		}
 
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_INKY) {
 	        			Inky inky = new Inky(area, new DiscreteCoordinates(x,y));	 
 	        			area.registerActor(inky);	
-	        			currentGhosts.add(inky);
+	        			currentSmartGhosts.add(inky);
 	        		}
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_PINKY) {
 						Pinky pinky = new Pinky(area, new DiscreteCoordinates(x, y));
 						area.registerActor(pinky);
-						currentGhosts.add(pinky);
+						currentSmartGhosts.add(pinky);
 					}
 
 
@@ -184,33 +178,59 @@ public class SuperPacmanBehavior extends AreaBehavior {
 			}
 		
 	}
-	/**	Methods useful for ghosts
-	 * 
-	 * @param choose
+
+
+	/**
+	 *	Methods useful for ghosts
 	 */
 	
-	protected void scareAllGhosts(boolean choose) {
-		for(int i = 0; i < currentGhosts.size(); i++) {
-			if(choose == true) {
-				currentGhosts.get(i).setAfraid(true);
-				currentGhosts.get(i).setReevaluate(true);	//let them reevaluate their path
-			}else {
-				currentGhosts.get(i).setAfraid(false);
-				currentGhosts.get(i).setReevaluate(true);	//let them reevaluate their path
+	protected void scareAllGhosts(boolean choose) {	//if true - scare all ghosts // if false - make ghost not scared
+		if(currentDumbGhosts != null){
+			for(int i = 0; i < currentDumbGhosts.size(); i++) {
+				if(choose == true) {
+					currentDumbGhosts.get(i).setAfraid(true);
+				}else {
+					currentDumbGhosts.get(i).setAfraid(false);
+				}
+				//System.out.println(currentDumbGhosts + "All dumb Ghosts scared -");
 			}
-
-			System.out.println(currentGhosts + "All Ghosts scared -");
+		}
+		if(currentSmartGhosts != null){
+			for(int i = 0; i < currentSmartGhosts.size(); i++) {
+				if(choose == true) {
+					currentSmartGhosts.get(i).setAfraid(true);
+					currentSmartGhosts.get(i).setReevaluate(true);	//let them reevaluate their path
+				}else {
+					currentSmartGhosts.get(i).setAfraid(false);
+					currentSmartGhosts.get(i).setReevaluate(true);	//let them reevaluate their path
+				}
+				//System.out.println(currentSmartGhosts + "All smart Ghosts scared -");
+			}
 		}
 	}
-	protected void allGhostToRefuge() {
-		for (int i = 0; i < currentGhosts.size(); i++) {
-			//System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "refuge : " + currentGhosts.get(i).refuge);
-			currentGhosts.get(i).backToRefuge();
-			//System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "position : " + currentGhosts.get(i).getPosition());
+
+	protected void allGhostToRefuge() {	//send ALL ghosts back to their refuge
+		if(currentDumbGhosts != null){
+			for (int i = 0; i < currentDumbGhosts.size(); i++) {
+				//System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "refuge : " + currentGhosts.get(i).refuge);
+				currentDumbGhosts.get(i).backToRefuge();
+				//System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "position : " + currentGhosts.get(i).getPosition());
+			}
 		}
+		if(currentSmartGhosts != null){
+			for (int i = 0; i < currentSmartGhosts.size(); i++) {
+				//System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "refuge : " + currentGhosts.get(i).refuge);
+				currentSmartGhosts.get(i).backToRefuge();	//overwritten method is called
+				//System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "position : " + currentGhosts.get(i).getPosition());
+			}
+		}
+
 		//System.out.println(currentGhosts + "All Ghosts back to refuge -");
 	}
-	
+
+	/**
+	 *	return the list of orientation needed to go from main to target, if it doesn't exist, it will return null
+	 */
 	protected Queue<Orientation> shortestPath(DiscreteCoordinates main, DiscreteCoordinates target){
 		Queue<Orientation> path = graph.shortestPath(main, target);
 		return path;

@@ -12,7 +12,7 @@ abstract public class SuperPacmanArea extends Area implements Logic{
 	private Window window; 
 	public SuperPacmanBehavior behavior;	
 	
-	public final float CAMERA_SCALE_FACTOR = 15.f;
+	public final float CAMERA_SCALE_FACTOR = 20.f;
 	@Override
     public boolean begin(Window window, FileSystem fileSystem) {
 		this.window = window; 
@@ -33,8 +33,6 @@ abstract public class SuperPacmanArea extends Area implements Logic{
 	public void createArea(SuperPacmanBehavior behavior) {	//registering actors in the area //general, more detailed in subclasses/levels
 		behavior.registerActors(this);
 	}
-	
-	
 	public void scareInBehavior (boolean choose) { //call the method in behavior to frighten the ghosts
 		if(choose == true) {
 			behavior.scareAllGhosts(true);

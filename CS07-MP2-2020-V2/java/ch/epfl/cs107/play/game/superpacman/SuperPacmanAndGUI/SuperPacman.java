@@ -44,7 +44,7 @@ public class SuperPacman extends RPG{
 		if (super.begin(window, fileSystem)) {
 
 			createAreas();
-			areaIndex = 0;
+			areaIndex = 2;
 			Area area = setCurrentArea(areas[areaIndex], true);
 			player = new SuperPacmanPlayer(area, startingPositions[areaIndex]);
 			initPlayer(player);
@@ -52,6 +52,27 @@ public class SuperPacman extends RPG{
 		}
 		return false;
 	}
+
+	private void loadingScreen(){
+
+	}
+	private void titleScreen(){
+
+	}
+	private void selectMenu(){	//with play and leaderboard score
+
+	}
+	private void gameFinished(){
+
+	}
+	private void newLeaderBoard(){
+
+	}
+	//ajouter du son lors du mouvement de pacman, lors des bonus - invincibilité, mettre en pause quand le joueur meurt,
+
+
+
+
 /*
 	private void scareGhosts(){													//cette methode complique les choses, directement appeler cela dans une méthode dans SuperPacmanPlayer - timer / au début et à la fin de l'invincibilité
 		SuperPacmanArea area = (SuperPacmanArea) getCurrentArea();

@@ -25,13 +25,12 @@ public class Inky extends IntelligentGhost {
 	public void update(float deltaTime) { // ?necessary?
 		super.update(deltaTime); //taking care of afraid animation
 		deplacement(getNextOrientation(refuge, refuge, MAX_DISTANCE_WHEN_SCARED, MAX_DISTANCE_WHEN_NOT_SCARED), SPEED, SPEED_AFRAID);
-
 	}
 
-
 	protected void deplacement(Orientation next, int speed, int afraidSpeed) {
-		orientate(next);    //orientate the ghost
 		deplacement(afraidSpeed, speed); //moving the ghost in the orientation needed
+		orientate(next);    //orientate the ghost
+
 		//System.out.println("inky actual orientation : " + getOrientation()
 			//+ " inky deplacement occuring : " + isDisplacementOccurs()
 			//+ " targetPos : " + targetPos

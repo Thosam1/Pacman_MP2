@@ -29,7 +29,6 @@ public class Blinky extends Ghost {
 		}else {
 			deplacement(afraidSpeed, speed);
 		}
-
 	}
 //	@Override	//why override DOESNT WORK ?!????????
 	private Orientation getNextOrientation() {	//to redefine
