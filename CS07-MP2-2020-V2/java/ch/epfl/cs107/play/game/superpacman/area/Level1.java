@@ -7,8 +7,10 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
 public class Level1 extends SuperPacmanArea{
-	/**spawn position in this level*/
+	/**spawn position in this level
+	 * needs to be public so that the doors in Level0 can call it*/
 	public final static DiscreteCoordinates PLAYER_SPAWN_POSITION = new DiscreteCoordinates(15, 6);
+	
 	@Override
 	public String getTitle() {
 		return "superpacman/Level1";

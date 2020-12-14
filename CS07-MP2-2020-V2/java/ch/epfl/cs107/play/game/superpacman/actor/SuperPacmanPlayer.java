@@ -20,12 +20,12 @@ import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
 public class SuperPacmanPlayer extends Player{
-	public int hp; //nombre de vies du joueur: commence à 5 et termine à 0
-	public int speedTimer;
-	public float score; //score du joueur: commence à 0
+	private int hp; //nombre de vies du joueur: commence à 5 et termine à 0
+	private int speedTimer;
+	private float score; //score du joueur: commence à 0
 	protected final static int ANIMATION_DURATION = 8; //durée du cycle de l'animation
-	public int speed = 5;//low value ==> high speed
-	public Orientation desiredOrientation;
+	private int speed = 5;//low value ==> high speed
+	private Orientation desiredOrientation;
 	private Area area;
 	private SuperPacmanArea superArea;	//for interaction with ghost - method to setAllGhosts to the same place
 	private SuperPacmanPlayerStatusGUI status;
@@ -105,7 +105,7 @@ public class SuperPacmanPlayer extends Player{
 
 	        		}
 	    		speedVariation();
-	    		this.move(speed);
+	    		this.move(getSpeed());
 	       
 	        }
 	       }
@@ -228,15 +228,15 @@ public class SuperPacmanPlayer extends Player{
 	 * it is impossible to get under 3, even if you eat multiple Cherry
 	 */
 	public void speedVariation() {
-		if ((speed<5)&&(speedTimer == 60)) {
+		if ((getSpeed()<5)&&(speedTimer == 60)) {
 			//24 fps ==> toutes les 2.5s speed augmente de 1 jusqu'à atteindre 5
 			//augmenter speed, diminue la vitesse du player, et manger un Cherry passe sa vitesse à 3 
 			//ainsi il est plus rapide pendant 5 secondes
-			speed +=1;
+			increaseValueSpeed(1);
 			speedTimer=0; 
 			//réinitialise le timer
 		}
-		else if ((speed<5)&&(speedTimer!=60)){
+		else if ((getSpeed()<5)&&(speedTimer!=60)){
 			speedTimer += 1;
 			//si speed est plus petit que 5, mais 60 frames ne sont pas passé, alors il faut rajouter 1 au timer
 		
@@ -252,6 +252,14 @@ public class SuperPacmanPlayer extends Player{
 			desiredOrientation = keyOrientation;
 		}
 	}
+	/**Getters, Setters, Deacreasers and Increasers*/
+	public void decreaseHp(int hp) {this.hp -= hp;}
+	public int getHp() {return this.hp;}
+	public void increaseScore(float score) {this.score += score;}
+	public float getScore() {return this.score;}
+	public void increaseValueSpeed(int speed) {this.speed += speed;}//increasing the value, reduces the actual speed of the player
+	public void setSpeed(int speed) {this.speed = speed;}
+	public int getSpeed() {return this.speed;}
 
 	private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{	//gets called whenever in field of vision or when there is an interaction
 		/**All interactWith methods
@@ -282,16 +290,18 @@ public class SuperPacmanPlayer extends Player{
 		
 		/**Cherry and Diamond add a SCORE to the score of the player
 		 * the interaction with a Cherry sets the speed of the player to 3 (increase in speed)
-		 * the interaction with a diamond subtracts 1 to numberOfDiamonds (important for the signal of the Area)*/
+		 * the interaction with a diamond subtracts 1 to numberOfDiamonds (important for the signal of the Area)
+		 * We could redefine collect in Cherry and Diamond; however, it is easier for SuperPacmanPlayer to increase 
+		 * his own score and speed thanks to his handler*/
 		public void interactWith(Cherry cherry) {
 			cherry.collect();
-			score += cherry.SCORE;
-			speed = 3;
+			increaseScore(cherry.SCORE);
+			setSpeed(3);
 	//    	System.out.println(score);   Test score
 		}
 		public void interactWith(Diamond diamond) {
 			diamond.collect();
-			score += diamond.SCORE;
+			increaseScore(diamond.SCORE);
 			area.numberOfDiamonds -=1;
 	//    	System.out.println(score);     Test score
 			}
@@ -309,12 +319,12 @@ public class SuperPacmanPlayer extends Player{
 		private void ghostEncounter (Ghost ghost) {
 			if(IMMORTAL == true) {
 				basicForget(ghost);
-				score += ghost.GHOST_SCORE;
+				increaseScore(ghost.GHOST_SCORE);
 			}
 			if(IMMORTAL == false) {
 				//basicForget(ghost);
 				superArea.allGhostToRefugeBehavior();	//works fine
-				hp -= 1;
+				decreaseHp(1);
 				setCurrentPosition(PLAYER_SPAWN_POSITION.toVector());
 				resetMotion();
 				//METTRE UNE ANIMATION à ce moment là ???

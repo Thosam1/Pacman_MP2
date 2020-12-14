@@ -9,6 +9,7 @@ import ch.epfl.cs107.play.signal.logic.And;
 public class Level2 extends SuperPacmanArea{
 	/**spawn position in this level*/
 	public final static DiscreteCoordinates PLAYER_SPAWN_POSITION = new DiscreteCoordinates(15,29);
+	
 	@Override
 	public String getTitle() {
 		return "superpacman/Level2";
