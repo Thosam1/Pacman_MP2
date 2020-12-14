@@ -3,6 +3,7 @@ package ch.epfl.cs107.play.game.superpacman.area;
 import java.util.Queue;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
+import ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI.Gate;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.signal.logic.Logic;
@@ -10,9 +11,12 @@ import ch.epfl.cs107.play.window.Window;
 
 abstract public class SuperPacmanArea extends Area implements Logic{
 	private Window window; 
-	public SuperPacmanBehavior behavior;	
+	public SuperPacmanBehavior behavior;
 	
 	public final float CAMERA_SCALE_FACTOR = 20.f;
+	
+	/**creates the area which is visually represented on a window that pops up on the screen of the player
+	 * creates an instance named behavior, of SuperPacmanBehavior*/
 	@Override
     public boolean begin(Window window, FileSystem fileSystem) {
 		this.window = window; 
@@ -26,14 +30,20 @@ abstract public class SuperPacmanArea extends Area implements Logic{
 	        return false;
 	    }
 	
+	/**returns the scale factor, which is the zoom
+	 * higher values mean that the player can see a bigger part of the Level*/
 	@Override
 	public float getCameraScaleFactor() {
 		return CAMERA_SCALE_FACTOR;
 	}
-	public void createArea(SuperPacmanBehavior behavior) {	//registering actors in the area //general, more detailed in subclasses/levels
+	
+	/**registers the Actors created in the SuperPacmnaBehavior*/
+	public void createArea(SuperPacmanBehavior behavior) {//general, more detailed in subclasses/levels
 		behavior.registerActors(this);
 	}
-	public void scareInBehavior (boolean choose) { //call the method in behavior to frighten the ghosts
+	
+	/**call the method in behavior to frighten the ghosts*/
+	public void scareInBehavior (boolean choose) { 
 		if(choose == true) {
 			behavior.scareAllGhosts(true);
 		}else {
@@ -42,11 +52,36 @@ abstract public class SuperPacmanArea extends Area implements Logic{
 				
 	}
 
+	/**calls method allGhostToRefuge on the attribute behavior*/
 	public void allGhostToRefugeBehavior(){
 		behavior.allGhostToRefuge();
 	}
 	
+	/**calls method shortestPath on the attribute behavior*/
 	public Queue<Orientation> shortestPath(DiscreteCoordinates main, DiscreteCoordinates target){
 		return behavior.shortestPath(main, target);
+	}
+	
+	/**if the numberOfDiamonds left in the Area is equal to 0, meaning that they have all been eaten,
+	 * then isOn returns true
+	 * (look at Area for a detailed explanation of numberOfDiamonds)*/
+	@Override
+	public boolean isOn() {
+		if(numberOfDiamonds>0) {
+			return false;
+			}
+		else return true;
+	}
+	/**The following inherited methods are not used*/
+	@Override
+	public boolean isOff() {
+		// we are not using this for now
+		return false;
+	}
+
+	@Override
+	public float getIntensity() {
+		//we are not using this for now
+		return 0;
 	}
 }

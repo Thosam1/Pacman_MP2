@@ -26,10 +26,10 @@ import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
 public class SuperPacmanPlayer extends Player{
-	public int hp;
+	public int hp; //nombre de vies du joueur: commence à 5 et termine à 0
 	public int speedTimer;
-	public float score;
-	protected final static int ANIMATION_DURATION = 8;
+	public float score; //score du joueur: commence à 0
+	protected final static int ANIMATION_DURATION = 8; //durée du cycle de l'animation
 	public int speed = 5;//low value ==> high speed
 	public Orientation desiredOrientation;
 	private Area area;
@@ -37,8 +37,7 @@ public class SuperPacmanPlayer extends Player{
 	private SuperPacmanPlayerStatusGUI status;
 	private DiscreteCoordinates PLAYER_SPAWN_POSITION; //dépend de l'aire actuelle !
 	private final SuperPacmanPlayerHandler handler;
-
-	private boolean IMMORTAL = false;	//addedByMe
+	private boolean IMMORTAL = false;
 	public boolean getIMMORTAL () {
 		return IMMORTAL;
 	}
@@ -48,11 +47,23 @@ public class SuperPacmanPlayer extends Player{
 	private boolean consecutiveBonus = false;
 	private boolean everyoneIsAfraid = false;
 
-
-	private Sprite[][] sprites;	//addedByMe - i just declared them outside the constructor
+	private Sprite[][] sprites; //initialisation du tableau 2D qui contiendra les sprites de l'animation du player
 	private Animation[] animations;
 	
-	public SuperPacmanPlayer(Area area, DiscreteCoordinates coordinates) {	//constructeur	-area = aire ou il appartient
+	/**Le constructeur de cette classe prend l'aire dans laquelle se trouve le player et ses coordonnées de départ
+	 * Pour l'appelle de la superclasse, nous mettons Orientation.RIGHT par défault, mais cela  a très peu d'importance
+	 * On initialise:
+	 * * area: prend la valeur du area donné en attribut
+	 * * superArea: prend la valeur du area donné en attribut, mais en SuperPacmanArea
+	 * * hp: le player commence avec 5 points de vie
+	 * * PLAYER_SPAWN_POSITION: coordonnées du spawn du player dans l'aire
+	 * * desiredOrientation: initialement vers la droite pour aucune raison particulière
+	 * * score: Commence à 0
+	 * * speedTimer: Commence à 0, mais changera de valeur au cours du jeux grace aux interaction avec des Cherry
+	 * * sprites et animations qui permettront de créer l'animation du pacman
+	 * * une instance de la classe SuperPacmanPlayerHandler est stockée dans handler
+	 * */
+	public SuperPacmanPlayer(Area area, DiscreteCoordinates coordinates) {
 		super(area, Orientation.RIGHT, coordinates);
 		this.area = area;
 		this.superArea = (SuperPacmanArea) area; //for the interaction with ghost - method to setAllGhosts to the same place
@@ -72,7 +83,12 @@ public class SuperPacmanPlayer extends Player{
 		
 		
 	}
-	
+	/**this method is called at every frame
+	 * Its first function is to orientate the SuperPacmanPlayer depending on the key that is pressed by the player
+	 * Then, depending on the desiredOrientation, it will make the Player move if it can get into the Cell in front of it
+	 * *Some cells may contain a Wall or a Gate, which takeCellSpace
+	 * The animation is updated and reset (depends on isDisplacementOccurs)
+	 * */
 	public void update(float deltaTime) {
 		Keyboard keyboard = getOwnerArea().getKeyboard();
 			
@@ -135,9 +151,13 @@ public class SuperPacmanPlayer extends Player{
 			}
 		}
 
-	    super.update(deltaTime);
+	    super.update(deltaTime);  //important to call update on the superclass
 	}
 
+	/**The method draw is called at every frame and has two functions
+	 * The first one is to draw the animation of the pacman: It needs to open and close its mouth, 
+	 * and change orientation, when the Orientation of the movement changes
+	 * Secondly, calling draw on status, draws the lives and the score at the top of the screen*/
 	@Override
 	public void draw(Canvas canvas) {
 		animations[this.getOrientation().ordinal()].draw(canvas);
@@ -209,15 +229,23 @@ public class SuperPacmanPlayer extends Player{
 
 	/**
 	 * speed up the player when a cherry is eaten
+	 * Can be adapted for other interactions (we have not chosen to implement too many interactions that increase speed)
+	 * This method allows us to keep speed between 3 and 5
+	 * it is impossible to get under 3, even if you eat multiple Cherry
 	 */
-	public void speedVariation() {//cette méthode est utilisé pour rendre le personnage plus rapide quand il mange un Cherry
-		if ((speed<5)&&(speedTimer == 60)) {//24 fps ==> toutes les 2.5s speed augmente de 1 jusqu'à atteindre 5
-			//augmenter speed, diminue la vitesse du player, ainsi il est plus rapide pendant 5 secondes
+	public void speedVariation() {
+		if ((speed<5)&&(speedTimer == 60)) {
+			//24 fps ==> toutes les 2.5s speed augmente de 1 jusqu'à atteindre 5
+			//augmenter speed, diminue la vitesse du player, et manger un Cherry passe sa vitesse à 3 
+			//ainsi il est plus rapide pendant 5 secondes
 			speed +=1;
-			speedTimer=0; //réinitialise le timer
+			speedTimer=0; 
+			//réinitialise le timer
 		}
 		else if ((speed<5)&&(speedTimer!=60)){
 			speedTimer += 1;
+			//si speed est plus petit que 5, mais 60 frames ne sont pas passé, alors il faut rajouter 1 au timer
+		
 		}//else quand la vitesse est égale à 5, ne rien changer
 
 	}
@@ -232,7 +260,10 @@ public class SuperPacmanPlayer extends Player{
 	}
 
 	private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{	//gets called whenever in field of vision or when there is an interaction
-		
+		/**All interactWith methods
+		 * The method collect is defined in AutomaticallyCollectableAreaEntity and unregisters the collectables from the area
+		 * 	Some of the Collectables Override it
+		 * */
 
 		public void interactWith(Door door){
 			setIsPassingADoor(door);
@@ -241,6 +272,7 @@ public class SuperPacmanPlayer extends Player{
 		public void interactWith(Key key) {
 			key.collect();
 		}
+		
 		public void interactWith(Bonus bonus) {
 			bonus.collect();
 			if(!bonusEaten){
@@ -249,13 +281,18 @@ public class SuperPacmanPlayer extends Player{
 				consecutiveBonus = true;
 			}
 		}
+		/**A Lever changesSignal when in contact with a PacMan*/
 		public void interactWith(Lever lever) {
 			lever.changeSignal();
 		}
+		
+		/**Cherry and Diamond add a SCORE to the score of the player
+		 * the interaction with a Cherry sets the speed of the player to 3 (increase in speed)
+		 * the interaction with a diamond subtracts 1 to numberOfDiamonds (important for the signal of the Area)*/
 		public void interactWith(Cherry cherry) {
 			cherry.collect();
 			score += cherry.SCORE;
-			speed = 3;// manger un Cherry augmente la vitesse du player
+			speed = 3;
 	//    	System.out.println(score);   Test score
 		}
 		public void interactWith(Diamond diamond) {
@@ -264,8 +301,10 @@ public class SuperPacmanPlayer extends Player{
 			area.numberOfDiamonds -=1;
 	//    	System.out.println(score);     Test score
 			}
+		/**No interaction has been implemented for now with Gate*/
 		public void interactWith(Gate gate) {
 		}
+		
 		public void interactWith(Ghost ghost){
 		ghostEncounter(ghost);
 		}
