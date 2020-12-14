@@ -2,21 +2,15 @@ package ch.epfl.cs107.play.game.superpacman.actor;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Timer;
-
-import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Animation;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.rpg.actor.Door;
 import ch.epfl.cs107.play.game.rpg.actor.Player;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
-import ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI.Gate;
-import ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI.SuperPacman;
 import ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI.SuperPacmanPlayerStatusGUI;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
@@ -301,9 +295,6 @@ public class SuperPacmanPlayer extends Player{
 			area.numberOfDiamonds -=1;
 	//    	System.out.println(score);     Test score
 			}
-		/**No interaction has been implemented for now with Gate*/
-		public void interactWith(Gate gate) {
-		}
 		
 		public void interactWith(Ghost ghost){
 		ghostEncounter(ghost);
