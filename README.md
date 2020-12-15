@@ -19,6 +19,19 @@ Ces barrières fonctionnent comme des murs, mais qui peuvent disparaitre. il en 
     *Celles qui peuvent etre ouvertes en passant sur un Lever. Attention, un Lever peut ouvrir et fermer plusieurs Gates   
     *Celles qui oscillent, c'est à dire qu'elles s'ouvrent et se ferment après des durées prédéfinies   
     *Celles qui s'ouvrent lorsque tous les diamants ont été collecté
+### Les Fantômes :
+Les fantômes ont pour but de tuer Pacman, il y a trois type :
+   *Blinky est assez bête mais imprévisible à cause de ses déplacements aléatoires.
+   *Inky a tendence à rester proche de sa position de refuge et attaque Pacman si il le voit.
+   *Pinky lui n'a peur de rien, il cherche Pacman est quand il le trouve, le pourchasse.
+### Les Esprits :
+Les Esprits sont des personnages très puissants qui ne sont pas aussi maléfiques que les fantômes. Il y a deux type d'esprit :
+-Les Singed : qui bougent en ligne droites et laissent une traînée de xxx dérière eux :
+   *EarthSinged : laissent de la boue derrière eux, ce qui ralentit Pacman.
+   *PoisonSinged : laissent un nuage de poison derrière eux, ce qui diminue le score de Pacman.
+-Les MageSpirit : qui se déplace aléatoirement et invoque des xxx dans leur champ de vision régulièrement :
+   *StoneMageSpirit : invoque des rochers qui peuvent bloquer Pacman mais aussi les fantômes.
+   *FireMageSpirit : invoque des flammes qui peuvent tuer Pacman et lui enlever des points de score.
   *
   *
   *
@@ -44,7 +57,7 @@ Pour gagner des points il existe 3 moyens:
   *manger un Cherry (200 points)
   *manger un Diamond (10 points)
   *manger un Bonus puis un Ghost(500 points)
- Attention ! Certains esprits peuvent vous enlever des points par hasard.
+  *Attention ! Certains esprits peuvent vous enlever des points avec leurs invocations.
 
 ## Niveau0
 Ce premier niveau est très basique et sert à faire découvrir les acteurs qui ne sont pas hostile au joueur. Ainsi, il contient un bonus, des diamants, un cherry, une clé et plusieurs gates. Lorsque vous prendrez la clé, vous remarquerez qu'une des gate disparaitra. Il s'agit là de la méthode basique pour ouvrir des gates. Sinon, une des gates ne pourra que s'ouvrir sous condition d'avoir collecté tous les diamants, sauf que pour cela il faudra passer une Gate grace à un troisième moyen. Il faudra passer sur le Lever et instantanément, la Gate disparaitra et une autre Gate apparaitra derrière vous. Finalement, ce niveau possède un dernier type de Gate qui s'ouvre et se referme tout seul grace à un timer.
