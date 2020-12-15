@@ -48,7 +48,7 @@ public class Level0 extends SuperPacmanArea{
         registerActor(new Gate(this, Orientation.DOWN, new DiscreteCoordinates(4,7), lever,true));
         registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(6,6), lever,false));
         
-        Oscillateur oscillateur = new Oscillateur(72, true);
+        Oscillateur oscillateur = new Oscillateur(72, true,0);
         registerActor(new Gate(this, Orientation.DOWN, new DiscreteCoordinates(2,6), oscillateur,true));
 	}
 

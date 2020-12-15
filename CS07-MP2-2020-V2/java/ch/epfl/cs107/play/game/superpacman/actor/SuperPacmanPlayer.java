@@ -92,7 +92,7 @@ public class SuperPacmanPlayer extends Player{
 	    orientatePlayer(Orientation.RIGHT,keyboard.get(Keyboard.RIGHT));
 	    orientatePlayer(Orientation.DOWN,keyboard.get(Keyboard.DOWN));
 
-		System.out.println(speed);
+		//System.out.println(speed);
 	    
 	    
 	    if (!(isDisplacementOccurs())) {	//control if the player is moving at the time

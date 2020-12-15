@@ -10,9 +10,10 @@ public class Oscillateur implements Logic {
 	/**Le constructeur de cette classe initialise le Timer, le frameInterval et le signalOn
 	 * frameInterval désigne le nombre de frames ou le signal sera true puis false
 	 * initialSignal est la valeur initiale du signal
+	 * Timer takes value of the parameter initialTimer
 	 * */
-	public Oscillateur(int frameInterval, boolean initialSignal) {
-		Timer = 0;
+	public Oscillateur(int frameInterval, boolean initialSignal, int initialTimer) {
+		Timer = initialTimer;
 		this.frameInterval = frameInterval;
 		signalOn = initialSignal;
 		}
