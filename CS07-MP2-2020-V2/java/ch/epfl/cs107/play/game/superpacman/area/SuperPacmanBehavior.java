@@ -3,15 +3,24 @@ package ch.epfl.cs107.play.game.superpacman.area;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
-import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.areagame.Area;
-import ch.epfl.cs107.play.game.areagame.AreaGraph;
 import ch.epfl.cs107.play.game.areagame.AreaBehavior;
+import ch.epfl.cs107.play.game.areagame.AreaGraph;
 import ch.epfl.cs107.play.game.areagame.Cell;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.game.superpacman.actor.*;
+import ch.epfl.cs107.play.game.superpacman.actor.Blinky;
+import ch.epfl.cs107.play.game.superpacman.actor.Bonus;
+import ch.epfl.cs107.play.game.superpacman.actor.Cherry;
+import ch.epfl.cs107.play.game.superpacman.actor.Diamond;
+import ch.epfl.cs107.play.game.superpacman.actor.EarthSinged;
+import ch.epfl.cs107.play.game.superpacman.actor.Ghost;
+import ch.epfl.cs107.play.game.superpacman.actor.Inky;
+import ch.epfl.cs107.play.game.superpacman.actor.IntelligentGhost;
+import ch.epfl.cs107.play.game.superpacman.actor.Pinky;
+import ch.epfl.cs107.play.game.superpacman.actor.PoisonSinged;
+import ch.epfl.cs107.play.game.superpacman.actor.Wall;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
@@ -37,7 +46,8 @@ public class SuperPacmanBehavior extends AreaBehavior {
         	}
 	}
 
-	/**méthode qui enregistre tous les acteurs de type Wall, Bonus, Cherry, Diamond, Blinky, Inky et Pinky*/
+	/**méthode qui enregistre tous les acteurs de type Wall, Bonus, Cherry, Diamond, Blinky, Inky et Pinky
+	 * and adds nodes to graph*/
 	protected void registerActors(Area area) {	//Si les types des cells sont des "WALL", alors enregistrer ces "CELL" en tant qu'ACTOR
 		 for (int x=0; x<getWidth(); x++) {
 	        	for (int y=0; y<getHeight(); y++) {
@@ -247,7 +257,7 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	}
 
 	protected void allGhostToRefuge() {	//send ALL ghosts back to their refuge
-		if(currentGhosts != null){	//wanted to take care of lv1 problem, but didnt work as expected :((
+		if(currentGhosts != null){
 			for (int i = 0; i < currentGhosts.size(); i++) {
 				//System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "refuge : " + currentGhosts.get(i).refuge);
 				currentGhosts.get(i).backToRefuge();

@@ -8,14 +8,12 @@ import ch.epfl.cs107.play.game.superpacman.actor.*;
 public interface SuperPacmanInteractionVisitor  extends RPGInteractionVisitor{
 	default void interactWith(Bonus bonus) {}
 	default void interactWith(Diamond diamond) {}
-	//default void interactWith(AutomaticallyCollectableAreaEntity cherry) {} interactWith commun à tous les Collectable
 	default void interactWith(Cherry cherry) {}
 	default void interactWith(Key key) {}
 	default void interactWith(Lever lever) {}
 	default void interactWith(Ghost ghost) {}
 	default void interactWith(IntelligentGhost smartGhost) {}
 	default void interactWith(SuperPacmanPlayer player) {}
-
 	default void interactWith(Spirit spirit){}
 	default void interactWith(Magic magic){}
 	default void interactWith(MudRock mudRock){}

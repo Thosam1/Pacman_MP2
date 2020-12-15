@@ -6,331 +6,194 @@
 
 
 0b. For a better reading experience of this document
-- Extensions are flagged with "[extension]" or "[extension area]"
+- Extensions are flagged with "[extension]"
 
-- Classes, abstract classes, interfaces and enumerations are flagged with
-"(class)", "(abstract class)", "(interface)", and "(enum)", respectively.
+- Classes, abstract classes, interfaces, attributes and enumerations are flagged with
+"(class)", "(abstract class)", "(interface)", "(attributes)" and "(enum)", respectively.
 
 
 
 1. Modifications to the provided code
 
-1a. java/ch/epfl/cs107/play/game/areagame/actor/Foreground.java
-
-    - Added a new constructor that allows the alpha value to be lower than 1
-        * Constructor can be found by searching "[modification]"
-        * Used for the day-night cycle [extension]
-
-
-1b. java/ch/epfl/cs107/play/game/rpg/actor/Dialog.java
-
-    - Modified the two constants at the beginning (FONT_SIZE and MAX_LINE_SIZE)
-        * Used for a bigger dialogue content [extension]
-
-
-1c. res/images/foregrounds/DayNight
-
-    - Added DayNight, a folder of 24 images that form the base of the
-    foregrounds to be registered in the areas that have a day-night cycle.
-        * All of the images were created using GIMP and then converted from
-        .xcf to .png using a free online converter
-    
-    
+1a. Modified (method) isOn of (class) And to return true if the two associated signals are true (didn't work before)
 
 2. Added classes and interfaces
 
-2a. In ch/epfl/cs107/play/game/rpg/inventory:
-- (class) Inventory
- |  * Class, given that it is designed to be used in a 'has-a' relation
- |_ (interface) Inventory.Holder
-        * Interface, given that an inventory holder only needs the method
-        boolean possess(InventoryItem)
-    
-- (interface) InventoryItem
-    * Interface, not class, since the only functionalities an item to be stocked
-    in an inventory needs are getters for its name, weight and price
+2a. ch.epfl.cs107.play.game.superpacman.actor;
+This package contains many different classes for the various Actors that we have created, some that we were asked to create 
+and others that we created for the bonus.
+The classes that we had to program are the following:
 
-Creating the new package rpg/inventory seemed the natural thing to do, since
-the above class and interfaces do not completely fit in with any of the previous
-rpg packages
+- (class) Bonus
+    * Can be collected by the player and grants a special power (player is able to eat ghosts for a short time)
+    * Has an animation created by 4 Sprites which give the impression that the Bonus is turning
+    * Has a constant ANIMATION_DURATION which is set to (frames) ==> 3 animations per second in 24fps
+    * Is registered in certain locations of every Level
+    * Is drawn at every frame, as long that it hasnt been eaten
 
+- (class) Cherry
+    * Can be collected by the player and gives him a constant SCORE of 200
+    * Has a fixed sprite which is just a simple cherry
+    * Is registered in certain locations of every level
+    * Is drawn at ever fram, as long that it hasnt been eaten
+    * [extension] we added the fact that the player has an increased speed for 5 seconds after eating a cherry
+      however, this can't be seen in the (class) Cherry, instead go to the (class) SuperPacmanPlayer
+      (methods) speedVariation, setSpeed and increaseValueSpeed
 
-2b. In ch/epfl/cs107/play/game/arpg
-- (class) Clock..................................................... [extension]
-    * Class, given that it is designed to be used in a 'has-a' relation: the
-    ARPG 'has-a' clock that is used to update all the areas implementing a
-    day-night cycle
+- (class) Diamond
+    * Can be collected by the player, gives him a constant SCORE of 10
+    * Has a fixed sprite which is a simple blue dot
+    * Is registered in certain locations of every Level(most abundant Collectable)
+    * Is drawn at every frame, as long that it hasnt been eaten
+    * Eating every Diamond in an area changes its signal, which can be used to open gates
+      ex: Level1 contains some of these gates
 
-- (class) Settings.................................................. [extension]
-    * Class containing all the final constants that can be modified in the ARPG
-    
-Adding the above classes in the main package (arpg) is the sensible choice to
-make, given that they are relatively low-level or general enough, while still
-being specific to the ARPG
+- (class) Key
+    * Can be collected by the player, which changes its signal
+    * Has a fixed sprite which is a simple key
+    * Is registered in certain locations of every Level (created in the class for the Level)
+    * Is drawn at every frame, as long that it hasnt been eaten
+    * Some gates may need one or two of these keys to open (player has to collect them)
+    * Key implements Logic
+    * When collected, the boolean ramasseOuPas becomes true, which results in the (method) isOn
+      to return true 
 
+- (class) Gate
+    * Can not be collected, it serves as a Wall that can disappear
+    * Has two two sprites, a parallel and a horizontal one
+    * Is registered in certain locations of every Level
+      for this, they must be created and registered in the (method) createArea of each Level
+    * Is constructed with a signal which will determine if it is drawn or not, it is kept as the attribute 
+      [extension]We use keys, areas, oscillators and levers as signals
+    * takeCellSpace only returns true if the Gate is drawn <==> affichage is true
+    * the 
+    * [extension] The constructor takes a boolean (affichageInit) initially, affichageInitialisation 
+      and affichage take its value (the first is a constant)
+      if afficheInitialisation is true and the signal isOn then we don't want to draw the Gate
+      The other conditions can be seen in the code, but the idea is that this allows us to create Gates
+      that are not initially drawn eventhough the associated signal isOn
+      ex: when you go on a Lever, a Gate disapears in front, but a gate appears behind
+      
+- (class) Wall
+    * We did not modify anything
+    
+- (class) SuperPacmanPlayer
+    * Extends Player 
+    * Takes an area and coordinates as parameters for the constructor
+    * Starts with hp =5, score = 0 and speed = 5, These values are private but can be changed with the
+      (methods) getters, setters, increasers and decreasers that are provided
+    * constructor creates an instance of SuperPacmanPlayerStatusGUI which is called in draw and draws the hp and score
+    * player is animated by an animation of sprites which is initialized in the constructor
+    * (method) update calls on orientatePlayer to get the (attribute) desiredOrientation
+      animation is updated and reset depending on (method) isDisplacementOccurs
+      gives the capability to eat ghosts when a bonus has been eaten
+    * [extension](method)speedVariation increases speed by 1 every 60 frames until it reaches 5
+      useful for interactions with Cherry
+    *(class) SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor and defines the (method) interactWith
+      for each Actor registered in the Levels   
+    
+Bonus classes:[extension]
 
-2c. In ch/epfl/cs107/play/game/arpg/actor
-- (interface) FlyableEntity
-    * Implemented by Projectile, FlameSkull, Waterfall
-    
-    
-- (abstract class) Monster
- |  * Extended by DarkLord, FlameSkull, LogMonster, Pacman
- |_ (enum) Damage: used to represent the 3 types of damage a monster may be
-     sensitive to: damage by contact(physical), fire, or magic
-    
-- (abstract class) Projectile
-    * Extended by Arrow, MagicWaterProjectile
+- (class) Oscillateur
+    * Isn't drawn, It is simply a Signal (implements Logic) that changes signal every given frames (we use frames as a unit of time)
+    * Is created in the createArea (method) of the Levels if we want to create a Gate with such a signal
+    * Gates with such a signal will appear and disappear
+    * To implement this, we created a timer which works with the attributes Timer and frameInterval
+     frameInterval is given at the construction
+    * once the Timer has reached the desired frameInterval, the Timer is reset, and if the signalOn is true, 
+      then it becomes false and vice versa
+      Otherwise, Timer increases by 1 and the signal stays the same
+ 
+- (class) Lever
+    * Is drawn at all times, in one of two positions: Up position if signal is true and Down position otherwise
+    * Implements Logic and serves as a signal for Gates
+    * Is created in the createArea (method) of the Levels
+    * Is cell interactable and doesnt take space
+    * Changes signal when the player enters its cell
+      (method) changeSignal only changes the signal if the timer is greater or equal to 72
+      (72 frames which is 3 seconds) This can be changed, but its important to have leaved the cell
+      before the signal can change again
+      
+2b. ch.epfl.cs107.play.game.superpacman.area;
+These are all the classes that are involved in the creation of the areas. Create and register the actors
+- (class) Level0, Level1, Level2
+    * each Level has its own constant DiscreteCoordinates PLAYER_SPAWN_POSITION
+      getPlayerSpawnPosition returns this value
+    * each Level has (method) getTitle which returns the title of the Level as a String
+    * create Area is called at the creation of an area, to create and register Actors that are not added
+      by SuperPacmanBehavior (Key, Gate, Oscillateur, Lever)
 
-- (class) ARPGPlayer
- |_ (enum) State: describes the possible states of an ARPGPlayer: idle, or
- |   attacking with a sword/ bow/ staff
- |_ (class) ARPGPlayerHandler: implements the possible interactions of an
-     ARPGPlayer    
+- (class) SuperPacmanArea
+    * (method) getCameraScaleFactor returns CAMERA_SCALE_FACTOR
+    * (method) createArea takes a behavior as paramater and calls registerActors on it with the 
+      area as parameter, creates the Walls, Cherry, Diamonds, Bonus, Ghosts etc. that are not created in the Levels
+    * (method) scareInBehavior takes a boolean parameter (choose), and calls scareAllGhosts which frightens the ghosts
+      if choose is true
+    * (method) allGhostToRefugeBehavior calls (method) allGhostToRefuge on (attribute) behavior 
+      which is created in the constructor
+    * (method) shortestPath calls (method) shortestPath on the attribute
+    * The class implements Logic, (method) isOn returns true if (attribute) numberOfDiamonds is equal to 0
+      i.e. the signal turns on
+      
+- (class) SuperPacmanBehavior
+    * constructor creates the Cells and (attributes) height, width, graph
+    * (method) registerActors creates and registers all Walls, Bonus, Cherry, Diamond, Blinky, Inky, Pinky
+      adds nodes to (attribute) graph
+    * (method) getCellType returns the type of a Cell
+    * (method) getNeighbours return a 3D (3x3) boolean list to create the Walls
+      called in registerActors
+    * (enum) SuperPacmanCellType associates a type to each value
+    * (class) SuperPacmanCell define cell caracteristics
+      can enter if hasNonTraversableContent returns false
+      no interactions with cells
+      can always leave a Cell
+    * (method) scareAllGhosts make the ghost afraid depending on the value of the boolean
+      choose
+    * (method) allGhostToRefuge sends Ghosts to their refuge
+    * (method) shortestPath returns the list of orientations needed to go from main to target, 
+      if it doesn't exist, it will return null
 
-- (class) ARPGInventory
-    * Extends the RPG Inventory by offering the functionality of ordering its
-    contents with a linked list. Could have used a LinkedHashMap when
-    implementing the RPG Inventory in order to preserve the insertion order when
-    iterating, but then that functionality would be useless to the RPG and
-    perform slightly worse, according to:
-    http://www.javapractices.com/topic/TopicAction.do?Id=65
-        * Is located in the actors because of its close relation with the player.
-    
-- (class) ARPGPlayerStatusGUI
-    * Draws the corresponding ARPGPlayer's health points, inventory items, and
-    money or fortune
-    * [extension] the quantity of each inventory item is also displayed
-    
-- (class) Arrow
- |  * Affects monsters sensitive to contact(physical) damage
- |_ (class) ArrowInteractionHandler: implements the possible interactions of an
-     arrow
-    
-- (class) Bomb
- |  * [extension] the timer countdown is displayed near the bomb
- |_ (class) BombInteractionHandler: implements the possible interactions of a
-     bomb
+2c. ch.epfl.cs107.play.game.superpacman.handler;
+This package contains the interface that handles the interactions
+- (interface) SuperPacmaninteractionVisitor 
+    * extends RPGInteractionVisitor and containes empty 
+      default (methods) interactWith for each Actor that can interact with the player
+    * These methods are specifically defined in (class) SuperPacmanPlayerHandler
 
-- (class) Bow....................................................... [extension]
-    * Can be collected by the player and thus added to the inventory
-    * Is registered in the Cave area [extension area]
-
-- (class) Bridge.................................................... [extension]
-    * A type of Door
-    * Added in the Ferme area, near the waterfall
-    * Leads to the RouteTemple [extension area]
-
-- (class) CastleDoor
-    * A type of Door that is locked by default
-    * The other Interactors can "tryToOpen" this door by sending it different
-    signals
+2d. ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI;
+- (class) SuperPacman
+    * (String Array) areas contains the names of the three levels
+    * (Discretecoordinates Array) startingPositions contains the coordinates for the spawn
+      position in each area
+    * (method) getTitle returns the name of the game, "Super Pac-Man"
+    * (method) createAreas calls addArea with an instance of each Level
+    * (method) end has not been implemented yet
+    * (method) begin creates the Areas, creates the player, initializes it and sets the current 
+      area as the one designated by (attribute) areaIndex
     
-- (class) CastleKey
-    * Collectible that can open a CastleDoor by providing its owner with the
-      correct signal upon use.
-
-- (class) CaveEntrance.............................................. [extension]
-    * A type of Door
-    * Can be opened by the explosion of a bomb
-    * Added in the Village area, grants access to Cave [extension area]
-    
-- (class) Coin
-    * Collectible that gives the ARPGPlayer a money boost
-    
-- (class) DarkLord
- |   * Monster sensitive to magic damage, drops a CastleKey once dead
- |_ (enum) DarkLordState: used for switching between DarkLord modes
- |      * Possible states: idle, preparing to teleport, invoking FireSpells,
- |                         teleporting, attacking
- |_ (class) DarkLordInteractionHandler: implements the possible interactions of
-     a DarkLord
-
-- (class) FireSpell
- |  * AreaEntity, propagates with a given force
- |  * Burns monsters sensitive to fire damage, can cut grass and trigger bomb
- |  explosions
- |_ (class) FireSpellInteractionHandler: implements the possible interactions of
-      a FireSpell
-    
-- (class) FlameSkull
- |  * Monster sensitive to magic and contact(physical) damage
- |_ (class) FlameSkullInteractionHandler: implements the possible interactions
-     of a FlameSkull
-
-- (class) Grass
-    * May or may not drop a heart or a coin, according to its probability to
-    drop items
-    
-- (class) Heart
-    * Collectible that gives the ARPGPlayer a boost in health points
-    
-- (class) InteractiveNPC............................................ [extension]
-    * NPC that can display messages, once the ARPGPlayer initiates an 
-    interaction
-    * Used throughout the game in order to provide hints
-
-- (class) LogMonster
- |   * Monster sensitive to magic, contact(physical) and fire damage
- |_ (enum) LogMonsterState: used for switching between LogMonster modes
- |      * Possible states: idle, falling asleep, sleeping, waking up, attacking
- |_ (class) LogMonsterInteractionHandler: implements the possible interactions
-     of a LogMonster
-    
-- (class) MagicWaterProjectile
- |  * Projectile, damages monsters sensitive to magic damage and extinguishes
- |  FireSpells
- |_ (class) MWPInteractionHandler: implements the possible interactions of a
-     MagicWaterProjectile
-    
-- (class) NPC....................................................... [extension]
-    * MovableAreaEntity, moves randomly if enabled to move
-    
-- (class) Orb....................................................... [extension]
-    * Grants access to the bridge in the Ferme area, once it is opened
-    * In this ARPG, the Orb is opened once an Arrow interacts with it
-    
-- (class) Pacman.................................................... [extension]
- |  * Monster sensitive to contact(physical) damage
- |  * Moves in a straight line, if stuck its orientation is picked at random
- |  * Added in the Cave [extension area]
- |_ (class) PacmanInteractionHandler: implements the possible interactions of a
-     Pacman. Only non-empty interaction is with an ARPGPlayer
-    
-- (class) Rock...................................................... [extension]
-    * AreaEntity used to block the player's path in the Cave
-    * Can be destroyed by a bomb exploding
-
-- (class) Shopkeeper................................................ [extension]
- |  * Type of NPC that grants access to a shop
- |  * Also used for a small hint (cut grass to get money)
- |_ (class) ShopkeeperInteractionHandler: implements the possible interactions
- |   of a Shopkeeper. Only non-empty interaction is with an ARPGPlayer
- |_ (class) Shop: implements the shop functionality in the ARPG, imbricated
-                  since it makes no sense to declare a shop without an owner
-    
-- (class) Staff..................................................... [extension]
-    * Collectible that can be added to the player's inventory
-    * Added in the Temple [extension area]
-    
-- (class) Waterfall................................................. [extension]
-    * Implements FlyableEntity for placement purposes
-    * Added in the Ferme area
-        * Located in the actors because the waterall could be used to hide
-        a hidden object/door. It would then have to interact with the player.
-
-* All of the classes above have been added to this package given that that they
-implement or characterize entities specific to the ARPG.
-
-* The interface FlyableEntity was added for the same reason.
-
-
-2d. In ch/epfl/cs107/play/game/arpg/area
-- (abstract class) ARPGArea
-- (abstract class) DayNightArea..................................... [extension]
-    * cycles through 24 foregrouds according to the hour in the ARPG, the
-    foregrounds are kept in a vector
-    * each foreground is cut to the size of the area's background
-    
-- (interface) DayNightCycle......................................... [extension]
-    * Implemented by DayNightArea
-    * offers some basic functionalities to build foregrounds to a specified size
-    and get the correct index according to the hour
-    
-- (class) Cave...................................................... [extension]
-    * Can be accessed from the Village area
-    * Home to Pacmen, Rocks, Hearts, Coins and a Bow
-    * Grants entrance to CaveTemple
-    
-- (class) CaveTemple................................................ [extension]
-    * Can be accessed from the Cave area
-    * Home to an InteractiveNPC that hints the player search for a magic staff
-    near a waterfall
-    
-- (class) Chateau
-    * [extension] has a king (InteractiveNPC)
-    * End of game area
-    
-- (class) Ferme
-    * Area the player first arrives to
-    * Home to 2 LogMonsters
-    
-- (class) Route
-    * Implemented according to the project description
-    
-- (class) RouteChateau
-    * Added some grass along the road, rest is implemented according to the
-    project description
-    
-- (class) RouteTemple............................................... [extension]
-    * Grants access to the Temple where a staff can be collected
-    
-- (class) Spawn..................................................... [extension]
-    * Where the game begins
-    * The player is guided towards the door, which leads to the Ferme area
-    
-- (class) Temple.................................................... [extension]
-    * Contains a collectible magical staff, with which the player can defeat
-    the DarkLord
-    
-- (class) Village
-    * Home to a few movable NPCs, a shopkeeper and an InteractiveNPC
-    * The InteractiveNPC hints that the player can open the entrance to the
-    cave by using a bomb, and find a bow within the cave
-
-* All of the classes above have been added to this package since they implement
-or characterize areas specific to the ARPG
-
-* The DayNightCycle interface was added to this package since it specific to
-most of the areas in the ARPG
-
-2e. In ch/epfl/cs107/play/game/arpg/handler
-- (interface) ARPGInteractionVisitor
-    * Added to this package since it is the basis for the interaction handlers
-    of ARPG Interactors
-
-
-2f. In ch/epfl/cs107/play/game/arpg/inventory
-- (enum) ARPGItem
-    * Added to this package since it is too specific to be included in another
-    arpg package, even if ARPGInventory is in arpg/actor
-    
-
+- (class) SuperPacmanPlayerStatusGUI
+    * implements (interface) Graphics
+    * three private attributes: (constant) DEPTH  which has a high value to have the priority
+      when the Imagegraphics is drawn
+      anchor which is a vector that tells where the ImageGraphics and TextGraphics need to be drawn
+      the constructor takes a player as parameter and takes it as an attribute to have access
+      to his hp and score methods
+    * (method) getLife draws 5 lives (yellow or gray ones) at every frame
+    * the number of yellow lives is equal to the hp that the player has left
+      which we have thanks to player's (method) getHP
+    * (method) getScore draws player's score at every frame
+      thanks to SuperPacmanPlayer's (method) getScore
+    * (method) draw is called every frame and calls getLife and getScore to create a 
+      fluid image containing the lives and score of the player 
 
 3. Deviations from the project description
-
-- Added more doors that only take up one cell, in order to avoid "diagonal"
-transitions between areas
-
-- Modified the CastleDoor so that it takes cell space (this way, the player
-can't walk "under" it). In order for the player to exit the Chateau safely,
-we also modified the otherSideCoordinates of the doors from Chateau to
-RouteChateau (the player would have otherwise failed to be registered properly)
-
-- Added some minor deviations from the instructions.
-(e.g tweaked probabilities of monsters, added more interactions between the
-actors etc.)
+- Added some Gates that function with (class) Oscillateur and Lever
+- Changed the constructor of (class) Gate to be able to have Gates that are drawn when 
+  their associated signal is true
 
 4. List of all extensions
-
--Spawn
--Cave
--CaveTemple
--RouteTemple
--Temple
--Day-night cycle
--Shopkeeper
--NPC
--InteractiveNPC
--Pacman
--Orb
--Bridge
--CaveEntrance
--Waterfall
--Invulnerability time each time the player takes damage. Shown by a blinking
-animation
--Rocks
--Collectable entities (Staff and Bow)
--Dialogues
+-speed increase after collection of Cherry
+-Lever
+-Oscillateur
 -(Scenario)
 

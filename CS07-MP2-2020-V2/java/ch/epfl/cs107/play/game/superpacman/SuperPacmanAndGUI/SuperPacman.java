@@ -1,18 +1,14 @@
 package ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI;
 
 import ch.epfl.cs107.play.game.areagame.Area;
-import ch.epfl.cs107.play.game.areagame.actor.Orientation;
-import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.rpg.RPG;
 import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
 import ch.epfl.cs107.play.game.superpacman.area.Level0;
 import ch.epfl.cs107.play.game.superpacman.area.Level1;
 import ch.epfl.cs107.play.game.superpacman.area.Level2;
-import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
-import ch.epfl.cs107.play.window.swing.SwingWindow;
 
 public class SuperPacman extends RPG{
 
@@ -33,6 +29,7 @@ public class SuperPacman extends RPG{
 		//scareGhosts();
 	}
 
+	/**creates the three areas*/
 	private void createAreas(){
 		addArea(new Level0());
 		addArea(new Level1());
@@ -40,11 +37,13 @@ public class SuperPacman extends RPG{
 	}
 	public void end() {}
 	
+	/**begin creates the Areas, creates the player, initializes it and sets the current
+      area as the one designated by (attribute) areaIndex*/
 	public boolean begin(Window window, FileSystem fileSystem) {
 		if (super.begin(window, fileSystem)) {
 
 			createAreas();
-			areaIndex = 1;
+			areaIndex = 0;
 			Area area = setCurrentArea(areas[areaIndex], true);
 			player = new SuperPacmanPlayer(area, startingPositions[areaIndex]);
 			initPlayer(player);

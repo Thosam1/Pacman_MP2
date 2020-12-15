@@ -71,7 +71,7 @@ public class SuperPacmanPlayer extends Player{
 		this.superArea = (SuperPacmanArea) area; //for the interaction with ghost - method to setAllGhosts to the same place
 
 		PLAYER_SPAWN_POSITION = coordinates;
-		hp = 5;
+		hp = 5; //may want to have a parameter for this
 		desiredOrientation = Orientation.RIGHT;
 		score = 0;
 		speedTimer = 0;
