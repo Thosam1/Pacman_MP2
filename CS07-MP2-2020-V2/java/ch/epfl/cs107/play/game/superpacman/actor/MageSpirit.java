@@ -12,8 +12,9 @@ public class MageSpirit extends Spirit {
     private final float intervalTime;
     private float intervalTimer;
     protected DiscreteCoordinates previousMainCell;
+    protected int RANGE;    //specific to each type of mageSpirit
 
-    public MageSpirit(Area area, DiscreteCoordinates coordinates, int intervalTime) {
+    public MageSpirit(Area area, DiscreteCoordinates coordinates, int intervalTime) {   //every intervalTime seconds, it will do something...
         super(area, coordinates);
         this.intervalTime = intervalTime;
         this.intervalTimer = intervalTime;

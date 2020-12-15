@@ -163,9 +163,13 @@ public class Ghost extends MovableAreaEntity {
 		
 		protected void deplacement(int afraidSpeed, int normalSpeed) {
 			if(AFRAID == true){
-				this.move(afraidSpeed);
+				if(!isDisplacementOccurs()){
+					this.move(afraidSpeed);
+				}
 			}else {
-				this.move(normalSpeed);
+				if(!isDisplacementOccurs()){
+					this.move(normalSpeed);
+				}
 			}
 		}
 

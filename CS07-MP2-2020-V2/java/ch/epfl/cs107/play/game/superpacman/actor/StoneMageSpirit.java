@@ -14,5 +14,13 @@ public class StoneMageSpirit extends MageSpirit {
         super.update(deltaTime);
     }*/
 
+    @Override
+    protected void doSomething(){
+
+
+
+        PoisonSmoke poison_Smoke = new PoisonSmoke(getOwnerArea(), previousMainCell, 3);
+        getOwnerArea().registerActor(poison_Smoke);
+    }
 
 }

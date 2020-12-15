@@ -161,7 +161,6 @@ public class IntelligentGhost extends Ghost implements Interactor {
             setStateTransition(false);
         }
 
-
         if(reevaluate == true) {	//then check for the new path   Cases when reevaluate a path : 1) if destination is reached 2) if ghosts become scared / pacman eats becomes invincible 3) if pacman enters in the field of view
             findNewTargetPos(from, fromNot, maxWhenScared, maxWhenNotScared);
         }
@@ -171,10 +170,12 @@ public class IntelligentGhost extends Ghost implements Interactor {
             findNewTargetPos(from, fromNot, maxWhenScared, maxWhenNotScared);
             path = area.shortestPath(getCurrentMainCellCoordinates(), targetPos); //we ask to the area, the area asks to the behavior/graph //dessiner un trait
         }*/
+
         SuperPacmanArea area = (SuperPacmanArea)getOwnerArea();
         path = area.shortestPath(getCurrentMainCellCoordinates(), targetPos); //we ask to the area, the area asks to the behavior/graph //dessiner un trait
 
         //resetMotion();    //EN AJOUTANT LE RESET MOTION; LES FANTOMES ATTEIGNENT LE JOUEUR MAIS ENORME BUG LORSQUE LE JOUEUR DEVIENT INVINCIBLE
+
         if(path == null){
             graphicPath = new Path(this.getPosition(), new LinkedList<Orientation>());  //dessin
             return getOrientation(); //possible!!!! -> take stay in the same orientation
@@ -302,8 +303,10 @@ public class IntelligentGhost extends Ghost implements Interactor {
     public void backToRefuge() {
         playerMemory = null;
         seePlayer = false;
-        resetMotion();
+
         getOwnerArea().leaveAreaCells(this, getEnteredCells());
+        abortCurrentMove();
+        resetMotion();
         setCurrentPosition(this.refuge.toVector());
         getOwnerArea().enterAreaCells(this, getCurrentCells());
         setReevaluate(true); //so the pinky doesn't follow the player
