@@ -8,7 +8,7 @@ les cerises donnent 200 points et disparaissent lors des interactions avec le jo
 ### Les Bonus: 
 Lorsque le pacman mange ces espèces de pièces qui tournent sur place, alors il gagne la capacité de manger ses adversaires qui ont instantanément peur de lui
 ### Les Keys: 
-Les clés permettent d'ouvrir des Gates. Dans certains cas, il en faut meme deux pour pouvoir ouvrir un Gate
+Les clés permettent d'ouvrir des Gates. Dans certains cas, il en faut meme deux pour pouvoir ouvrir une Gate
 ### Les Diamonds: 
 Chacuns de ces petits points bleu donne 10 points au joueur. (ils sont très abondant) Non seulement, tous les manger peut donner beaucoup de points, mais dans certains niveaux il est indispensable de tous les avoir manger si l'on veut ouvrir des Gates
 ### Les lever: 
@@ -46,11 +46,11 @@ Pour gagner des points il existe 3 moyens:
   *manger un Bonus puis un Ghost(500 points)
 
 ## Niveau0
-Ce premier niveau est très basique et sert à faire découvrir les acteurs qui ne sont pas hostile au joueur. Ainsi, il contient un bonus, des diamants, un cherry, une clé et plusieurs gates. Lorsque vous prendrez la clé, vous remqarquerez qu'un des gate disparaitra. Il s'agit là de la méthode basique pour ouvrir des gates. Sinon, un des gates ne pourra que s'ouvrir sous condition d'avoir collecté tous les diamants, sauf que pour cela il faudra passer un Gate grace à un troisième moyen. Il faudra passer sur le Lever et instantanément, le Gate disparaitra et un autre Gate apparaitra derrière vous. Finalement, ce niveau possède un dernier type de Gate qui s'ouvre et se referme tout seul grace à un timer.
+Ce premier niveau est très basique et sert à faire découvrir les acteurs qui ne sont pas hostile au joueur. Ainsi, il contient un bonus, des diamants, un cherry, une clé et plusieurs gates. Lorsque vous prendrez la clé, vous remarquerez qu'une des gate disparaitra. Il s'agit là de la méthode basique pour ouvrir des gates. Sinon, une des gates ne pourra que s'ouvrir sous condition d'avoir collecté tous les diamants, sauf que pour cela il faudra passer une Gate grace à un troisième moyen. Il faudra passer sur le Lever et instantanément, la Gate disparaitra et une autre Gate apparaitra derrière vous. Finalement, ce niveau possède un dernier type de Gate qui s'ouvre et se referme tout seul grace à un timer.
 ## Niveau1
-Attention, ce niveau est plein de créatures hostiles!
+Attention, ce niveau est plein de créatures hostiles! Vous remarquerez que deux Gates vous bloquent la sortie, mais qu'il n'y a pas de clés. Ainsi, il faudra collecter tous les diamants du niveau et ensuite elles s'ouvreront. N'oubliez pas de manger des cerises si vous voulez pouvoir vous échapper le plus rapidement possible.
 ## Niveau2
-Ce dernier niveau implémente tous les Gates que vous avez découvert dans le premier niveau. Attention à ne pas vous faire piéger par des Gates qui apparaissent et disparaissent!
+Ce dernier niveau implémente toutes les Gates que vous avez découvert dans le premier niveau(sauf cel. Attention à ne pas vous faire piéger par des Gates qui apparaissent et disparaissent! Pour réussir à passer ce niveau, il faudra collecter toutes les clés. Certaines ne seront pas atteignable à moins d'avoir ouvert les Gates qui les protègent. Et finalement, après avoir pris toutes les clés, les portes s'ouvriront.
 
 ## Comment démarrer le jeu
 Pour démarrer le jeu, le joueur doit tout simplement lancer le programme. Le pacman apparaitra alors sur le premier niveau.
