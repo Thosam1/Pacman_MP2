@@ -3,13 +3,18 @@ Lorsque le joueur lance le jeux, son player (SuperPacmanPlayer) démarre dans un
 D'ailleurs, le joueur peut voir les vies qu il reste à son personnage en regardant en haut à gauche de son écran. Le player commence avec 5 vies jaunes(un pacman jaune) qui deviennent grises une par une lorsqu'une vie est perdue. Le joueur a perdu quand les 5 sont grises(une fin de jeux n a pas été implémenté, donc on compte sur l'honeteté du joueur ;) )
 Le personnage peut se balader et peut interagir avec son entourage. D'ailleurs, les niveaux n'occupent pas tout l'écran, car nous préférons suivre le joueur. (ceci permet de créer des niveaux très grand. (Evidemment ceci peut etre changé)
 Les éléments principaux de ces niveaux sont les suivant:
-  ###les Cherry: 
-  les cerises donnent 200 points et disparaissent lors des interactions avec le joueur. De plus, nous avons fait en sorte que lorsqu'un Cherry est pris, le    joueur va plus vite pendant 5secondes
-  ###Les Bonus: Lorsque le pacman mange ces espèces de pièces qui tournent sur place, alors il gagne la capacité de manger ses adversaires qui ont instantanément peur de lui
-  ###Les Keys: Les clés permettent d'ouvrir des Gates. Dans certains cas, il en faut meme deux pour pouvoir ouvrir un Gate
-  ###Les Diamonds: Chacuns de ces petits points bleu donne 10 points au joueur. (ils sont très abondant) Non seulement, tous les manger peut donner beaucoup de points, mais dans certains niveaux il est indispensable de tous les avoir manger si l'on veut ouvrir des Gates
-  ###Les lever: Les leviers sont des objets que le pacman ne peut pas manger, néanmoins lorsque que le joueur passe dessus des Gates peuvent s'ouvrir et se fermer
-  ###les Gates: Ces barrières fonctionnent comme des murs, mais qui peuvent disparaitre. il en existe plusieurs:
+### les Cherry: 
+les cerises donnent 200 points et disparaissent lors des interactions avec le joueur. De plus, nous avons fait en sorte que lorsqu'un Cherry est pris, le    joueur va plus vite pendant 5secondes
+### Les Bonus: 
+Lorsque le pacman mange ces espèces de pièces qui tournent sur place, alors il gagne la capacité de manger ses adversaires qui ont instantanément peur de lui
+### Les Keys: 
+Les clés permettent d'ouvrir des Gates. Dans certains cas, il en faut meme deux pour pouvoir ouvrir un Gate
+### Les Diamonds: 
+Chacuns de ces petits points bleu donne 10 points au joueur. (ils sont très abondant) Non seulement, tous les manger peut donner beaucoup de points, mais dans certains niveaux il est indispensable de tous les avoir manger si l'on veut ouvrir des Gates
+### Les lever: 
+Les leviers sont des objets que le pacman ne peut pas manger, néanmoins lorsque que le joueur passe dessus des Gates peuvent s'ouvrir et se fermer
+### Les Gates: 
+Ces barrières fonctionnent comme des murs, mais qui peuvent disparaitre. il en existe plusieurs:
     *Celles qui ont besoin d'une ou de deux Key   
     *Celles qui peuvent etre ouvertes en passant sur un Lever. Attention, un Lever peut ouvrir et fermer plusieurs Gates   
     *Celles qui oscillent, c'est à dire qu'elles s'ouvrent et se ferment après des durées prédéfinies   
@@ -21,7 +26,7 @@ Les éléments principaux de ces niveaux sont les suivant:
 
 ## Controles
 Le Pacman est controlé par les fleches de votre clavier
-La touche:
+La touche: 
 *UP permet de monter
 *DOWN permet de descendre
 *LEFT permet de bouger vers la gauche
