@@ -125,7 +125,7 @@ public class SuperPacmanPlayer extends Player{
 			timerImmortal -= deltaTime;
 			if(timerImmortal < 0){
 				this.IMMORTAL = false;
-				System.out.println("immortality = " + IMMORTAL);
+				//System.out.println("immortality = " + IMMORTAL);
 				bonusEaten = false;
 				timerImmortal = timeImmortal;
 
@@ -161,7 +161,7 @@ public class SuperPacmanPlayer extends Player{
 
 	@Override
 	public boolean isCellInteractable() {
-		return false;
+		return false;	//interactions avec Magic
 	}
 
 	@Override
@@ -272,6 +272,12 @@ public class SuperPacmanPlayer extends Player{
 		public void interactWith(IntelligentGhost smartGhost) {
 			if(IMMORTAL == true){
 				smartGhost.backToRefuge();
+			}
+
+		}
+		public void interactWith(Blinky blinkyGhost) {
+			if(IMMORTAL == true){
+				blinkyGhost.backToRefuge();
 			}
 
 		}

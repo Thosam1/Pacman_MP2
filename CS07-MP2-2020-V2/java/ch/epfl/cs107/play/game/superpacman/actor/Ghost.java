@@ -31,7 +31,7 @@ public class Ghost extends MovableAreaEntity {
 
 	
 	/// Animation duration in frame number
-    protected final static int ANIMATION_DURATION = 8;
+    private final static int ANIMATION_DURATION = 8;
     protected int SPEED = 6;
     private Area area;
 	private final SuperPacmanGhostHandler handler;
@@ -62,6 +62,9 @@ public class Ghost extends MovableAreaEntity {
 		//sprite will be afraidSprites default, when not afraid the animation will be above
 		afraidSprites = RPGSprite.extractSprites("superpacman/ghost.afraid", 2, 1, 1, this, 16, 16);	//2 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
 		afraidAnimations = new Animation(ANIMATION_DURATION / 4, afraidSprites);
+
+		//attributeMainSprite(nameOfMainSprite);	//to avoid null pointer exception in draw and update
+
 		handler = new SuperPacmanGhostHandler();
 	}
 
@@ -115,8 +118,8 @@ public class Ghost extends MovableAreaEntity {
 
 	@Override
 	public boolean isViewInteractable() {	//TRUE IF WE PUT LASER EXTENSION
-		return true;
-	}	//for bonus/laser
+		return false;
+	}	//true if we add for bonus/laser
 
 	@Override
 	public void acceptInteraction(AreaInteractionVisitor v) {
@@ -133,7 +136,7 @@ public class Ghost extends MovableAreaEntity {
 		mainSprites = RPGSprite.extractSprites(nameOfMainSprite, 2, 1, 1, this, 16, 16,	//4 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
 				new Orientation[] {Orientation.DOWN, Orientation.LEFT, Orientation.UP, Orientation.RIGHT}); //order Orientation[] orders of frame in the image
 		//array of 4 Sprite[] 1 per orientation
-		mainAnimations = Animation.createAnimations(ANIMATION_DURATION / 4, mainSprites);	//cr�e un tableau de 4 animations
+		mainAnimations = Animation.createAnimations(ANIMATION_DURATION / 4, mainSprites);	//crée un tableau de 4 animations
 	}
 		
 		public void setAfraid(boolean afraid) {	//for Friday

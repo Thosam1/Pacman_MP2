@@ -20,9 +20,12 @@ public class Spirit extends MovableAreaEntity implements Interactor {
     private Area area;
     private final SuperPacmanSpiritHandler handler;
 
-    private Sprite mainSprite;
     private Sprite[][] mainSprites;
     private Animation[] mainAnimations;
+
+    //for singed classes
+    private Sprite[] Sprite;
+    protected Animation spriteAnimations;
 
     private String nameOfMainSprite = "superpacman/ghost.blinky";
 
@@ -40,14 +43,21 @@ public class Spirit extends MovableAreaEntity implements Interactor {
         //array of 4 Sprite[] 1 per orientation
         mainAnimations = Animation.createAnimations(ANIMATION_DURATION / 4, mainSprites);	//cr�e un tableau de 4 animations
     }
+    protected void attributeMainSpriteByMe(String nameSprite){
+        nameOfMainSprite = nameSprite;
+        Sprite = RPGSprite.extractSprites("superpacman/ghost.afraid", 6, 1, 1, this, 16, 16);	//2 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
+        //array of 4 Sprite[] 1 per orientation
+        spriteAnimations = new Animation(ANIMATION_DURATION / 4, Sprite);
+    }
 
     public void update(float deltaTime){
         super.update(deltaTime);
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        mainAnimations[this.getOrientation().ordinal()].draw(canvas);
+    public void draw(Canvas canvas) {   //mainAnimations[this.getOrientation().ordinal()].draw(canvas); depends if singed or xxx
+
+
     }
 
     /**
@@ -67,8 +77,8 @@ public class Spirit extends MovableAreaEntity implements Interactor {
 
     @Override
     public boolean isCellInteractable() {   //nobody can touch a spirit
-        return false;
-    }
+        return true;
+    }   //contact with walls
 
     @Override
     public boolean isViewInteractable() {   //nobody can see a spirit

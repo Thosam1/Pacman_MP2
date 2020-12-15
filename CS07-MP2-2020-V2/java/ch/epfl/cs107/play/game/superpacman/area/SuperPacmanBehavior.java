@@ -17,10 +17,13 @@ import ch.epfl.cs107.play.window.Window;
 
 public class SuperPacmanBehavior extends AreaBehavior {
 	
-	private List<Ghost> currentDumbGhosts = new ArrayList<>();
+	//private List<Ghost> currentGhosts = new ArrayList<>();
+	private List<Blinky> currentBlinkyGhosts = new ArrayList<>();
 	private List<IntelligentGhost> currentSmartGhosts = new ArrayList<>();
 	private final AreaGraph graph;
-	
+	protected AreaGraph getGraph(){
+		return graph;
+	}
 	public SuperPacmanBehavior(Window window, String name) {	//constructeur du behavior
 		super(window,name);
 		graph = new AreaGraph();
@@ -52,15 +55,27 @@ public class SuperPacmanBehavior extends AreaBehavior {
   						area.numberOfDiamonds +=1;
 	        		}  
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_BLINKY) {
-	        			Blinky blinky = new Blinky(area, new DiscreteCoordinates(x,y));	 
+	        			Blinky blinky;
+	        			IceSinged iceSinged;
+	        			if(x < getWidth() / 2){	//first half - left
+							blinky = new Blinky(area, new DiscreteCoordinates(x,y), true);
+							//iceSinged = new IceSinged(area, new DiscreteCoordinates(12, 15));
+						}else{
+							blinky = new Blinky(area, new DiscreteCoordinates(x,y), false);
+							//iceSinged = new IceSinged(area, new DiscreteCoordinates(17, 11));
+						}
+
 	        			area.registerActor(blinky);	
-	        			currentDumbGhosts.add(blinky);
+	        			currentBlinkyGhosts.add(blinky);
+
+	        			//area.registerActor(iceSinged);
 	        		}
 
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_INKY) {
 	        			Inky inky = new Inky(area, new DiscreteCoordinates(x,y));	 
 	        			area.registerActor(inky);	
 	        			currentSmartGhosts.add(inky);
+
 	        		}
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_PINKY) {
 						Pinky pinky = new Pinky(area, new DiscreteCoordinates(x, y));
@@ -185,12 +200,12 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	 */
 	
 	protected void scareAllGhosts(boolean choose) {	//if true - scare all ghosts // if false - make ghost not scared
-		if(currentDumbGhosts != null){
-			for(int i = 0; i < currentDumbGhosts.size(); i++) {
+		if(currentBlinkyGhosts != null){
+			for(int i = 0; i < currentBlinkyGhosts.size(); i++) {
 				if(choose == true) {
-					currentDumbGhosts.get(i).setAfraid(true);
+					currentBlinkyGhosts.get(i).setAfraid(true);
 				}else {
-					currentDumbGhosts.get(i).setAfraid(false);
+					currentBlinkyGhosts.get(i).setAfraid(false);
 				}
 				//System.out.println(currentDumbGhosts + "All dumb Ghosts scared -");
 			}
@@ -210,10 +225,10 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	}
 
 	protected void allGhostToRefuge() {	//send ALL ghosts back to their refuge
-		if(currentDumbGhosts != null){
-			for (int i = 0; i < currentDumbGhosts.size(); i++) {
+		if(currentBlinkyGhosts != null){
+			for (int i = 0; i < currentBlinkyGhosts.size(); i++) {
 				//System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "refuge : " + currentGhosts.get(i).refuge);
-				currentDumbGhosts.get(i).backToRefuge();
+				currentBlinkyGhosts.get(i).backToRefuge();
 				//System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "position : " + currentGhosts.get(i).getPosition());
 			}
 		}

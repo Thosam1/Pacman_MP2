@@ -13,7 +13,8 @@ public class Pinky extends IntelligentGhost {
 	private final int MIN_AFRAID_DISTANCE = 7;	//let's make it harder for pinky
 	private int MAX_DISTANCE_WHEN_NOT_SCARED = 12;
 	private int SPEED_AFRAID = 9;
-	private int MAX_RANDOM_ATTEMPT = 10;
+	private int MAX_RANDOM_ATTEMPT = 50;
+	private final int FINAL_MAX_RANDOM_ATTEMPT = 50;
 
 
 	public Pinky(Area area, DiscreteCoordinates coordinates) {
@@ -28,6 +29,7 @@ public class Pinky extends IntelligentGhost {
 		}else{
 			deplacement(getNextOrientation(playerMemory.getCurrentCells().get(0), getCurrentMainCellCoordinates(), MIN_AFRAID_DISTANCE, MAX_DISTANCE_WHEN_NOT_SCARED), SPEED, SPEED_AFRAID);
 		}
+		//System.out.println(getCurrentMainCellCoordinates());
 	}
 
 
@@ -48,16 +50,19 @@ public class Pinky extends IntelligentGhost {
 			}
 		}
 		*/
-		orientate(next);    //orientate the ghost
 		deplacement(afraidSpeed, speed);
+		orientate(next);    //orientate the ghost
 
 		int dist = MIN_AFRAID_DISTANCE; //so it doesnt get messed up
 		if(playerMemory != null) {
 			dist = (int) distanceBetween(playerMemory.getCurrentCells().get(0), this.getCurrentMainCellCoordinates());
 		}
-		if(dist <= MIN_AFRAID_DISTANCE && MAX_RANDOM_ATTEMPT <= 0){
+		if(dist <= MIN_AFRAID_DISTANCE && MAX_RANDOM_ATTEMPT >= 0){
 			reevaluate = true;
 			MAX_RANDOM_ATTEMPT -= 1;
+		}
+		if (!seePlayer){
+			MAX_RANDOM_ATTEMPT = FINAL_MAX_RANDOM_ATTEMPT;
 		}
 	}
 
