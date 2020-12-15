@@ -1,7 +1,7 @@
 # Description du jeu SuperPacman
 Lorsque le joueur lance le jeux, son player (SuperPacmanPlayer) démarre dans un premier niveau très basique qui est sans danger. Dans celui-ci il peut découvrir les éléments du jeux. En revanche, les prochains niveaux contiennent des créatures hostiles qui peuvent lui retirer une vie en cas de contact. 
-D'ailleurs, le joueur peut voir les vies qu il reste à son personnage en regardant en haut à gauche de son écran. Le player commence avec 5 vies jaunes(un pacman jaune) qui deviennent grises une par une lorsqu'une vie est perdue. Le joueur a perdu quand les 5 sont grises(une fin de jeux n a pas été implémenté, donc on compte sur l'honeteté du joueur ;) )
-Le personnage peut se balader et peut interagir avec son entourage. D'ailleurs, les niveaux n'occupent pas tout l'écran, car nous préférons suivre le joueur. (ceci permet de créer des niveaux très grand. (Evidemment ceci peut etre changé)
+D'ailleurs, le joueur peut voir les vies qu il reste à son personnage en regardant en haut à gauche de son  et il peut voir sont score en à droite de ses vies. Le player commence avec 5 vies jaunes(un pacman jaune) qui deviennent grises une par une lorsqu'une vie est perdue. Le joueur a perdu quand les 5 sont grises(une fin de jeux n a pas été implémenté, donc on compte sur l'honeteté du joueur ;) )
+Le personnage peut se balader et peut interagir avec son entourage. D'ailleurs, les niveaux n'occupent pas tout l'écran, car nous préférons suivre le joueur. Ceci permet de créer des niveaux très grand sans avoir à rendre les cellules très petites. (Evidemment ceci peut etre changé)
 Les éléments principaux de ces niveaux sont les suivant:
 ### les Cherry: 
 les cerises donnent 200 points et disparaissent lors des interactions avec le joueur. De plus, nous avons fait en sorte que lorsqu'un Cherry est pris, le    joueur va plus vite pendant 5secondes
@@ -44,6 +44,13 @@ Pour gagner des points il existe 3 moyens:
   *manger un Cherry (200 points)
   *manger un Diamond (10 points)
   *manger un Bonus puis un Ghost(500 points)
+
+## Niveau0
+Ce premier niveau est très basique et sert à faire découvrir les acteurs qui ne sont pas hostile au joueur. Ainsi, il contient un bonus, des diamants, un cherry, une clé et plusieurs gates. Lorsque vous prendrez la clé, vous remqarquerez qu'un des gate disparaitra. Il s'agit là de la méthode basique pour ouvrir des gates. Sinon, un des gates ne pourra que s'ouvrir sous condition d'avoir collecté tous les diamants, sauf que pour cela il faudra passer un Gate grace à un troisième moyen. Il faudra passer sur le Lever et instantanément, le Gate disparaitra et un autre Gate apparaitra derrière vous. Finalement, ce niveau possède un dernier type de Gate qui s'ouvre et se referme tout seul grace à un timer.
+## Niveau1
+Attention, ce niveau est plein de créatures hostiles!
+## Niveau2
+Ce dernier niveau implémente tous les Gates que vous avez découvert dans le premier niveau. Attention à ne pas vous faire piéger par des Gates qui apparaissent et disparaissent!
 
 ## Comment démarrer le jeu
 Pour démarrer le jeu, le joueur doit tout simplement lancer le programme. Le pacman apparaitra alors sur le premier niveau.
