@@ -20,7 +20,8 @@
 2. Added classes and interfaces
 
 2a. ch.epfl.cs107.play.game.superpacman.actor;
-This package contains many different classes, some that we were asked to create and others that we created for the bonus
+This package contains many different classes for the various Actors that we have created, some that we were asked to create 
+and others that we created for the bonus.
 The classes that we had to program are the following:
 
 - (class) Bonus
@@ -114,6 +115,7 @@ Bonus classes:[extension]
       before the signal can change again
       
 2b. ch.epfl.cs107.play.game.superpacman.area;
+These are all the classes that are involved in the creation of the areas. Create and register the actors
 - (class) Level0, Level1, Level2
     * each Level has its own constant DiscreteCoordinates PLAYER_SPAWN_POSITION
       getPlayerSpawnPosition returns this value
@@ -152,6 +154,7 @@ Bonus classes:[extension]
       if it doesn't exist, it will return null
 
 2c. ch.epfl.cs107.play.game.superpacman.handler;
+This package contains the interface that handles the interactions
 - (interface) SuperPacmaninteractionVisitor 
     * extends RPGInteractionVisitor and containes empty 
       default (methods) interactWith for each Actor that can interact with the player
@@ -162,7 +165,7 @@ Bonus classes:[extension]
     * (String Array) areas contains the names of the three levels
     * (Discretecoordinates Array) startingPositions contains the coordinates for the spawn
       position in each area
-    * (method) getTitle returns the name of the game, "Supre Pac-Man"
+    * (method) getTitle returns the name of the game, "Super Pac-Man"
     * (method) createAreas calls addArea with an instance of each Level
     * (method) end has not been implemented yet
     * (method) begin creates the Areas, creates the player, initializes it and sets the current 
@@ -184,7 +187,6 @@ Bonus classes:[extension]
       fluid image containing the lives and score of the player 
 
 3. Deviations from the project description
-
 - Added some Gates that function with (class) Oscillateur and Lever
 - Changed the constructor of (class) Gate to be able to have Gates that are drawn when 
   their associated signal is true
