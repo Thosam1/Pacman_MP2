@@ -37,6 +37,7 @@ public class SuperPacmanBehavior extends AreaBehavior {
         	}
 	}
 
+	/**méthode qui enregistre tous les acteurs de type Wall, Bonus, Cherry, Diamond, Blinky, Inky et Pinky*/
 	protected void registerActors(Area area) {	//Si les types des cells sont des "WALL", alors enregistrer ces "CELL" en tant qu'ACTOR
 		 for (int x=0; x<getWidth(); x++) {
 	        	for (int y=0; y<getHeight(); y++) {
@@ -98,16 +99,18 @@ public class SuperPacmanBehavior extends AreaBehavior {
 
 	}
 
+	/**méthode qui rend le type d'une cellule définie par ses coordonnées*/
 	private SuperPacmanCellType getCellType(int x, int y) {
 		return ((SuperPacmanCell)getCell(x,y)).type;
 	}
 	
+	/**méthode qui return un tableau 2D (3X3) boolean pour permettre la création des Wall*/
 	public boolean[][] getNeighbours(int x, int y) {	//x, y coordinates of main cell / center
 		boolean[] [] neighbourhood = new boolean[3] [3];
 		    for(int i = -1; i <= 1; ++i) {
-		    	for(int j = -1; j <= 1; ++j) {											// +1 |   | 			//      |   | 1,1	//addedByMe, an explanation maybe ?
-		    		if ((x+i<getWidth())&&(x+i>-1)&&(y+j<getHeight())&&(y+j>-1)) {		//  0 |   | 			//      |   | 
-		    			if (getCellType(x+i,y+j)==SuperPacmanCellType.WALL) {			// -1 | 0 | +1			//  0,0 |   |
+		    	for(int j = -1; j <= 1; ++j) {											
+		    		if ((x+i<getWidth())&&(x+i>-1)&&(y+j<getHeight())&&(y+j>-1)) {		
+		    			if (getCellType(x+i,y+j)==SuperPacmanCellType.WALL) {	
 		    				neighbourhood[i+1][1-j] = true;
 		    			}
 		    		}
@@ -116,6 +119,8 @@ public class SuperPacmanBehavior extends AreaBehavior {
 		    return neighbourhood;
 	}
 	
+	/**Enumération et méthode qui permettent de trouver le SuperPacmanCellType d'une cellule
+	 * Très important pour savoir ou il faut créer les Acteurs*/
 		public enum SuperPacmanCellType {			// contains all possible colors and method to get the type of a cell
 			NONE(0), // never used as real content
 			WALL ( -16777216), //black
@@ -159,15 +164,19 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	    	}
 	    }
 
-	
-
-	public class SuperPacmanCell extends Cell{	//classe imbriquée
+	/**classe imbriquée qui caractérise les cellules de SuperPacmanCell*/
+	public class SuperPacmanCell extends Cell{
 		private SuperPacmanCellType type;
-		public SuperPacmanCell(int x, int y,SuperPacmanCellType type ) {	//constructeur
+		
+		public SuperPacmanCell(int x, int y,SuperPacmanCellType type ) {
 			super(x, y);
 			this.type=type;
 		}
 	
+		/**Des méthodes générales qui donnent les caractéristiques des cellules de SuperPacmanCell
+		 * Aucunes interaction sont possible
+		 * canEnter dépend de la méthode hasNonTraversableContent
+		 * et les Interactable peuvent quitter les cellules*/
 		@Override
 		protected boolean canEnter(Interactable entity) {
 			return !hasNonTraversableContent();

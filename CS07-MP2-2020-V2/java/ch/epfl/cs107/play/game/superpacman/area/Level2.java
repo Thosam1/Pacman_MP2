@@ -7,17 +7,27 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.signal.logic.And;
 
 public class Level2 extends SuperPacmanArea{
-	public boolean noMoreDiamonds = false;
+	/**spawn position in this level*/
 	public final static DiscreteCoordinates PLAYER_SPAWN_POSITION = new DiscreteCoordinates(15,29);
+	
 	@Override
 	public String getTitle() {
 		return "superpacman/Level2";
 	}
 	
+	/**@return PLAYER_SPAWN_POSITION: position where the players spawn in this Level*/
 	public DiscreteCoordinates getPlayerSpawnPosition() {
 		return PLAYER_SPAWN_POSITION;
 	}
 	
+	/**creates the Area, creating and adding the Actors which are not added by the class SuperPacmanBehavior
+	 * These actors are:
+	 * *keys (Key)
+	 * *levers (Lever)
+	 * *gates (Gates)
+	 * *oscillators (Oscillateur)
+	 * the method registerActor adds Actors to the Area
+	 * */
 	public void createArea(SuperPacmanBehavior behavior) {
         super.createArea(behavior);
         
@@ -44,25 +54,5 @@ public class Level2 extends SuperPacmanArea{
         registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(17,8), new And(key3, key4),true));
         registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(14,3), this,true));
         registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(15,3), this,true));
-	}
-	
-	@Override
-	public boolean isOn() {
-		if(numberOfDiamonds>0) {
-			return false;
-			}
-		else return true;
-	}
-
-	@Override
-	public boolean isOff() {
-		// we are not using this for now
-		return false;
-	}
-
-	@Override
-	public float getIntensity() {
-		//we are not using this for now
-		return 0;
 	}
 }
