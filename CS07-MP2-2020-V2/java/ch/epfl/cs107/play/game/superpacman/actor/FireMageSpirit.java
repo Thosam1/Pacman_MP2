@@ -3,12 +3,11 @@ package ch.epfl.cs107.play.game.superpacman.actor;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
-public class StoneMageSpirit extends MageSpirit {
-
-    private int RANGE = 5;
-    public StoneMageSpirit(Area area, DiscreteCoordinates coordinates, int intervalTime) {
+public class FireMageSpirit extends MageSpirit {
+    private int RANGE = 7;  //well, why not
+    public FireMageSpirit(Area area, DiscreteCoordinates coordinates, int intervalTime) {
         super(area, coordinates, intervalTime);
-        attributeMainSpriteByMe("superpacman/StoneMageSpirit");
+        attributeMainSpriteByMe("superpacman/FireMageSpirit");
     }
     /*
     public void update(float deltaTime){
@@ -18,12 +17,7 @@ public class StoneMageSpirit extends MageSpirit {
     @Override
     protected void doSomething(){
         DiscreteCoordinates invocationPoint = randomCoordinates(listofAllCellsAround(getCurrentMainCellCoordinates(), 5));
-
-
-        Rock rock = new Rock(getOwnerArea(), invocationPoint, 10);
-        getOwnerArea().registerActor(rock);
+        Fire fire = new Fire(getOwnerArea(), invocationPoint, 5);
+        getOwnerArea().registerActor(fire);
     }
-
-
-
 }

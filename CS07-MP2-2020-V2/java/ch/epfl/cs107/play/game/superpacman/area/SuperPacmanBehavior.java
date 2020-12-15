@@ -59,15 +59,21 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	        			Blinky blinky;
 	        			EarthSinged earthSinged;
 	        			PoisonSinged poisonSinged;
+	        			StoneMageSpirit stoneMageSpirit;
+	        			FireMageSpirit fireMageSpirit;
 	        			if(x < getWidth() / 2){	//first half - left
 							blinky = new Blinky(area, new DiscreteCoordinates(x,y), true);
 							earthSinged = new EarthSinged(area, new DiscreteCoordinates(12, 15));
 							poisonSinged = new PoisonSinged(area, new DiscreteCoordinates(19, 9));
+							stoneMageSpirit = new StoneMageSpirit(area, new DiscreteCoordinates(12, 14), 2);
+							fireMageSpirit = new FireMageSpirit(area, new DiscreteCoordinates(12, 14), 3);
 
 						}else{
 							blinky = new Blinky(area, new DiscreteCoordinates(x,y), false);
 							earthSinged = new EarthSinged(area, new DiscreteCoordinates(17, 15)); //11 if central symmetry
 							poisonSinged = new PoisonSinged(area, new DiscreteCoordinates(10, 9));
+							stoneMageSpirit = new StoneMageSpirit(area, new DiscreteCoordinates(17, 14), 2);
+							fireMageSpirit = new FireMageSpirit(area, new DiscreteCoordinates(17, 14), 3);
 						}
 
 	        			area.registerActor(blinky);
@@ -75,11 +81,13 @@ public class SuperPacmanBehavior extends AreaBehavior {
 
 	        			area.registerActor(earthSinged);
 	        			area.registerActor(poisonSinged);
+	        			area.registerActor(stoneMageSpirit);
+						area.registerActor(fireMageSpirit);
 	        		}
 
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_INKY) {
-	        			Inky inky = new Inky(area, new DiscreteCoordinates(x,y));	 
-	        			area.registerActor(inky);	
+	        			Inky inky = new Inky(area, new DiscreteCoordinates(x,y));
+	        			area.registerActor(inky);
 	        			currentSmartGhosts.add(inky);
 
 	        		}

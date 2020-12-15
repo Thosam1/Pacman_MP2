@@ -14,13 +14,12 @@ public interface SuperPacmanInteractionVisitor  extends RPGInteractionVisitor{
 	default void interactWith(Lever lever) {}
 	default void interactWith(Ghost ghost) {}
 	default void interactWith(IntelligentGhost smartGhost) {}
-	default void interactWith(Blinky blinkyGhost) {}
 	default void interactWith(SuperPacmanPlayer player) {}
 
 	default void interactWith(Spirit spirit){}
 	default void interactWith(Magic magic){}
-	default void interactWith(MudRock MudRock){}
+	default void interactWith(MudRock mudRock){}
 	//default void interactWith(IceWind iceWind){}
-	//default void interactWith(PoisonSmoke poisonSmoke){}
-	//default void interactWith(Spirit spirit){}
+	default void interactWith(PoisonSmoke poisonSmoke){}
+
 }

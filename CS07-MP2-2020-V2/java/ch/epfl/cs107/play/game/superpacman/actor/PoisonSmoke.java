@@ -14,11 +14,11 @@ public class PoisonSmoke extends Magic{
     //private int speedAfterDebuff;
 
     private boolean scoreDebuffed = false;
-    private final float scoreDebuff = 20.f;
+    private final float scoreDebuff = 30.f;
 
     public PoisonSmoke(Area area, DiscreteCoordinates coordinates, float lifeTimeSpan) {
         super(area, coordinates, lifeTimeSpan);
-        attributeMainSpriteByMe("superpacman/PoisonSmoke");
+        attributeMainSpriteByMe("superpacman/PoisonSmoke", 6);
         handler = new SuperPacmanPoisonSmokeHandler();
     }
 

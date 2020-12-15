@@ -134,7 +134,7 @@ public class Ghost extends MovableAreaEntity {
 	protected void attributeMainSprite(String nameSprite){
 		nameOfMainSprite = nameSprite;
 		mainSprites = RPGSprite.extractSprites(nameOfMainSprite, 2, 1, 1, this, 16, 16,	//4 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
-				new Orientation[] {Orientation.DOWN, Orientation.LEFT, Orientation.UP, Orientation.RIGHT}); //order Orientation[] orders of frame in the image
+				new Orientation[] {Orientation.UP, Orientation.RIGHT, Orientation.DOWN, Orientation.LEFT}); //order Orientation[] orders of frame in the image
 		//array of 4 Sprite[] 1 per orientation
 		mainAnimations = Animation.createAnimations(ANIMATION_DURATION / 4, mainSprites);	//crée un tableau de 4 animations
 	}
@@ -162,12 +162,10 @@ public class Ghost extends MovableAreaEntity {
 		}
 		
 		protected void deplacement(int afraidSpeed, int normalSpeed) {
-			if(AFRAID == true){
-				if(!isDisplacementOccurs()){
+			if(!isDisplacementOccurs()){
+				if(AFRAID){
 					this.move(afraidSpeed);
-				}
-			}else {
-				if(!isDisplacementOccurs()){
+				}else{
 					this.move(normalSpeed);
 				}
 			}

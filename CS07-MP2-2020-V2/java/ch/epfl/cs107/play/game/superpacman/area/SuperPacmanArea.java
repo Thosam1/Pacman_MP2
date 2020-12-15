@@ -44,13 +44,8 @@ abstract public class SuperPacmanArea extends Area implements Logic{
 	}
 	
 	/**call the method in behavior to frighten the ghosts*/
-	public void scareInBehavior (boolean choose) { 
-		if(choose == true) {
-			behavior.scareAllGhosts(true);
-		}else {
-			behavior.scareAllGhosts(false);
-		}
-				
+	public void scareInBehavior (boolean choose) {
+		behavior.scareAllGhosts(choose);
 	}
 	public AreaGraph getGraph(){
 		return behavior.getGraph();

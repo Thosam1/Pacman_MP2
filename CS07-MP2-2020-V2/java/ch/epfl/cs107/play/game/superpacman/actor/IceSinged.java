@@ -13,12 +13,12 @@ public class IceSinged  extends Singed{
     }
 
     public void update(float deltaTime){
-        if(isDisplacementOccurs()){ //if it is moving
-            if(previousMainCell != getCurrentMainCellCoordinates()){    //that means it has moved
-                IceWind ice_wind = new IceWind(area, previousMainCell, 3);
-            }
-        }
-        previousMainCell = getCurrentMainCellCoordinates();
         super.update(deltaTime);
+    }
+
+    @Override
+    protected void doSomething() {
+        IceWind ice_wind = new IceWind(area, previousMainCell, 3);
+        getOwnerArea().registerActor(ice_wind);
     }
 }

@@ -27,7 +27,7 @@ public class Spirit extends MovableAreaEntity implements Interactor {
     private Sprite[] Sprite;
     protected Animation spriteAnimations;
 
-    private String nameOfMainSprite = "superpacman/ghost.blinky";
+    private String nameOfMainSprite;
 
     public Spirit(Area area, DiscreteCoordinates coordinates){
         super(area, Orientation.UP, coordinates);

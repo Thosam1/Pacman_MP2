@@ -9,10 +9,10 @@ import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.Collections;
 
-public class Singed extends Spirit {
+public abstract class Singed extends Spirit {
 
     /**
-     * Singed class will follow straight lines, and will leave behind different type of smokes based on the singed class that will interact with the player
+     * Singed class will follow straight lines, and will leave behind different types of objects (based on the singed class) that will interact with the player
      */
 
     protected DiscreteCoordinates previousMainCell;
@@ -20,13 +20,14 @@ public class Singed extends Spirit {
     public Singed(Area area, DiscreteCoordinates coordinates) {
         super(area, coordinates);
     }
+
     public void update(float deltaTime){
         spriteAnimations.update(deltaTime);
         deplacement(getNextOrientation(), SPEED);
 
         if(isDisplacementOccurs()){ //if it is moving
-            if(previousMainCell != getCurrentMainCellCoordinates() && previousMainCell != null){    //that means it has moved
-                doSomething();
+            if(previousMainCell != getCurrentMainCellCoordinates() && previousMainCell != null){    //that means it has moved - has left previous cell
+                doSomething();  //leave something behind for example
             }
         }
         previousMainCell = getCurrentMainCellCoordinates();
@@ -48,8 +49,6 @@ public class Singed extends Spirit {
 		}
     }
 
-    protected void doSomething(){   //only thing that will differ between singedClass
-
-    }
+    protected abstract void doSomething();  //redefine it in every subclasses
 
 }

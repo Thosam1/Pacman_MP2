@@ -17,7 +17,7 @@ public class IceWind extends Magic{
 
     public IceWind(Area area, DiscreteCoordinates coordinates, float lifeTimeSpan) {
         super(area, coordinates, lifeTimeSpan);
-        attributeMainSpriteByMe("superpacman/IceSmoke");
+        attributeMainSpriteByMe("superpacman/IceSmoke", 6);
         handler = new SuperPacmanIceWindHandler();
     }
 
