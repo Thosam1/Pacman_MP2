@@ -3,6 +3,8 @@ package ch.epfl.cs107.play.game.superpacman.area;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.superpacman.actor.Gate;
 import ch.epfl.cs107.play.game.superpacman.actor.Key;
+import ch.epfl.cs107.play.game.superpacman.actor.Lever;
+import ch.epfl.cs107.play.game.superpacman.actor.Oscillateur;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.signal.logic.And;
 
@@ -54,5 +56,33 @@ public class Level2 extends SuperPacmanArea{
         registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(17,8), new And(key3, key4),true));
         registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(14,3), this,true));
         registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(15,3), this,true));
+        
+        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(15,20), new Oscillateur(72, true,0),true));
+        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(14,20), new Oscillateur(72, true,0),false));
+        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(15,18), new Oscillateur(72, true,0),false));
+        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(14,18), new Oscillateur(72, true,0),true));
+        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(15,16), new Oscillateur(72, true,0),true));
+        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(14,16), new Oscillateur(72, true,0),false));
+        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(15,14), new Oscillateur(72, true,0),false));
+        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(14,14), new Oscillateur(72, true,0),true));
+        
+        Lever lever1 = new Lever(this, new DiscreteCoordinates(23,25),false);
+        registerActor(lever1);
+        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(26,23), lever1,true));
+        registerActor(new Gate(this, Orientation.UP, new DiscreteCoordinates(23,20), lever1,false));
+        registerActor(new Gate(this, Orientation.UP, new DiscreteCoordinates(19,27), lever1,false));
+        
+        Lever lever2 = new Lever(this, new DiscreteCoordinates(6,25),false);
+        registerActor(lever2);
+        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(3,23), lever2,true));
+        registerActor(new Gate(this, Orientation.UP, new DiscreteCoordinates(6,20), lever2,false));
+        registerActor(new Gate(this, Orientation.UP, new DiscreteCoordinates(10,27), lever2,false));
+	
+        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(9,20), new Oscillateur(72, true,0),true));
+        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(9,18), new Oscillateur(72, true,5),true));
+        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(9,16), new Oscillateur(72, true,10),true));
+        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(20,20), new Oscillateur(72, true,10),true));
+        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(20,18), new Oscillateur(72, true,5),true));
+        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(20,16), new Oscillateur(72, true,0),true));
 	}
 }

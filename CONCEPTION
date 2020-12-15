@@ -22,6 +22,7 @@
 2a. ch.epfl.cs107.play.game.superpacman.actor;
 This package contains many different classes for the various Actors that we have created, some that we were asked to create 
 and others that we created for the bonus.
+In addition, it contains (class) SuperPacmanPlayerStatusGUI, because it has a protected constructor and we need (class) SuperPacmanPlayer to have access to it
 The classes that we had to program are the following:
 
 - (class) Bonus
@@ -91,7 +92,21 @@ The classes that we had to program are the following:
       useful for interactions with Cherry
     *(class) SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor and defines the (method) interactWith
       for each Actor registered in the Levels   
-    
+ 
+- (class) SuperPacmanPlayerStatusGUI
+    * implements (interface) Graphics
+    * three private attributes: (constant) DEPTH  which has a high value to have the priority
+      when the Imagegraphics is drawn
+      anchor which is a vector that tells where the ImageGraphics and TextGraphics need to be drawn
+      the constructor takes a player as parameter and takes it as an attribute to have access
+      to his hp and score methods
+    * (method) getLife draws 5 lives (yellow or gray ones) at every frame
+    * the number of yellow lives is equal to the hp that the player has left
+      which we have thanks to player's (method) getHP
+    * (method) getScore draws player's score at every frame
+      thanks to SuperPacmanPlayer's (method) getScore
+    * (method) draw is called every frame and calls getLife and getScore to create a 
+      fluid image containing the lives and score of the player 
 Bonus classes:[extension]
 
 - (class) Oscillateur
@@ -160,7 +175,8 @@ This package contains the interface that handles the interactions
       default (methods) interactWith for each Actor that can interact with the player
     * These methods are specifically defined in (class) SuperPacmanPlayerHandler
 
-2d. ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI;
+2d. ch.epfl.cs107.play.game.superpacman.SuperPacman;
+sets up our game SuperPacman
 - (class) SuperPacman
     * (String Array) areas contains the names of the three levels
     * (Discretecoordinates Array) startingPositions contains the coordinates for the spawn
@@ -170,21 +186,6 @@ This package contains the interface that handles the interactions
     * (method) end has not been implemented yet
     * (method) begin creates the Areas, creates the player, initializes it and sets the current 
       area as the one designated by (attribute) areaIndex
-    
-- (class) SuperPacmanPlayerStatusGUI
-    * implements (interface) Graphics
-    * three private attributes: (constant) DEPTH  which has a high value to have the priority
-      when the Imagegraphics is drawn
-      anchor which is a vector that tells where the ImageGraphics and TextGraphics need to be drawn
-      the constructor takes a player as parameter and takes it as an attribute to have access
-      to his hp and score methods
-    * (method) getLife draws 5 lives (yellow or gray ones) at every frame
-    * the number of yellow lives is equal to the hp that the player has left
-      which we have thanks to player's (method) getHP
-    * (method) getScore draws player's score at every frame
-      thanks to SuperPacmanPlayer's (method) getScore
-    * (method) draw is called every frame and calls getLife and getScore to create a 
-      fluid image containing the lives and score of the player 
 
 3. Deviations from the project description
 - Added some Gates that function with (class) Oscillateur and Lever

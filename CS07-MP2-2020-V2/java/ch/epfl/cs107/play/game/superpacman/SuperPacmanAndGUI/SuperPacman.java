@@ -37,7 +37,7 @@ public class SuperPacman extends RPG{
 	}
 	public void end() {}
 	
-	/**begin creates the Areas, creates the player, initializes it and sets the current
+	/**begin creates the Areas, creates the player, initializes it and sets the current 
       area as the one designated by (attribute) areaIndex*/
 	public boolean begin(Window window, FileSystem fileSystem) {
 		if (super.begin(window, fileSystem)) {

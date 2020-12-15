@@ -11,7 +11,6 @@ import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.rpg.actor.Door;
 import ch.epfl.cs107.play.game.rpg.actor.Player;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
-import ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI.SuperPacmanPlayerStatusGUI;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -99,7 +98,7 @@ public class SuperPacmanPlayer extends Player{
 	    orientatePlayer(Orientation.RIGHT,keyboard.get(Keyboard.RIGHT));
 	    orientatePlayer(Orientation.DOWN,keyboard.get(Keyboard.DOWN));
 
-		System.out.println(speed);
+		//System.out.println(speed);
 	    
 	    
 	    if (!(isDisplacementOccurs())) {	//control if the player is moving at the time

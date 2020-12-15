@@ -1,14 +1,14 @@
 # Description du jeu SuperPacman
 Lorsque le joueur lance le jeux, son player (SuperPacmanPlayer) démarre dans un premier niveau très basique qui est sans danger. Dans celui-ci il peut découvrir les éléments du jeux. En revanche, les prochains niveaux contiennent des créatures hostiles qui peuvent lui retirer une vie en cas de contact. 
-D'ailleurs, le joueur peut voir les vies qu il reste à son personnage en regardant en haut à gauche de son écran. Le player commence avec 5 vies jaunes(un pacman jaune) qui deviennent grises une par une lorsqu'une vie est perdue. Le joueur a perdu quand les 5 sont grises(une fin de jeux n a pas été implémenté, donc on compte sur l'honeteté du joueur ;) )
-Le personnage peut se balader et peut interagir avec son entourage. D'ailleurs, les niveaux n'occupent pas tout l'écran, car nous préférons suivre le joueur. (ceci permet de créer des niveaux très grand. (Evidemment ceci peut etre changé)
+D'ailleurs, le joueur peut voir les vies qu il reste à son personnage en regardant en haut à gauche de son  et il peut voir sont score en à droite de ses vies. Le player commence avec 5 vies jaunes(un pacman jaune) qui deviennent grises une par une lorsqu'une vie est perdue. Le joueur a perdu quand les 5 sont grises(une fin de jeux n a pas été implémenté, donc on compte sur l'honeteté du joueur ;) )
+Le personnage peut se balader et peut interagir avec son entourage. D'ailleurs, les niveaux n'occupent pas tout l'écran, car nous préférons suivre le joueur. Ceci permet de créer des niveaux très grand sans avoir à rendre les cellules très petites. (Evidemment ceci peut etre changé)
 Les éléments principaux de ces niveaux sont les suivant:
 ### les Cherry: 
 les cerises donnent 200 points et disparaissent lors des interactions avec le joueur. De plus, nous avons fait en sorte que lorsqu'un Cherry est pris, le    joueur va plus vite pendant 5secondes
 ### Les Bonus: 
 Lorsque le pacman mange ces espèces de pièces qui tournent sur place, alors il gagne la capacité de manger ses adversaires qui ont instantanément peur de lui
 ### Les Keys: 
-Les clés permettent d'ouvrir des Gates. Dans certains cas, il en faut meme deux pour pouvoir ouvrir un Gate
+Les clés permettent d'ouvrir des Gates. Dans certains cas, il en faut meme deux pour pouvoir ouvrir une Gate
 ### Les Diamonds: 
 Chacuns de ces petits points bleu donne 10 points au joueur. (ils sont très abondant) Non seulement, tous les manger peut donner beaucoup de points, mais dans certains niveaux il est indispensable de tous les avoir manger si l'on veut ouvrir des Gates
 ### Les lever: 
@@ -44,6 +44,13 @@ Pour gagner des points il existe 3 moyens:
   *manger un Cherry (200 points)
   *manger un Diamond (10 points)
   *manger un Bonus puis un Ghost(500 points)
+
+## Niveau0
+Ce premier niveau est très basique et sert à faire découvrir les acteurs qui ne sont pas hostile au joueur. Ainsi, il contient un bonus, des diamants, un cherry, une clé et plusieurs gates. Lorsque vous prendrez la clé, vous remarquerez qu'une des gate disparaitra. Il s'agit là de la méthode basique pour ouvrir des gates. Sinon, une des gates ne pourra que s'ouvrir sous condition d'avoir collecté tous les diamants, sauf que pour cela il faudra passer une Gate grace à un troisième moyen. Il faudra passer sur le Lever et instantanément, la Gate disparaitra et une autre Gate apparaitra derrière vous. Finalement, ce niveau possède un dernier type de Gate qui s'ouvre et se referme tout seul grace à un timer.
+## Niveau1
+Attention, ce niveau est plein de créatures hostiles! Vous remarquerez que deux Gates vous bloquent la sortie, mais qu'il n'y a pas de clés. Ainsi, il faudra collecter tous les diamants du niveau et ensuite elles s'ouvreront. N'oubliez pas de manger des cerises si vous voulez pouvoir vous échapper le plus rapidement possible.
+## Niveau2
+Ce dernier niveau implémente toutes les Gates que vous avez découvert dans le premier niveau(sauf cel. Attention à ne pas vous faire piéger par des Gates qui apparaissent et disparaissent! Pour réussir à passer ce niveau, il faudra collecter toutes les clés. Certaines ne seront pas atteignable à moins d'avoir ouvert les Gates qui les protègent. Et finalement, après avoir pris toutes les clés, les portes s'ouvriront.
 
 ## Comment démarrer le jeu
 Pour démarrer le jeu, le joueur doit tout simplement lancer le programme. Le pacman apparaitra alors sur le premier niveau.

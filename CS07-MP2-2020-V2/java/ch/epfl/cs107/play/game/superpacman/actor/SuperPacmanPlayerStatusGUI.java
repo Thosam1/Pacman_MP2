@@ -1,10 +1,9 @@
-package ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI;
+package ch.epfl.cs107.play.game.superpacman.actor;
 
 import java.awt.Color;
 import ch.epfl.cs107.play.game.actor.ImageGraphics;
 import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
-import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
@@ -18,8 +17,9 @@ public class SuperPacmanPlayerStatusGUI implements Graphics{
 	private Vector anchor;
 	private final float DEPTH = 10000; //valeur élevé permet d'avoir la priorité sur les autres Graphics
 
-	/**Le constructeur prend un SuperPacmanPlayer en paramètre et le stocke dans player*/
-	public SuperPacmanPlayerStatusGUI(SuperPacmanPlayer player){
+	/**Le constructeur prend un SuperPacmanPlayer en paramètre et le stocke dans player
+	 * protected pour que seul les acteurs et les sous classes puissent y accéder*/
+	protected SuperPacmanPlayerStatusGUI(SuperPacmanPlayer player){
 		this.player = player;
 	}
 	
@@ -52,6 +52,7 @@ public class SuperPacmanPlayerStatusGUI implements Graphics{
 				anchor.add(new Vector(-1f, 6f))).draw(canvas); 
 		//La première couleur désigne la couleur de l'intérieur des lettres tandis que la deuxième désigne celle de l'exterieur
 	}
+	
 	/**Cette méthode est appelée à chaque frame pour créer une image fluide des vies et du score du player*/
 	@Override
 	public void draw(Canvas canvas) {
