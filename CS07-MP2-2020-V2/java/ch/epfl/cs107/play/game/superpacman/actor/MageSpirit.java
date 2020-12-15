@@ -27,7 +27,6 @@ public class MageSpirit extends Spirit {
         this.intervalTimer = intervalTime;
     }
     public void update(float deltaTime){
-        spriteAnimations.update(deltaTime);
         deplacement(getNextOrientation(), SPEED);
 
         intervalTimer -= deltaTime;
@@ -37,12 +36,6 @@ public class MageSpirit extends Spirit {
         }
 
         super.update(deltaTime);
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
-        spriteAnimations.draw(canvas);
     }
 
     private void deplacement(Orientation next, int speed) {
@@ -62,7 +55,7 @@ public class MageSpirit extends Spirit {
      * @return a list of DiscreteCoordinates corresponding to the cells an IntelligentGhost can enter, within an area
      */
     @SuppressWarnings({"null", "unused"})    //???
-    protected List<DiscreteCoordinates> listofAllCellsAround(DiscreteCoordinates anchor, int maxRange) {
+    protected List<DiscreteCoordinates> listOfAllCellsAround(DiscreteCoordinates anchor, int maxRange) {
         List<DiscreteCoordinates> possibleCases = new ArrayList<>();
         DiscreteCoordinates chosenOne;
         int x = anchor.x;

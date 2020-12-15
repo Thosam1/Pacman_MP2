@@ -4,17 +4,10 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 public class EarthSinged extends Singed{
-    private final float intervalTime = 1.f; //every second
-    private float intervalTimer;
 
     public EarthSinged (Area area, DiscreteCoordinates coordinates) {
         super(area, coordinates);
         attributeMainSpriteByMe("superpacman/EarthSinged");
-    }
-
-    @Override
-    public void update(float deltaTime) {
-        super.update(deltaTime);
     }
 
     @Override

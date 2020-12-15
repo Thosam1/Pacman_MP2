@@ -8,13 +8,9 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 public class PoisonSmoke extends Magic{
 
     private final SuperPacmanPoisonSmokeHandler handler;
-    private final int speedDebuff = 2;
-
-    //private boolean debuffedSpeed = false;
-    //private int speedAfterDebuff;
 
     private boolean scoreDebuffed = false;
-    private final float scoreDebuff = 30.f;
+    private final float scoreDebuff = 40.f;
 
     public PoisonSmoke(Area area, DiscreteCoordinates coordinates, float lifeTimeSpan) {
         super(area, coordinates, lifeTimeSpan);

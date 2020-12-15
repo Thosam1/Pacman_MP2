@@ -291,7 +291,9 @@ public class SuperPacmanPlayer extends Player{
 		superArea.allGhostToRefugeBehavior();	//works fine
 		decreaseHp(1);
 		setSpeed(getBASE_SPEED());
+		area.leaveAreaCells(this, getEnteredCells());
 		setCurrentPosition(PLAYER_SPAWN_POSITION.toVector());
+		area.enterAreaCells(this, getCurrentCells());
 		resetMotion();
 	}
 

@@ -17,7 +17,7 @@ public class StoneMageSpirit extends MageSpirit {
 
     @Override
     protected void doSomething(){
-        DiscreteCoordinates invocationPoint = randomCoordinates(listofAllCellsAround(getCurrentMainCellCoordinates(), 5));
+        DiscreteCoordinates invocationPoint = randomCoordinates(listOfAllCellsAround(getCurrentMainCellCoordinates(), 5));
 
 
         Rock rock = new Rock(getOwnerArea(), invocationPoint, 10);
