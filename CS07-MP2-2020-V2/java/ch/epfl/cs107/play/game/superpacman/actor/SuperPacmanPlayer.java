@@ -309,18 +309,6 @@ public class SuperPacmanPlayer extends Player{
 		public void interactWith(Ghost ghost){
 		ghostEncounter(ghost);
 		}
-		public void interactWith(IntelligentGhost smartGhost) {
-			if(IMMORTAL == true){
-				smartGhost.backToRefuge();
-			}
-
-		}
-		public void interactWith(Blinky blinkyGhost) {
-			if(IMMORTAL == true){
-				blinkyGhost.backToRefuge();
-			}
-
-		}
 
 		private void ghostEncounter (Ghost ghost) {
 			if(IMMORTAL == true) {

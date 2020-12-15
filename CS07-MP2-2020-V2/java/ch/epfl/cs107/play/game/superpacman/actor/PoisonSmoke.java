@@ -10,6 +10,11 @@ public class PoisonSmoke extends Magic{
     private final SuperPacmanPoisonSmokeHandler handler;
     private final int speedDebuff = 2;
 
+    private boolean debuffedSpeed = false;
+    private int speedAfterDebuff;
+
+    private boolean scoreDebuff = false;
+
     public PoisonSmoke(Area area, DiscreteCoordinates coordinates, float lifeTimeSpan) {
         super(area, coordinates, lifeTimeSpan);
         attributeMainSpriteByMe("superpacman/PoisonSmoke");
@@ -24,8 +29,15 @@ public class PoisonSmoke extends Magic{
     private class SuperPacmanPoisonSmokeHandler implements SuperPacmanInteractionVisitor {
         @Override
         public void interactWith(SuperPacmanPlayer player) {
-            player.speed -= speedDebuff;
-            player.score -= 0.1;
+            if(!debuffedSpeed){
+                speedAfterDebuff = player.getSpeed() - speedDebuff;
+                if(speedAfterDebuff <= 2){
+                    player.setSpeed(2);
+                }else{
+                    player.setSpeed(speedDebuff);
+                }
+                debuffedSpeed = true;
+            }
         }
     }
 }

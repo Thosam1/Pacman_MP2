@@ -164,7 +164,7 @@ public class IntelligentGhost extends Ghost implements Interactor {
         SuperPacmanArea area = (SuperPacmanArea)getOwnerArea();
         path = area.shortestPath(getCurrentMainCellCoordinates(), targetPos); //we ask to the area, the area asks to the behavior/graph //dessiner un trait
 
-        //resetMotion();    EN AJOUTANT LE RESET MOTION; LES FANTOMES ATTEIGNENT LE JOUEUR MAIS ENORME BUG LORSQUE LE JOUEUR DEVIENT INVINCIBLE
+        //resetMotion();    //EN AJOUTANT LE RESET MOTION; LES FANTOMES ATTEIGNENT LE JOUEUR MAIS ENORME BUG LORSQUE LE JOUEUR DEVIENT INVINCIBLE
         if(path == null){
             graphicPath = new Path(this.getPosition(), new LinkedList<Orientation>());  //dessin
             return getOrientation(); //possible!!!! -> take stay in the same orientation

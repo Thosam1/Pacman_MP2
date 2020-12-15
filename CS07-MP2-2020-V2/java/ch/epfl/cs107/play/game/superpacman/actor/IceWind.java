@@ -12,6 +12,8 @@ public class IceWind extends Magic{
 
     private final SuperPacmanIceWindHandler handler;
     private final int speedDebuff = 4;
+    private boolean debuffed = false;
+    private int speedAfterDebuff;
 
     public IceWind(Area area, DiscreteCoordinates coordinates, float lifeTimeSpan) {
         super(area, coordinates, lifeTimeSpan);
@@ -27,7 +29,15 @@ public class IceWind extends Magic{
     class SuperPacmanIceWindHandler  implements SuperPacmanInteractionVisitor {
         @Override
         public void interactWith(SuperPacmanPlayer player) {
-            player.speed -= speedDebuff;
+            if(!debuffed){
+                speedAfterDebuff = player.getSpeed() - speedDebuff;
+                if(speedAfterDebuff <= 2){
+                    player.setSpeed(2);
+                }else{
+                    player.setSpeed(speedDebuff);
+                }
+                debuffed = true;
+            }
         }
     }
 }

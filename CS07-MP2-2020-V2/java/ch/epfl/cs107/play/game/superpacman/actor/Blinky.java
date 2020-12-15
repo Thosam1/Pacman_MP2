@@ -24,8 +24,8 @@ public class Blinky extends Ghost {
 		this.attributeMainSprite("superpacman/ghost.blinky");
 		this. left = left;
 		System.out.println(coordinates);
-		System.out.println("Width : " + area.getWidth());
-		System.out.println("Height : " + area.getHeight());
+		//System.out.println("Width : " + area.getWidth());
+		//System.out.println("Height : " + area.getHeight());
 	}
 
 	public void update(float deltaTime) { // ?necessary?
@@ -122,22 +122,15 @@ public class Blinky extends Ghost {
 
 	}*/
 
-	/**
-	 *  backToRefuge, also set the memory to null and send a reevaluate signal (for the targetPosition)
-	 */
-	@Override
-	public void backToRefuge() {
-		resetMotion();
+//	/**
+//	 *  backToRefuge, also set the memory to null and send a reevaluate signal (for the targetPosition)
+//	 */
+//	@Override
+//	public void backToRefuge() {
+//		resetMotion();
+//		area.leaveAreaCells(this, getEnteredCells());
+//		setCurrentPosition(this.refuge.toVector());
+//		area.enterAreaCells(this, getCurrentCells());
+//	}
 
-		starting = true;	//so basic mvts first
-
-		area.leaveAreaCells(this, getEnteredCells());
-		setCurrentPosition(this.refuge.toVector());
-		area.enterAreaCells(this, getCurrentCells());
-	}
-
-	
-	private class SuperPacmanBlinkyHandler extends SuperPacmanGhostHandler {
-		
-	}
 }

@@ -17,8 +17,8 @@ import ch.epfl.cs107.play.window.Window;
 
 public class SuperPacmanBehavior extends AreaBehavior {
 	
-	//private List<Ghost> currentGhosts = new ArrayList<>();
-	private List<Blinky> currentBlinkyGhosts = new ArrayList<>();
+	private List<Ghost> currentGhosts = new ArrayList<>();
+	//private List<Blinky> currentBlinkyGhosts = new ArrayList<>();
 	private List<IntelligentGhost> currentSmartGhosts = new ArrayList<>();
 	private final AreaGraph graph;
 	protected AreaGraph getGraph(){
@@ -66,8 +66,8 @@ public class SuperPacmanBehavior extends AreaBehavior {
 							//iceSinged = new IceSinged(area, new DiscreteCoordinates(17, 11));
 						}
 
-	        			area.registerActor(blinky);	
-	        			currentBlinkyGhosts.add(blinky);
+	        			area.registerActor(blinky);
+						currentGhosts.add(blinky);
 
 	        			//area.registerActor(iceSinged);
 	        		}
@@ -209,12 +209,12 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	 */
 	
 	protected void scareAllGhosts(boolean choose) {	//if true - scare all ghosts // if false - make ghost not scared
-		if(currentBlinkyGhosts != null){
-			for(int i = 0; i < currentBlinkyGhosts.size(); i++) {
+		if(currentGhosts != null){
+			for(int i = 0; i < currentGhosts.size(); i++) {
 				if(choose == true) {
-					currentBlinkyGhosts.get(i).setAfraid(true);
+					currentGhosts.get(i).setAfraid(true);
 				}else {
-					currentBlinkyGhosts.get(i).setAfraid(false);
+					currentGhosts.get(i).setAfraid(false);
 				}
 				//System.out.println(currentDumbGhosts + "All dumb Ghosts scared -");
 			}
@@ -234,10 +234,10 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	}
 
 	protected void allGhostToRefuge() {	//send ALL ghosts back to their refuge
-		if(currentBlinkyGhosts != null){
-			for (int i = 0; i < currentBlinkyGhosts.size(); i++) {
+		if(currentGhosts != null){	//wanted to take care of lv1 problem, but didnt work as expected :((
+			for (int i = 0; i < currentGhosts.size(); i++) {
 				//System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "refuge : " + currentGhosts.get(i).refuge);
-				currentBlinkyGhosts.get(i).backToRefuge();
+				currentGhosts.get(i).backToRefuge();
 				//System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "position : " + currentGhosts.get(i).getPosition());
 			}
 		}
