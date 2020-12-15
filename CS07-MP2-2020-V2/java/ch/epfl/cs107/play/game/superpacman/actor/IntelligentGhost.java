@@ -24,6 +24,15 @@ public class IntelligentGhost extends Ghost implements Interactor {
     protected SuperPacmanPlayer playerMemory;
     protected boolean seePlayer = false;
 
+    private boolean stateTransition = false;
+    public boolean getStateTransition(){
+        return stateTransition;
+    }
+
+    public void setStateTransition(boolean stateTransition) {
+        this.stateTransition = stateTransition;
+    }
+
     protected DiscreteCoordinates targetPos;
     protected Queue<Orientation> path;
     protected Path graphicPath;
@@ -147,8 +156,9 @@ public class IntelligentGhost extends Ghost implements Interactor {
      */
     protected Orientation getNextOrientation(DiscreteCoordinates from, DiscreteCoordinates fromNot,  int maxWhenScared, int maxWhenNotScared) {
 
-        if(targetPos != null && (this.getCurrentMainCellCoordinates() == targetPos || isDisplacementOccurs() == false)) {     //   || isDisplacementOccurs() == false    pour les gates ?  || outhis.getCurrentMainCellCoordinates() == targetPos || isDisplacementOccurs() == false ?
+        if(targetPos != null && (this.getCurrentMainCellCoordinates() == targetPos || getStateTransition())) {     //   || isDisplacementOccurs() == false    pour les gates ?  || outhis.getCurrentMainCellCoordinates() == targetPos || isDisplacementOccurs() == false ?
             setReevaluate(true);
+            setStateTransition(false);
         }
 
 

@@ -223,10 +223,10 @@ public class SuperPacmanBehavior extends AreaBehavior {
 			for(int i = 0; i < currentSmartGhosts.size(); i++) {
 				if(choose == true) {
 					currentSmartGhosts.get(i).setAfraid(true);
-					currentSmartGhosts.get(i).setReevaluate(true);	//let them reevaluate their path
+					currentSmartGhosts.get(i).setStateTransition(true);	//let them reevaluate their path
 				}else {
 					currentSmartGhosts.get(i).setAfraid(false);
-					currentSmartGhosts.get(i).setReevaluate(true);	//let them reevaluate their path
+					currentSmartGhosts.get(i).setStateTransition(true);	//let them reevaluate their path
 				}
 				//System.out.println(currentSmartGhosts + "All smart Ghosts scared -");
 			}
