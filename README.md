@@ -48,7 +48,7 @@ La touche:
 Le Pacman suit l'orientation commendée par ses touches et avance si il peut rentrer dans la case en face de lui.
 
 
-## Comment affronter les énemis (les Ghosts)
+## Comment affronter les ennemis (les Ghosts)
 Ceux-ci cherchent la position du pacman et essayent de le manger(lui foncer dedans). En cas de contact le joueur perd une vie et respawn.
 Néanmoins, le joueur a la possibilité de les manger sans perdre de vie lorsqu'il a mangé un bonus. (la durée de ce pouvoir est limitée) Une fois mangé, le joueur gagne beaucoup de points et les Ghosts respawn.
 
