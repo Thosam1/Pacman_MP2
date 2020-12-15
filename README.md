@@ -44,6 +44,7 @@ Pour gagner des points il existe 3 moyens:
   *manger un Cherry (200 points)
   *manger un Diamond (10 points)
   *manger un Bonus puis un Ghost(500 points)
+ Attention ! Certains esprits peuvent vous enlever des points par hasard.
 
 ## Niveau0
 Ce premier niveau est très basique et sert à faire découvrir les acteurs qui ne sont pas hostile au joueur. Ainsi, il contient un bonus, des diamants, un cherry, une clé et plusieurs gates. Lorsque vous prendrez la clé, vous remarquerez qu'une des gate disparaitra. Il s'agit là de la méthode basique pour ouvrir des gates. Sinon, une des gates ne pourra que s'ouvrir sous condition d'avoir collecté tous les diamants, sauf que pour cela il faudra passer une Gate grace à un troisième moyen. Il faudra passer sur le Lever et instantanément, la Gate disparaitra et une autre Gate apparaitra derrière vous. Finalement, ce niveau possède un dernier type de Gate qui s'ouvre et se referme tout seul grace à un timer.
