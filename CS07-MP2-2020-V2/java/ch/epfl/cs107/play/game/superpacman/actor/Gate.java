@@ -1,4 +1,4 @@
-package ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI;
+package ch.epfl.cs107.play.game.superpacman.actor;
 
 import java.util.Collections;
 import java.util.List;
@@ -16,7 +16,7 @@ import ch.epfl.cs107.play.math.RegionOfInterest;
 public class Gate extends AreaEntity{
 	private Sprite sprite;
 	public boolean affichage;
-	public boolean affichageInitilisation;
+	public final boolean affichageInitilisation;
 	Logic signal;
 	
 	/**
@@ -44,14 +44,12 @@ public class Gate extends AreaEntity{
 		if(affichageInitilisation) {
 			if (signal.isOn()) {
 				affichage = false; 
-				//getOwnerArea().unregisterActor(this);//permet de retirer le player quand le signal est off
 			}
 				else affichage = true;
 		}
 		else {
 			if (signal.isOn()) {
-				affichage = true; 
-				//getOwnerArea().unregisterActor(this);//permet de retirer le player quand le signal est off
+				affichage = true;
 			}
 				else affichage = false;
 			}

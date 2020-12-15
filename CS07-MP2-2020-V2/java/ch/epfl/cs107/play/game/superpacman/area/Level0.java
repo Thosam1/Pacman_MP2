@@ -2,7 +2,7 @@ package ch.epfl.cs107.play.game.superpacman.area;
 
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.rpg.actor.Door;
-import ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI.Gate;
+import ch.epfl.cs107.play.game.superpacman.actor.Gate;
 import ch.epfl.cs107.play.game.superpacman.actor.Key;
 import ch.epfl.cs107.play.game.superpacman.actor.Lever;
 import ch.epfl.cs107.play.game.superpacman.actor.Oscillateur;
@@ -13,9 +13,9 @@ public class Level0 extends SuperPacmanArea{
 	
 	/**spawn position in this level*/
 	private final DiscreteCoordinates PLAYER_SPAWN_POSITION = new DiscreteCoordinates(10, 1);
-	@Override
 	
 	/**returns String name of the level */
+	@Override
 	public String getTitle() {
 		return "superpacman/Level0";
 	}
