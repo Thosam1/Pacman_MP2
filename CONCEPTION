@@ -6,36 +6,16 @@
 
 
 0b. For a better reading experience of this document
-- Extensions are flagged with "[extension]" or "[extension area]"
+- Extensions are flagged with "[extension]"
 
-- Classes, abstract classes, interfaces and enumerations are flagged with
-"(class)", "(abstract class)", "(interface)", and "(enum)", respectively.
+- Classes, abstract classes, interfaces, attributes and enumerations are flagged with
+"(class)", "(abstract class)", "(interface)", "(attributes)" and "(enum)", respectively.
 
 
 
 1. Modifications to the provided code
 
-1a. java/ch/epfl/cs107/play/game/areagame/actor/Foreground.java
-
-    - Added a new constructor that allows the alpha value to be lower than 1
-        * Constructor can be found by searching "[modification]"
-        * Used for the day-night cycle [extension]
-
-
-1b. java/ch/epfl/cs107/play/game/rpg/actor/Dialog.java
-
-    - Modified the two constants at the beginning (FONT_SIZE and MAX_LINE_SIZE)
-        * Used for a bigger dialogue content [extension]
-
-
-1c. res/images/foregrounds/DayNight
-
-    - Added DayNight, a folder of 24 images that form the base of the
-    foregrounds to be registered in the areas that have a day-night cycle.
-        * All of the images were created using GIMP and then converted from
-        .xcf to .png using a free online converter
-    
-    
+1a. Modified (method) isOn of (class) And to return true if the two associated signals are true (didn't work before)
 
 2. Added classes and interfaces
 
@@ -157,35 +137,57 @@ Bonus classes:[extension]
     * constructor creates the Cells and (attributes) height, width, graph
     * (method) registerActors creates and registers all Walls, Bonus, Cherry, Diamond, Blinky, Inky, Pinky
       adds nodes to (attribute) graph
-   * (method) getCellType returns the type of a Cell
-   * (method) getNeighbours return a 3D (3x3) boolean list to create the Walls
-     called in registerActors
-   * (enum) SuperPacmanCellType associates a type to each value
-   * (class) SuperPacmanCell define cell caracteristics
-     can enter if hasNonTraversableContent returns false
-     no interactions with cells
-     can always leave a Cell
-   * (method) scareAllGhosts make the ghost afraid depending on the value of the boolean
-     choose
-   * (method) allGhostToRefuge sends Ghosts to their refuge
-   * (method) shortestPath returns the list of orientations needed to go from main to target, 
-     if it doesn't exist, it will return null
+    * (method) getCellType returns the type of a Cell
+    * (method) getNeighbours return a 3D (3x3) boolean list to create the Walls
+      called in registerActors
+    * (enum) SuperPacmanCellType associates a type to each value
+    * (class) SuperPacmanCell define cell caracteristics
+      can enter if hasNonTraversableContent returns false
+      no interactions with cells
+      can always leave a Cell
+    * (method) scareAllGhosts make the ghost afraid depending on the value of the boolean
+      choose
+    * (method) allGhostToRefuge sends Ghosts to their refuge
+    * (method) shortestPath returns the list of orientations needed to go from main to target, 
+      if it doesn't exist, it will return null
 
 2c. ch.epfl.cs107.play.game.superpacman.handler;
+- (interface) SuperPacmaninteractionVisitor 
+    * extends RPGInteractionVisitor and containes empty 
+      default (methods) interactWith for each Actor that can interact with the player
+    * These methods are specifically defined in (class) SuperPacmanPlayerHandler
+
 2d. ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI;
+- (class) SuperPacman
+    * (String Array) areas contains the names of the three levels
+    * (Discretecoordinates Array) startingPositions contains the coordinates for the spawn
+      position in each area
+    * (method) getTitle returns the name of the game, "Supre Pac-Man"
+    * (method) createAreas calls addArea with an instance of each Level
+    * (method) end has not been implemented yet
+    * (method) begin creates the Areas, creates the player, initializes it and sets the current 
+      area as the one designated by (attribute) areaIndex
+    
+- (class) SuperPacmanPlayerStatusGUI
+    * implements (interface) Graphics
+    * three private attributes: (constant) DEPTH  which has a high value to have the priority
+      when the Imagegraphics is drawn
+      anchor which is a vector that tells where the ImageGraphics and TextGraphics need to be drawn
+      the constructor takes a player as parameter and takes it as an attribute to have access
+      to his hp and score methods
+    * (method) getLife draws 5 lives (yellow or gray ones) at every frame
+    * the number of yellow lives is equal to the hp that the player has left
+      which we have thanks to player's (method) getHP
+    * (method) getScore draws player's score at every frame
+      thanks to SuperPacmanPlayer's (method) getScore
+    * (method) draw is called every frame and calls getLife and getScore to create a 
+      fluid image containing the lives and score of the player 
+
 3. Deviations from the project description
 
-- Added more doors that only take up one cell, in order to avoid "diagonal"
-transitions between areas
-
-- Modified the CastleDoor so that it takes cell space (this way, the player
-can't walk "under" it). In order for the player to exit the Chateau safely,
-we also modified the otherSideCoordinates of the doors from Chateau to
-RouteChateau (the player would have otherwise failed to be registered properly)
-
-- Added some minor deviations from the instructions.
-(e.g tweaked probabilities of monsters, added more interactions between the
-actors etc.)
+- Added some Gates that function with (class) Oscillateur and Lever
+- Changed the constructor of (class) Gate to be able to have Gates that are drawn when 
+  their associated signal is true
 
 4. List of all extensions
 -speed increase after collection of Cherry
