@@ -12,8 +12,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class Magic extends AreaEntity implements Interactor {
-    private Area area;
-
     //General
     private DiscreteCoordinates invokeCoordinates;
 
@@ -25,10 +23,9 @@ public class Magic extends AreaEntity implements Interactor {
 
     protected final float lifeTimeSpan; //in seconds
 
-    private int lifeSpanTimer;
-    private boolean isDying = true;
+    private float lifeSpanTimer;
 
-    private String nameOfMainSprite = "superpacman/ghost.blinky";
+    private String nameOfMainSprite;
 
     /**
      * Magic superclass, abstract level
@@ -37,8 +34,8 @@ public class Magic extends AreaEntity implements Interactor {
 
     public Magic (Area area, DiscreteCoordinates coordinates, float lifeTimeSpan){//constructeur	-area = aire où il appartient
         super(area, Orientation.UP, coordinates);
-        this.area = area;
         this.lifeTimeSpan = lifeTimeSpan;
+        this.lifeSpanTimer = lifeTimeSpan;
         invokeCoordinates = coordinates;
         area.registerActor(this);
     }
@@ -46,14 +43,17 @@ public class Magic extends AreaEntity implements Interactor {
     public void update(float deltaTime){
         spriteAnimations.update(deltaTime);
 
-        if(isDying = true){
-            lifeSpanTimer -= deltaTime;
-            if(lifeSpanTimer < 0){
-                area.leaveAreaCells(this, Collections.singletonList(invokeCoordinates));
-                area.unregisterActor(this);
+        //System.out.println(lifeSpanTimer);
+        lifeSpanTimer -= deltaTime;
+            if(lifeSpanTimer <= 0){
+                die();
             }
-        }
         super.update(deltaTime);
+    }
+
+    private void die(){
+        getOwnerArea().leaveAreaCells(this, Collections.singletonList(invokeCoordinates));
+        getOwnerArea().unregisterActor(this);
     }
 
     @Override
@@ -101,8 +101,8 @@ public class Magic extends AreaEntity implements Interactor {
 
     @Override
     public boolean wantsCellInteraction() {
-        return true;    //only interact with SuperPacman
-    }
+        return true;
+    } //only interact with SuperPacman
 
     @Override
     public boolean wantsViewInteraction() {
@@ -119,14 +119,13 @@ public class Magic extends AreaEntity implements Interactor {
 
     protected void attributeMainSprite(String nameSprite){
         nameOfMainSprite = nameSprite;
-        Sprite = RPGSprite.extractSprites("superpacman/ghost.afraid", 2, 1, 1, this, 16, 16);	//2 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
+        Sprite = RPGSprite.extractSprites(nameSprite, 2, 1, 1, this, 16, 16);	//2 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
         //array of 4 Sprite[] 1 per orientation
         spriteAnimations = new Animation(ANIMATION_DURATION / 4, Sprite);
     }
     protected void attributeMainSpriteByMe(String nameSprite){
         nameOfMainSprite = nameSprite;
-        Sprite = RPGSprite.extractSprites("superpacman/ghost.afraid", 6, 1, 1, this, 16, 16);	//2 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
-        //array of 4 Sprite[] 1 per orientation
+        Sprite = RPGSprite.extractSprites(nameSprite, 6, 1, 1, this, 16, 16);	//6 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
         spriteAnimations = new Animation(ANIMATION_DURATION / 4, Sprite);
     }
 

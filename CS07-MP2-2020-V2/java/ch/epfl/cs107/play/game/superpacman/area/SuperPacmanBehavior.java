@@ -57,19 +57,24 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	        		}  
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_BLINKY) {
 	        			Blinky blinky;
-	        			IceSinged iceSinged;
+	        			EarthSinged earthSinged;
+	        			PoisonSinged poisonSinged;
 	        			if(x < getWidth() / 2){	//first half - left
 							blinky = new Blinky(area, new DiscreteCoordinates(x,y), true);
-							//iceSinged = new IceSinged(area, new DiscreteCoordinates(12, 15));
+							earthSinged = new EarthSinged(area, new DiscreteCoordinates(12, 15));
+							poisonSinged = new PoisonSinged(area, new DiscreteCoordinates(19, 9));
+
 						}else{
 							blinky = new Blinky(area, new DiscreteCoordinates(x,y), false);
-							//iceSinged = new IceSinged(area, new DiscreteCoordinates(17, 11));
+							earthSinged = new EarthSinged(area, new DiscreteCoordinates(17, 15)); //11 if central symmetry
+							poisonSinged = new PoisonSinged(area, new DiscreteCoordinates(10, 9));
 						}
 
 	        			area.registerActor(blinky);
 						currentGhosts.add(blinky);
 
-	        			//area.registerActor(iceSinged);
+	        			area.registerActor(earthSinged);
+	        			area.registerActor(poisonSinged);
 	        		}
 
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_INKY) {

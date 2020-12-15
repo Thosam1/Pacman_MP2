@@ -15,53 +15,41 @@ public class Singed extends Spirit {
      * Singed class will follow straight lines, and will leave behind different type of smokes based on the singed class that will interact with the player
      */
 
-    private SuperPacmanArea area;
-    //private final float intervalTime;
-    //private float intervalTimer;
-    private int type;
-
     protected DiscreteCoordinates previousMainCell;
 
     public Singed(Area area, DiscreteCoordinates coordinates) {
         super(area, coordinates);
-        //this.intervalTime = intervalTime;
-
-
-        if(type == 0){
-            attributeMainSpriteByMe("superpacman/IceSinged");
-        }
-        if(type == 1){
-            attributeMainSpriteByMe("superpacman/PoisonSinged");
-        }
     }
     public void update(float deltaTime){
         spriteAnimations.update(deltaTime);
-
         deplacement(getNextOrientation(), SPEED);
+
+        if(isDisplacementOccurs()){ //if it is moving
+            if(previousMainCell != getCurrentMainCellCoordinates() && previousMainCell != null){    //that means it has moved
+                doSomething();
+            }
+        }
+        previousMainCell = getCurrentMainCellCoordinates();
         super.update(deltaTime);
     }
 
     @Override
     public void draw(Canvas canvas) {
+        super.draw(canvas);
         spriteAnimations.draw(canvas);
     }
 
     private void deplacement(Orientation next, int speed) {
-        if(!this.isDisplacementOccurs()) {	//true if not moving	OR ON AN INTERSECTION? NODE IN THE GRAPH
-            this.orientate(next);	//orientate the ghost
+        if(!this.isDisplacementOccurs()) {
+            this.orientate(next);
             move(SPEED);
         } else {
-			move(SPEED);	//orientate the ghost each move - otherwise never get out of lv1
+			move(SPEED);
 		}
-
-
-
     }
-    //	@Override	//why override DOESNT WORK ?!????????
-    private Orientation getNextOrientation() {
-        int randomInt = RandomGenerator.getInstance().nextInt(4);	//(index 0-3 for the ordinal of orientation)
-        Orientation nextOrientation = Orientation.fromInt(randomInt);
-        return nextOrientation;
+
+    protected void doSomething(){   //only thing that will differ between singedClass
+
     }
 
 }

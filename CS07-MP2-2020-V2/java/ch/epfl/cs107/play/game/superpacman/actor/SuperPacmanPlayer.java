@@ -24,6 +24,7 @@ public class SuperPacmanPlayer extends Player{
 	private int speedTimer;
 	private float score; //score du joueur: commence à 0
 	protected final static int ANIMATION_DURATION = 8; //durée du cycle de l'animation
+	private final int BASE_SPEED = 5;
 	private int speed = 5;//low value ==> high speed
 	private Orientation desiredOrientation;
 	private Area area;
@@ -90,8 +91,8 @@ public class SuperPacmanPlayer extends Player{
 	    orientatePlayer(Orientation.UP,keyboard.get(Keyboard.UP));
 	    orientatePlayer(Orientation.RIGHT,keyboard.get(Keyboard.RIGHT));
 	    orientatePlayer(Orientation.DOWN,keyboard.get(Keyboard.DOWN));
-	        
-	       	
+
+		System.out.println(speed);
 	    
 	    
 	    if (!(isDisplacementOccurs())) {	//control if the player is moving at the time
@@ -119,8 +120,7 @@ public class SuperPacmanPlayer extends Player{
 
 		if(bonusEaten){
 			if(!everyoneIsAfraid){
-				SuperPacmanArea temp = (SuperPacmanArea) this.area;
-				temp.scareInBehavior(true);
+				((SuperPacmanArea)getOwnerArea()).scareInBehavior(true);
 				everyoneIsAfraid = true;
 			}
 			if(consecutiveBonus){	//set back timer to initial
@@ -175,7 +175,7 @@ public class SuperPacmanPlayer extends Player{
 
 	@Override
 	public boolean isCellInteractable() {
-		return false;	//interactions avec Magic
+		return true;	//interactions avec Magic
 	}
 
 	@Override
@@ -257,9 +257,11 @@ public class SuperPacmanPlayer extends Player{
 	public int getHp() {return this.hp;}
 	public void increaseScore(float score) {this.score += score;}
 	public float getScore() {return this.score;}
+	public void setScore(float score){this.score = score;}
 	public void increaseValueSpeed(int speed) {this.speed += speed;}//increasing the value, reduces the actual speed of the player
 	public void setSpeed(int speed) {this.speed = speed;}
 	public int getSpeed() {return this.speed;}
+	public int getBASE_SPEED(){return this.BASE_SPEED;}
 
 	private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{	//gets called whenever in field of vision or when there is an interaction
 		/**All interactWith methods

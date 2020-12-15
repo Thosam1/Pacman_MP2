@@ -6,6 +6,7 @@ import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.RandomGenerator;
 import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.Collections;
@@ -18,7 +19,6 @@ public class Spirit extends MovableAreaEntity implements Interactor {
     protected final static int ANIMATION_DURATION = 8;
     protected int SPEED = 6;
     private Area area;
-    private final SuperPacmanSpiritHandler handler;
 
     private Sprite[][] mainSprites;
     private Animation[] mainAnimations;
@@ -33,7 +33,6 @@ public class Spirit extends MovableAreaEntity implements Interactor {
         super(area, Orientation.UP, coordinates);
         this.area = area;
         spawn = coordinates;
-        handler = new SuperPacmanSpiritHandler();
     }
 
     protected void attributeMainSprite(String nameSprite){
@@ -45,7 +44,7 @@ public class Spirit extends MovableAreaEntity implements Interactor {
     }
     protected void attributeMainSpriteByMe(String nameSprite){
         nameOfMainSprite = nameSprite;
-        Sprite = RPGSprite.extractSprites("superpacman/ghost.afraid", 6, 1, 1, this, 16, 16);	//2 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
+        Sprite = RPGSprite.extractSprites(nameOfMainSprite, 6, 1, 1, this, 16, 16);	//2 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
         //array of 4 Sprite[] 1 per orientation
         spriteAnimations = new Animation(ANIMATION_DURATION / 4, Sprite);
     }
@@ -118,7 +117,10 @@ public class Spirit extends MovableAreaEntity implements Interactor {
      * All methods that are useful for Spirit
      */
 
-    protected class SuperPacmanSpiritHandler implements SuperPacmanInteractionVisitor{
-
+    protected Orientation getNextOrientation() {
+        int randomInt = RandomGenerator.getInstance().nextInt(4);	//(index 0-3 for the ordinal of orientation)
+        Orientation nextOrientation = Orientation.fromInt(randomInt);
+        return nextOrientation;
     }
+
 }
