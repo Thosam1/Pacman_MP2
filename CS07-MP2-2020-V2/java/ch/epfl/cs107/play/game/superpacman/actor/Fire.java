@@ -10,7 +10,7 @@ import ch.epfl.cs107.play.window.Canvas;
 public class Fire extends Magic{
     private final SuperPacmanFireHandler handler;
     private boolean debuffed = false;
-    private final float burnScore = 400.f;
+    private final float burnScore = 300.f;
 
     public Fire(Area area, DiscreteCoordinates coordinates, float lifeTimeSpan) {
         super(area, coordinates, lifeTimeSpan);
