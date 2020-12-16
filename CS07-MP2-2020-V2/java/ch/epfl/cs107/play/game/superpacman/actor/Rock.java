@@ -12,7 +12,7 @@ public class Rock extends Magic {
 
     public Rock(Area area, DiscreteCoordinates coordinates, float lifeTimeSpan) {
         super(area, coordinates, lifeTimeSpan);
-        attributeMainSpriteByMe("superpacman/Rock");
+        attributeMainSpriteByMe("superpacman/RockInvokation", 6);
         //handler = new SuperPacmanRockHandler();
     }
 

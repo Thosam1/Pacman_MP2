@@ -12,7 +12,7 @@ import java.util.Collections;
 public class Singed extends Spirit {
 
     /**
-     * Singed class will follow straight lines, and will leave behind different type of smokes based on the singed class that will interact with the player
+     * Singed class will follow straight lines, and will leave behind different types of objects (based on the singed class) that will interact with the player
      */
 
     protected DiscreteCoordinates previousMainCell;
@@ -20,24 +20,18 @@ public class Singed extends Spirit {
     public Singed(Area area, DiscreteCoordinates coordinates) {
         super(area, coordinates);
     }
-    public void update(float deltaTime){
-        spriteAnimations.update(deltaTime);
-        deplacement(getNextOrientation(), SPEED);
 
+    public void update(float deltaTime){
         if(isDisplacementOccurs()){ //if it is moving
-            if(previousMainCell != getCurrentMainCellCoordinates() && previousMainCell != null){    //that means it has moved
-                doSomething();
+            if(previousMainCell != getCurrentMainCellCoordinates() && previousMainCell != null){    //that means it has moved - has left previous cell
+                doSomething();  //leave something behind for example
             }
         }
+        deplacement(getNextOrientation(), SPEED);
         previousMainCell = getCurrentMainCellCoordinates();
         super.update(deltaTime);
     }
 
-    @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
-        spriteAnimations.draw(canvas);
-    }
 
     private void deplacement(Orientation next, int speed) {
         if(!this.isDisplacementOccurs()) {
@@ -48,7 +42,7 @@ public class Singed extends Spirit {
 		}
     }
 
-    protected void doSomething(){   //only thing that will differ between singedClass
+    protected void doSomething(){ //redefine it in every subclasses
 
     }
 

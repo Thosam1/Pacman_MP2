@@ -12,29 +12,30 @@ import ch.epfl.cs107.play.window.Canvas;
 import java.util.Collections;
 import java.util.List;
 
-public class Spirit extends MovableAreaEntity implements Interactor {
+public class Spirit extends MovableAreaEntity {
     protected DiscreteCoordinates spawn;
 
     /// Animation duration in frame number
     protected final static int ANIMATION_DURATION = 8;
     protected int SPEED = 6;
     private Area area;
-
+    /*
     private Sprite[][] mainSprites;
     private Animation[] mainAnimations;
+     */
 
     //for singed classes
     private Sprite[] Sprite;
     protected Animation spriteAnimations;
 
-    private String nameOfMainSprite = "superpacman/ghost.blinky";
+    private String nameOfMainSprite;
 
     public Spirit(Area area, DiscreteCoordinates coordinates){
         super(area, Orientation.UP, coordinates);
         this.area = area;
         spawn = coordinates;
     }
-
+    /*
     protected void attributeMainSprite(String nameSprite){
         nameOfMainSprite = nameSprite;
         mainSprites = RPGSprite.extractSprites(nameOfMainSprite, 2, 1, 1, this, 16, 16,	//4 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
@@ -42,6 +43,7 @@ public class Spirit extends MovableAreaEntity implements Interactor {
         //array of 4 Sprite[] 1 per orientation
         mainAnimations = Animation.createAnimations(ANIMATION_DURATION / 4, mainSprites);	//cr�e un tableau de 4 animations
     }
+     */
     protected void attributeMainSpriteByMe(String nameSprite){
         nameOfMainSprite = nameSprite;
         Sprite = RPGSprite.extractSprites(nameOfMainSprite, 6, 1, 1, this, 16, 16);	//2 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
@@ -50,13 +52,13 @@ public class Spirit extends MovableAreaEntity implements Interactor {
     }
 
     public void update(float deltaTime){
+        spriteAnimations.update(deltaTime);
         super.update(deltaTime);
     }
 
     @Override
-    public void draw(Canvas canvas) {   //mainAnimations[this.getOrientation().ordinal()].draw(canvas); depends if singed or xxx
-
-
+    public void draw(Canvas canvas) {
+        spriteAnimations.draw(canvas);
     }
 
     /**
@@ -89,29 +91,6 @@ public class Spirit extends MovableAreaEntity implements Interactor {
         ((SuperPacmanInteractionVisitor)v).interactWith(this); //accepte de voir ses interactions avec les autres acteurs (qui sont aussi gérés par SuperPacmanInteractionVisitor)
     }
 
-    /**
-     * All methods related to interactor
-     */
-
-    @Override
-    public List<DiscreteCoordinates> getFieldOfViewCells() {
-        return null;
-    }
-
-    @Override
-    public boolean wantsCellInteraction() {
-        return false;
-    }
-
-    @Override
-    public boolean wantsViewInteraction() {
-        return false;
-    }
-
-    @Override
-    public void interactWith(Interactable other) {
-
-    }
 
     /**
      * All methods that are useful for Spirit

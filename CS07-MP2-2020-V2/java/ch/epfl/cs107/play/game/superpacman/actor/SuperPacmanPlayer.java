@@ -18,6 +18,8 @@ import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
+import javax.swing.text.StyleContext;
+
 public class SuperPacmanPlayer extends Player{
 	private int hp; //nombre de vies du joueur: commence à 5 et termine à 0
 	private int speedTimer;
@@ -40,6 +42,11 @@ public class SuperPacmanPlayer extends Player{
 	private boolean bonusEaten = false;
 	private boolean consecutiveBonus = false;
 	private boolean everyoneIsAfraid = false;
+	private boolean onSpeedDebuff = false;
+	private boolean consecutiveSpeedDebuff = false;
+	private float timerSpeedDebuff = .5f;
+	private final float timeSpeedDebuff = .5f;
+
 
 	private Sprite[][] sprites; //initialisation du tableau 2D qui contiendra les sprites de l'animation du player
 	private Animation[] animations;
@@ -142,6 +149,22 @@ public class SuperPacmanPlayer extends Player{
 				temp.scareInBehavior(false);
 				everyoneIsAfraid = false;
 			}
+		}
+
+		if(onSpeedDebuff){
+			//System.out.println("SPEED DEBUFF ACTIVATED");
+			if(consecutiveSpeedDebuff){
+				timerSpeedDebuff = timeSpeedDebuff;
+				consecutiveSpeedDebuff = false;
+			}
+			timerSpeedDebuff -= deltaTime;
+			if(timerSpeedDebuff <= 0){
+				this.onSpeedDebuff = false;
+				timerSpeedDebuff = timeSpeedDebuff;
+				this.setSpeed(getBASE_SPEED());
+				//System.out.println("BACK TO BASE SPEED : " + getSpeed());
+			}
+
 		}
 
 	    super.update(deltaTime);  //important to call update on the superclass
@@ -262,6 +285,17 @@ public class SuperPacmanPlayer extends Player{
 	public int getSpeed() {return this.speed;}
 	public int getBASE_SPEED(){return this.BASE_SPEED;}
 
+	//events that pacman can ask the area
+	public void pacmanHasDied(){
+		superArea.allGhostToRefugeBehavior();	//works fine
+		decreaseHp(1);
+		setSpeed(getBASE_SPEED());
+		area.leaveAreaCells(this, getEnteredCells());
+		setCurrentPosition(PLAYER_SPAWN_POSITION.toVector());
+		area.enterAreaCells(this, getCurrentCells());
+		resetMotion();
+	}
+
 	private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor{	//gets called whenever in field of vision or when there is an interaction
 		/**All interactWith methods
 		 * The method collect is defined in AutomaticallyCollectableAreaEntity and unregisters the collectables from the area
@@ -312,21 +346,34 @@ public class SuperPacmanPlayer extends Player{
 		}
 
 		private void ghostEncounter (Ghost ghost) {
-			if(IMMORTAL == true) {
-				basicForget(ghost);
+			if(getIMMORTAL()) {
+				ghost.backToRefuge();	//just setting them back to their refuge	!!! doesnt work individually
 				increaseScore(ghost.GHOST_SCORE);
 			}
-			if(IMMORTAL == false) {
-				//basicForget(ghost);
-				superArea.allGhostToRefugeBehavior();	//works fine
-				decreaseHp(1);
-				setCurrentPosition(PLAYER_SPAWN_POSITION.toVector());
-				resetMotion();
-				//METTRE UNE ANIMATION à ce moment là ???
+			if(!getIMMORTAL()) {
+				pacmanHasDied();
 				}
+		}
+
+		public void interactWith(IntelligentGhost smartGhost){
+			if(getIMMORTAL()){
+				smartGhost.backToRefuge();	//in addition, the memory of player is erased, and a signal to reevaluate the path is sent
 			}
-		private void basicForget(Ghost ghost) {
-			ghost.backToRefuge();	//just setting them back to their refuge	!!! doesnt work individually
+		}
+
+		/**
+		 *	Mudrock will activate a timer for the debuffed, otherwise the player would be slow until it dies !
+		 */
+		public void interactWith(MudRock mudRock){
+			if(!onSpeedDebuff){
+				//System.out.println("INTERACTION !!! YEAYYY");
+				onSpeedDebuff = true;		//it will activate the timer
+				//System.out.println("ONSPEED DEBUFF TRUE");
+				//System.out.println(onSpeedDebuff);
+			}else{
+				consecutiveSpeedDebuff = true;
+				//System.out.println("CONSECUTIVE DEBUFF TRUE");
+			}
 		}
 
 	}

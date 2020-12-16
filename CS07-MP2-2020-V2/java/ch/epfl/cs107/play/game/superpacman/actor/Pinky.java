@@ -50,8 +50,9 @@ public class Pinky extends IntelligentGhost {
 			}
 		}
 		*/
-		deplacement(afraidSpeed, speed);
+
 		orientate(next);    //orientate the ghost
+		deplacement(afraidSpeed, speed);
 
 		int dist = MIN_AFRAID_DISTANCE; //so it doesnt get messed up
 		if(playerMemory != null) {

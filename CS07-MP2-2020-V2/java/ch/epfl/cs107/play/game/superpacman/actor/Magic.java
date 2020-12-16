@@ -28,8 +28,7 @@ public class Magic extends AreaEntity implements Interactor {
     private String nameOfMainSprite;
 
     /**
-     * Magic superclass, abstract level
-     *
+     * Magic superclass, every "magic" creations from the ghost will last for lifeTimeSpan seconds and then disappear from the map
      */
 
     public Magic (Area area, DiscreteCoordinates coordinates, float lifeTimeSpan){//constructeur	-area = aire où il appartient
@@ -117,15 +116,15 @@ public class Magic extends AreaEntity implements Interactor {
      * All methods that are useful for Magic
      */
 
-    protected void attributeMainSprite(String nameSprite){
+    /*protected void attributeMainSprite(String nameSprite){
         nameOfMainSprite = nameSprite;
         Sprite = RPGSprite.extractSprites(nameSprite, 2, 1, 1, this, 16, 16);	//2 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
         //array of 4 Sprite[] 1 per orientation
         spriteAnimations = new Animation(ANIMATION_DURATION / 4, Sprite);
-    }
-    protected void attributeMainSpriteByMe(String nameSprite){
+    }*/
+    protected void attributeMainSpriteByMe(String nameSprite, int nbFrames){
         nameOfMainSprite = nameSprite;
-        Sprite = RPGSprite.extractSprites(nameSprite, 6, 1, 1, this, 16, 16);	//6 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
+        Sprite = RPGSprite.extractSprites(nameSprite, nbFrames, 1, 1, this, 16, 16);	//6 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
         spriteAnimations = new Animation(ANIMATION_DURATION / 4, Sprite);
     }
 
