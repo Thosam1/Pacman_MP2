@@ -32,10 +32,9 @@ Les Esprits sont des personnages très puissants qui ne sont pas aussi maléfiqu
 -Les MageSpirit : qui se déplace aléatoirement et invoque des xxx dans leur champ de vision régulièrement :
    *StoneMageSpirit : invoque des rochers qui peuvent bloquer Pacman mais aussi les fantômes.
    *FireMageSpirit : invoque des flammes qui peuvent tuer Pacman et lui enlever des points de score.
-  *
-  *
-  *
-  *
+
+## Scénario:
+La femme de Pacman, PacWoman, a été volé par les ghosts et les esprits. Elle est emprisonné dans le niveau 2. Pour la sauver, il faudra parcourir trois labyrinthe plein d'énemis et de pièges. Heureusement, vous pourrez trouver des Collectables qui rendront cette tache plus facile.  Votre mission est de survivre aux trois niveaux, et d'aller la sauver. Pour cela il faudra ruser en utilisant les Gates et les Collectables à son avantage. Bonne Chance!!!
 
 ## Controles
 Le Pacman est controlé par les fleches de votre clavier
@@ -64,7 +63,7 @@ Ce premier niveau est très basique et sert à faire découvrir les acteurs qui 
 ## Niveau1
 Attention, ce niveau est plein de créatures hostiles! Vous remarquerez que deux Gates vous bloquent la sortie, mais qu'il n'y a pas de clés. Ainsi, il faudra collecter tous les diamants du niveau et ensuite elles s'ouvreront. N'oubliez pas de manger des cerises si vous voulez pouvoir vous échapper le plus rapidement possible.
 ## Niveau2
-Ce dernier niveau implémente toutes les Gates que vous avez découvert dans le premier niveau(sauf cel. Attention à ne pas vous faire piéger par des Gates qui apparaissent et disparaissent! Pour réussir à passer ce niveau, il faudra collecter toutes les clés. Certaines ne seront pas atteignable à moins d'avoir ouvert les Gates qui les protègent. Et finalement, après avoir pris toutes les clés, les portes s'ouvriront.
+Ce dernier niveau implémente toutes les Gates que vous avez découvert dans le premier niveau. Attention à ne pas vous faire piéger par des Gates qui apparaissent et disparaissent! Pour réussir à passer ce niveau, il faudra collecter toutes les clés. Certaines ne seront pas atteignable à moins d'avoir ouvert les Gates qui les protègent. Et finalement, après avoir pris toutes les clés, les portes s'ouvriront et vous pourrez sauver Pacwoman
 
 ## Comment démarrer le jeu
 Pour démarrer le jeu, le joueur doit tout simplement lancer le programme. Le pacman apparaitra alors sur le premier niveau.
