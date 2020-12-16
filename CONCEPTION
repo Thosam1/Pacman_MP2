@@ -136,7 +136,12 @@ Bonus classes:[extension]
       (method) changeSignal only changes the signal if the timer is greater or equal to 72
       (72 frames which is 3 seconds) This can be changed, but its important to have leaved the cell
       before the signal can change again
-      
+    
+- (class) Pacwoman
+    * Implements MoveableAreaEntity and has the same animation as (class) SuperPacmanPlayer, but in pink
+    * Implements a random motion similar to the one that singed has
+    * Only one Pacwoman is created and that is in Level2, where she is trapped by Gates
+    
 - (class) Spirit
     * Extends MoveableAreaEntity
     * Is a SuperClass, all spirits have speed 8
@@ -294,5 +299,5 @@ This package contains the interface that handles the interactions
 -Singed spirits
 -MageSpirits 
 -Different objects/elements created by the spirits such as : MudRock, PoisonSmoke, Rock, Fire, ...
--(Scenario)
+-(Scenario) Pacwoman
 
