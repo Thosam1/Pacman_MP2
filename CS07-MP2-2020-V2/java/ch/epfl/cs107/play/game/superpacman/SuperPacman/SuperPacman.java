@@ -1,4 +1,4 @@
-package ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI;
+package ch.epfl.cs107.play.game.superpacman.SuperPacman;
 
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.rpg.RPG;
