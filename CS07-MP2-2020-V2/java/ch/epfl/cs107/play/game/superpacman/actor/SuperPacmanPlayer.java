@@ -1,5 +1,6 @@
 package ch.epfl.cs107.play.game.superpacman.actor;
 
+import java.awt.Color;
 import java.util.Collections;
 import java.util.List;
 import ch.epfl.cs107.play.game.areagame.Area;
@@ -81,7 +82,6 @@ public class SuperPacmanPlayer extends Player{
 		
 		animations = Animation.createAnimations(ANIMATION_DURATION / 4, sprites);	//créé un tableau de 4 animations
 		handler = new SuperPacmanPlayerHandler();
-		
 		
 	}
 	/**this method is called at every frame
