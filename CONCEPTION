@@ -93,10 +93,27 @@ The classes that we had to program are the following:
       for each Actor registered in the Levels
       
 - (class) Ghost
+    * Extends MoveableAreaEntity
+    * Contains speed, afraid animations and manages the animation (afraid or not) in update
+    * (method) attributMainSprite - to extract a sprite and create the animation when not afraid - called by subclasses to assign a main animation
+    * (method) deplacement - move the ghost according to its state (afraid or not) and speed - called by subclasses to move
+    * (method) backToRefuge - to put the ghost back to its refuge position
+    
 - (class) Blinky
+    * Extends Ghost
+
 - (class) IntelligentGhost
+    * Extends Ghost implements Interactor, intéragit à distance
+    * Because Inky and Pinky behave in a similar way, we made a getNextOrientation method that works for both of them.
+    * (class) SuperPacmanIntelligentGhostHandler implements SuperPacmanInteractionVisitor and defines interactWith for the pacman actor, to memorize it.
+    
 - (class) Inky
+    * Extends IntelligentGhost
+    * Uses getNextOrientation and deplacement of superclass-
+    
 - (class) Pinky
+    * Extends IntelligentGhost
+    * Uses getNextOrientation and deplacement of superclass-
     
 Bonus classes:[extension]
 
