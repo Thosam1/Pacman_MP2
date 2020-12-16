@@ -142,7 +142,8 @@ public class SuperPacmanBehavior extends AreaBehavior {
 			FREE_WITH_POISON_SINGED ( -10551409), //sort of light green
 			FREE_WITH_EARTH_SINGED(-7648456), //brown
 			FREE_WITH_FIRE_MAGE_SPIRIT(-34816), //orange
-			FREE_WITH_STONE_MAGE_SPIRIT(-9663096); //grey-blue
+			FREE_WITH_STONE_MAGE_SPIRIT(-9663096), //grey-blue
+			BREAKABLE_WALL (-7349810); //light grey-blue
 
 	    	final int type;
 	    	
@@ -177,6 +178,8 @@ public class SuperPacmanBehavior extends AreaBehavior {
 					return FREE_WITH_FIRE_MAGE_SPIRIT;
 				case -9663096:
 					return FREE_WITH_STONE_MAGE_SPIRIT;
+				case -7349810:
+					return BREAKABLE_WALL;
 	    		default:
 	    			return NONE;
 	    		}

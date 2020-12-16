@@ -13,10 +13,9 @@ import ch.epfl.cs107.play.window.Window;
 public class SuperPacman extends RPG{
 
 	private SuperPacmanPlayer player;
-	private final String[] areas = {"superpacman/Level0", "superpacman/Level1", "superpacman/Level3", "superpacman/Level2"};
+	private final String[] areas = {"superpacman/Level0", "superpacman/Level1", "superpacman/Level2"};
 	private final DiscreteCoordinates[] startingPositions = {new DiscreteCoordinates(10,1), 
 															 new DiscreteCoordinates(15,6),
-			 											     new DiscreteCoordinates(15,6),
 															 new DiscreteCoordinates(15,29)};
 
 	private int areaIndex;
@@ -34,7 +33,6 @@ public class SuperPacman extends RPG{
 	private void createAreas(){
 		addArea(new Level0());
 		addArea(new Level1());
-		addArea(new Level3());
 		addArea(new Level2());
 	}
 	public void end() {}
@@ -45,7 +43,7 @@ public class SuperPacman extends RPG{
 		if (super.begin(window, fileSystem)) {
 
 			createAreas();
-			areaIndex = 1;
+			areaIndex = 0;
 			Area area = setCurrentArea(areas[areaIndex], true);
 			player = new SuperPacmanPlayer(area, startingPositions[areaIndex]);
 			initPlayer(player);
