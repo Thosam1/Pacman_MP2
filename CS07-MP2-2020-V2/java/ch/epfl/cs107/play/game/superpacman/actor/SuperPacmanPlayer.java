@@ -348,7 +348,7 @@ public class SuperPacmanPlayer extends Player{
 		private void ghostEncounter (Ghost ghost) {
 			if(getIMMORTAL()) {
 				ghost.backToRefuge();	//just setting them back to their refuge	!!! doesnt work individually
-				increaseScore(ghost.GHOST_SCORE);
+				increaseScore(ghost.getScore());
 			}
 			if(!getIMMORTAL()) {
 				pacmanHasDied();
@@ -366,13 +366,9 @@ public class SuperPacmanPlayer extends Player{
 		 */
 		public void interactWith(MudRock mudRock){
 			if(!onSpeedDebuff){
-				//System.out.println("INTERACTION !!! YEAYYY");
 				onSpeedDebuff = true;		//it will activate the timer
-				//System.out.println("ONSPEED DEBUFF TRUE");
-				//System.out.println(onSpeedDebuff);
 			}else{
 				consecutiveSpeedDebuff = true;
-				//System.out.println("CONSECUTIVE DEBUFF TRUE");
 			}
 		}
 

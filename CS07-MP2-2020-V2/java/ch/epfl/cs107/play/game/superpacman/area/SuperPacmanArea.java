@@ -60,6 +60,10 @@ abstract public class SuperPacmanArea extends Area implements Logic{
 	public Queue<Orientation> shortestPath(DiscreteCoordinates main, DiscreteCoordinates target){
 		return behavior.shortestPath(main, target);
 	}
+	/**calls method setSignalOfNode on the attribute behavior*/
+	public void setSignalOfNode(DiscreteCoordinates coordinatesOfNode, boolean activate){
+
+	}
 	
 	/**if the numberOfDiamonds left in the Area is equal to 0, meaning that they have all been eaten,
 	 * then isOn returns true

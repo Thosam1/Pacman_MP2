@@ -6,7 +6,9 @@ import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Path;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI.SuperPacman;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
+import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanBehavior;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
@@ -14,13 +16,12 @@ import ch.epfl.cs107.play.window.Canvas;
 import java.util.*;
 
 public class IntelligentGhost extends Ghost implements Interactor {
-    //private SuperPacmanArea area;
 
     protected boolean reevaluate = true;    //for pinky and inky
 
     private final SuperPacmanIntelligentGhostHandler handler2;
     private final int FIELD_OF_VIEW = 5;
-    protected int SPEED_AFRAID = 8; //faster when afraid for inky and pinky
+    protected int SPEED_AFRAID = 4; //faster when afraid for inky and pinky
     protected SuperPacmanPlayer playerMemory;
     protected boolean seePlayer = false;
 
@@ -33,27 +34,25 @@ public class IntelligentGhost extends Ghost implements Interactor {
         this.stateTransition = stateTransition;
     }
 
-    protected DiscreteCoordinates targetPos;
-    protected Queue<Orientation> path;
-    protected Path graphicPath;
-    protected LinkedList<Orientation> pathList = new LinkedList<Orientation>();
+    private DiscreteCoordinates targetPos;
+    private Queue<Orientation> path;
+    private Path graphicPath;
+    private LinkedList<Orientation> pathList = new LinkedList<Orientation>();
 
 
     public IntelligentGhost(Area area, DiscreteCoordinates coordinates) {
         super(area, coordinates);
-        //this.area = (SuperPacmanArea) area;
         handler2 = new SuperPacmanIntelligentGhostHandler();
     }
 
     public void update(float deltaTime) { // ?necessary?
         super.update(deltaTime); //taking care of afraid animation
-        //deplacement(getNextOrientation(), SPEED, SPEED_AFRAID);
-
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+
         if (graphicPath != null) {
             graphicPath.draw(canvas);    //drawing the path taken by ghost
         }
@@ -79,7 +78,7 @@ public class IntelligentGhost extends Ghost implements Interactor {
 
     public boolean wantsCellInteraction() {
         return false;
-    } //SET TO FALSE !! - if set to false, there is a bug with the animation and I don't know how to fix this
+    }
 
     public boolean wantsViewInteraction() {
         return true;
@@ -138,14 +137,6 @@ public class IntelligentGhost extends Ghost implements Interactor {
     }
 
 
-
-    /**
-     * @param from             the position of the center of the area around which the ghost will aim when scared (intelligent ghost)
-     * @param fromNot          same but when not scared
-     * @param maxWhenScared    max range from the center of the area when scared
-     * @param maxWhenNotScared same but when not scared
-     * @return the next orientation
-     */
     /**
      *
      * @param from              the position of the center of the area around which the ghost will aim when scared (intelligent ghost)
@@ -156,24 +147,25 @@ public class IntelligentGhost extends Ghost implements Interactor {
      */
     protected Orientation getNextOrientation(DiscreteCoordinates from, DiscreteCoordinates fromNot,  int maxWhenScared, int maxWhenNotScared) {
 
-        if(targetPos != null && (this.getCurrentMainCellCoordinates() == targetPos || getStateTransition())) {     //   || isDisplacementOccurs() == false    pour les gates ?  || outhis.getCurrentMainCellCoordinates() == targetPos || isDisplacementOccurs() == false ?
+        if(targetPos != null &&(this.getCurrentMainCellCoordinates() == targetPos || getStateTransition())) {     //   || !isDisplacementOccurs() permettent au inky et pinky d'éviter de faire des allers retours sur place
             setReevaluate(true);
             setStateTransition(false);
+        }
+        if(seePlayer && !getAfraid() && targetPos != playerMemory.getCurrentCells().get(0)){
+            setReevaluate(true); //otherwise, inky and pinky stop chasing the player as soon it gets out of the range and start moving back and forth at the same location...
+        }
+
+        if(!seePlayer && targetPos != null && !getAfraid() && targetPos != getCurrentMainCellCoordinates()){    //otherwise pinky would change destination every movement
+            setReevaluate(false);
         }
 
         if(reevaluate == true) {	//then check for the new path   Cases when reevaluate a path : 1) if destination is reached 2) if ghosts become scared / pacman eats becomes invincible 3) if pacman enters in the field of view
             findNewTargetPos(from, fromNot, maxWhenScared, maxWhenNotScared);
         }
+
         setReevaluate(false);
-
-        /*while(path == null){
-            findNewTargetPos(from, fromNot, maxWhenScared, maxWhenNotScared);
-            path = area.shortestPath(getCurrentMainCellCoordinates(), targetPos); //we ask to the area, the area asks to the behavior/graph //dessiner un trait
-        }*/
-
         SuperPacmanArea area = (SuperPacmanArea)getOwnerArea();
         path = area.shortestPath(getCurrentMainCellCoordinates(), targetPos); //we ask to the area, the area asks to the behavior/graph //dessiner un trait
-
         //resetMotion();    //EN AJOUTANT LE RESET MOTION; LES FANTOMES ATTEIGNENT LE JOUEUR MAIS ENORME BUG LORSQUE LE JOUEUR DEVIENT INVINCIBLE
 
         if(path == null){
@@ -201,13 +193,6 @@ public class IntelligentGhost extends Ghost implements Interactor {
                 targetPos = randomEscapeCoordinates(EscapeCoordinates(fromNot, maxWhenNotScared));
             }
         }
-    }
-
-    /**
-     *      Find a new target, if there is something in the way between the player and the ghost, ie a gate
-     */
-    private void roadBlockedFindNewTargetPos(DiscreteCoordinates fromNot, int maxWhenNotScared){
-        targetPos = randomEscapeCoordinates(EscapeCoordinates(fromNot, maxWhenNotScared));
     }
 
 
@@ -307,12 +292,12 @@ public class IntelligentGhost extends Ghost implements Interactor {
         getOwnerArea().leaveAreaCells(this, getEnteredCells());
         abortCurrentMove();
         resetMotion();
-        setCurrentPosition(this.refuge.toVector());
+        setCurrentPosition(this.getRefuge().toVector());
         getOwnerArea().enterAreaCells(this, getCurrentCells());
         setReevaluate(true); //so the pinky doesn't follow the player
     }
 
-    public void setReevaluate(boolean c) {
+    private void setReevaluate(boolean c) {
         if(c) {
             reevaluate = true;
         }else {
@@ -320,7 +305,7 @@ public class IntelligentGhost extends Ghost implements Interactor {
         }
     }
 
-    protected class SuperPacmanIntelligentGhostHandler extends SuperPacmanGhostHandler{
+    protected class SuperPacmanIntelligentGhostHandler implements SuperPacmanInteractionVisitor{
         @Override
         public void interactWith(SuperPacmanPlayer player) {
             playerMemory = player; //when in field of vision, memorise player
@@ -328,8 +313,6 @@ public class IntelligentGhost extends Ghost implements Interactor {
             if(!getAfraid()){
                 setReevaluate(true);    //chase only if not afraid, otherwise, stick to the plan lol
             }
-
-            //System.out.println("INTERACTED" + getFieldOfViewCells());
         }
     }
 }

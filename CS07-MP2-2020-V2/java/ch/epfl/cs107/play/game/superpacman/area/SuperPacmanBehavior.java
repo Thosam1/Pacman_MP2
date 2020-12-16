@@ -33,6 +33,7 @@ public class SuperPacmanBehavior extends AreaBehavior {
         		SuperPacmanCellType cellType = SuperPacmanCellType.toType(getRGB(getHeight() -1-y, x));	//donner un type au "Cells"
         		SuperPacmanCell cell = new SuperPacmanCell(x,y, cellType);
         		setCell(x,y,cell);}
+
         	}
 	}
 
@@ -43,7 +44,7 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	        	for (int y=0; y<getHeight(); y++) {
 	        		SuperPacmanCellType cellType= getCellType(x,y);
 	        		if(cellType == SuperPacmanCellType.WALL) {
-	        			area.registerActor(new Wall(area, new DiscreteCoordinates(x,y), getNeighbours(x,y))); //Constructeur d'un WALL : 1) aire d'appartenance, 2) coordonnées du mur, 3) tableau 3x3 de booleans 
+	        			area.registerActor(new Wall(area, new DiscreteCoordinates(x,y), getNeighbours(x,y))); //Constructeur d'un WALL : 1) aire d'appartenance, 2) coordonnées du mur, 3) tableau 3x3 de booleans
 	        		}
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_BONUS) {
 	        			area.registerActor(new Bonus(area, Orientation.UP, new DiscreteCoordinates(x,y))); //Constructeur d'un Bonus) aire d'appartenance, 2) orientation, 3) coordonnéees
@@ -54,56 +55,50 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_DIAMOND) {
   						area.registerActor(new Diamond(area, Orientation.UP, new DiscreteCoordinates(x,y))); //Constructeur d'un Diamond : 1) aire d'appartenance, 2) orientation 3) coordonnées
   						area.numberOfDiamonds +=1;
-	        		}  
+	        		}
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_BLINKY) {
-	        			Blinky blinky;
-	        			EarthSinged earthSinged;
-	        			PoisonSinged poisonSinged;
-	        			StoneMageSpirit stoneMageSpirit;
-	        			FireMageSpirit fireMageSpirit;
-	        			if(x < getWidth() / 2){	//first half - left
-							blinky = new Blinky(area, new DiscreteCoordinates(x,y), true);
-							earthSinged = new EarthSinged(area, new DiscreteCoordinates(12, 15));
-							poisonSinged = new PoisonSinged(area, new DiscreteCoordinates(19, 9));
-							stoneMageSpirit = new StoneMageSpirit(area, new DiscreteCoordinates(12, 14), 2);
-							fireMageSpirit = new FireMageSpirit(area, new DiscreteCoordinates(12, 14), 3);
-
-						}else{
-							blinky = new Blinky(area, new DiscreteCoordinates(x,y), false);
-							earthSinged = new EarthSinged(area, new DiscreteCoordinates(17, 15)); //11 if central symmetry
-							poisonSinged = new PoisonSinged(area, new DiscreteCoordinates(10, 9));
-							stoneMageSpirit = new StoneMageSpirit(area, new DiscreteCoordinates(17, 14), 2);
-							fireMageSpirit = new FireMageSpirit(area, new DiscreteCoordinates(17, 14), 3);
-						}
-
+						Blinky blinky = new Blinky(area, new DiscreteCoordinates(x,y));
 	        			area.registerActor(blinky);
 						currentGhosts.add(blinky);
-
-	        			area.registerActor(earthSinged);
-	        			area.registerActor(poisonSinged);
-	        			area.registerActor(stoneMageSpirit);
-						area.registerActor(fireMageSpirit);
 	        		}
 
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_INKY) {
 	        			Inky inky = new Inky(area, new DiscreteCoordinates(x,y));
 	        			area.registerActor(inky);
 	        			currentSmartGhosts.add(inky);
-
 	        		}
 	        		if(cellType == SuperPacmanCellType.FREE_WITH_PINKY) {
 						Pinky pinky = new Pinky(area, new DiscreteCoordinates(x, y));
 						area.registerActor(pinky);
 						currentSmartGhosts.add(pinky);
 					}
+					if(cellType == SuperPacmanCellType.FREE_WITH_POISON_SINGED) {
+	        			PoisonSinged poisonSinged = new PoisonSinged(area, new DiscreteCoordinates(x,y));
+	        			area.registerActor(poisonSinged);
+	        		}
+					if(cellType == SuperPacmanCellType.FREE_WITH_EARTH_SINGED) {
+						EarthSinged earthSinged = new EarthSinged(area, new DiscreteCoordinates(x,y));
+						area.registerActor(earthSinged);
+					}
+					if(cellType == SuperPacmanCellType.FREE_WITH_STONE_MAGE_SPIRIT) {
+						StoneMageSpirit stoneMageSpirit = new StoneMageSpirit(area, new DiscreteCoordinates(x,y), 2);
+						area.registerActor(stoneMageSpirit);
+					}
+					if(cellType == SuperPacmanCellType.FREE_WITH_FIRE_MAGE_SPIRIT) {
+						FireMageSpirit fireMageSpirit = new FireMageSpirit(area, new DiscreteCoordinates(x,y), 3);
+						area.registerActor(fireMageSpirit);
+					}
 
+					if(cellType == SuperPacmanCellType.NONE){
+						System.out.println("new color is : " + getRGB(getHeight() -1-y, x));
+					}
 
 	        		if(cellType != SuperPacmanCellType.WALL) { //adding nodes in graph
 	        			boolean hasLeftEdge = ((x > 0) && getCellType(x-1, y) != SuperPacmanCellType.WALL);	//depends if it st
 	        			boolean hasUpEdge = ((y < getHeight()-1) && getCellType(x, y+1) != SuperPacmanCellType.WALL);
 	        			boolean hasRightEdge = ((x < getWidth()-1) && getCellType(x+1, y) != SuperPacmanCellType.WALL);
-	        			boolean hasDownEdge = ((y > 0) && getCellType(x, y-1) != SuperPacmanCellType.WALL);     			
-	        			
+	        			boolean hasDownEdge = ((y > 0) && getCellType(x, y-1) != SuperPacmanCellType.WALL);
+
 	        			graph.addNode(new DiscreteCoordinates(x,y), hasLeftEdge, hasUpEdge, hasRightEdge, hasDownEdge);
 	        		}
 	        	}
@@ -143,8 +138,12 @@ public class SuperPacmanBehavior extends AreaBehavior {
 			FREE_WITH_INKY ( -16724737), //cyan
 			FREE_WITH_CHERRY (-36752), //light red
 			FREE_WITH_BONUS ( -16478723), //light blue
-			FREE_EMPTY ( -6118750); // sort of gray
-	    	
+			FREE_EMPTY ( -6118750), // sort of gray
+			FREE_WITH_POISON_SINGED ( -10551409), //sort of light green
+			FREE_WITH_EARTH_SINGED(-7648456), //brown
+			FREE_WITH_FIRE_MAGE_SPIRIT(-34816), //orange
+			FREE_WITH_STONE_MAGE_SPIRIT(-9663096); //grey-blue
+
 	    	final int type;
 	    	
 	    	
@@ -170,6 +169,14 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	    			return FREE_WITH_BONUS; 
 	    		case -6118750:
 	    			return FREE_EMPTY;
+	    		case -10551409:
+					return FREE_WITH_POISON_SINGED;
+				case -7648456:
+					return FREE_WITH_EARTH_SINGED;
+				case -34816:
+					return FREE_WITH_FIRE_MAGE_SPIRIT;
+				case -9663096:
+					return FREE_WITH_STONE_MAGE_SPIRIT;
 	    		default:
 	    			return NONE;
 	    		}
@@ -229,7 +236,6 @@ public class SuperPacmanBehavior extends AreaBehavior {
 				}else {
 					currentGhosts.get(i).setAfraid(false);
 				}
-				//System.out.println(currentDumbGhosts + "All dumb Ghosts scared -");
 			}
 		}
 		if(currentSmartGhosts != null){
@@ -241,7 +247,6 @@ public class SuperPacmanBehavior extends AreaBehavior {
 					currentSmartGhosts.get(i).setAfraid(false);
 					currentSmartGhosts.get(i).setStateTransition(true);	//let them reevaluate their path
 				}
-				//System.out.println(currentSmartGhosts + "All smart Ghosts scared -");
 			}
 		}
 	}
@@ -249,20 +254,14 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	protected void allGhostToRefuge() {	//send ALL ghosts back to their refuge
 		if(currentGhosts != null){
 			for (int i = 0; i < currentGhosts.size(); i++) {
-				//System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "refuge : " + currentGhosts.get(i).refuge);
 				currentGhosts.get(i).backToRefuge();
-				//System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "position : " + currentGhosts.get(i).getPosition());
 			}
 		}
 		if(currentSmartGhosts != null){
 			for (int i = 0; i < currentSmartGhosts.size(); i++) {
-				//System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "refuge : " + currentGhosts.get(i).refuge);
 				currentSmartGhosts.get(i).backToRefuge();	//overwritten method is called
-				//System.out.println("Ghost number " + i + " " + currentGhosts.get(i) + "position : " + currentGhosts.get(i).getPosition());
 			}
 		}
-
-		//System.out.println(currentGhosts + "All Ghosts back to refuge -");
 	}
 
 	/**
@@ -272,7 +271,19 @@ public class SuperPacmanBehavior extends AreaBehavior {
 		Queue<Orientation> path = graph.shortestPath(main, target);
 		return path;
 	}
-	
+
+	/**
+	 *	Activate or desactivate the corresponding node
+	 */
+
+	protected void setSignalOfNode(DiscreteCoordinates positionOfNode, boolean activate){
+//		Logic logic;
+//		if(activate){
+//			graph.setSignal(positionOfNode, activate);
+//		}else{
+//
+//		}
+	}
 
 }
 

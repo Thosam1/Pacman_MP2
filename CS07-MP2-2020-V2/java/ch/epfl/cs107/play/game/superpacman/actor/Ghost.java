@@ -21,20 +21,20 @@ import ch.epfl.cs107.play.window.Keyboard;
 public class Ghost extends MovableAreaEntity {
 
 	//General 
-	protected DiscreteCoordinates refuge; 	//BACK TO PROTECTED
-	private Sprite[] afraidSprites;	//only 2 images for afraid - didnt find a way to keep []
-	private Animation afraidAnimations;
+	private DiscreteCoordinates refuge; 	//BACK TO PROTECTED
+
+	//sprite will be afraidSprites default, when not afraid the animation will be above
+	private Sprite[] afraidSprites = RPGSprite.extractSprites("superpacman/ghost.afraid", 2, 1, 1, this, 16, 16);	//2 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
+
+	private Animation afraidAnimations = new Animation(ANIMATION_DURATION / 4, afraidSprites);
 	
 	private boolean AFRAID = false;
-	
-	protected final int GHOST_SCORE = 500;
+	private final int GHOST_SCORE = 500;
 
 	
 	/// Animation duration in frame number
     private final static int ANIMATION_DURATION = 8;
     protected int SPEED = 6;
-    private Area area;
-	private final SuperPacmanGhostHandler handler;
  
     
     //for specific
@@ -43,11 +43,7 @@ public class Ghost extends MovableAreaEntity {
 	private Animation[] mainAnimations;
 	
 	private String nameOfMainSprite = "superpacman/ghost.blinky";
-	
-//	protected Orientation nextOrientation;
-//	protected Orientation actualOrientation;
-	
-    
+
     /**
 	 * Ghost superclass, abstract level
 	 * 
@@ -55,36 +51,17 @@ public class Ghost extends MovableAreaEntity {
 
 	public Ghost(Area area, DiscreteCoordinates coordinates) {	//constructeur	-area = aire où il appartient
 		super(area, Orientation.UP, coordinates);
-		this.area = area;
-
 		refuge = coordinates;
-		
-		//sprite will be afraidSprites default, when not afraid the animation will be above
-		afraidSprites = RPGSprite.extractSprites("superpacman/ghost.afraid", 2, 1, 1, this, 16, 16);	//2 frames in each row, width 1, height 1, parent this, width of frame (nb pixels in the image), height of frame
-		afraidAnimations = new Animation(ANIMATION_DURATION / 4, afraidSprites);
-
-		//attributeMainSprite(nameOfMainSprite);	//to avoid null pointer exception in draw and update
-
-		handler = new SuperPacmanGhostHandler();
 	}
 
 	
 	public void update(float deltaTime) { // check constantly if the player is immortal or not, so the animation can change
-//		checkAfraid();
 		if(AFRAID == true) { //if true, no animation and default sprite (afraid)
 			afraidAnimations.update(deltaTime);
-		}
-		if(AFRAID == false) {
+		}else{
 			mainAnimations[this.getOrientation().ordinal()].update(deltaTime);
 		}
-	/*
-		System.out.println(getFieldOfViewCells());
-		System.out.println();
-		System.out.println(" ------------------------------------------------------------------------------------------------------------------------ ");
-		System.out.println();
-		*/
 		super.update(deltaTime);
-
 	}
 	
 	@Override
@@ -138,7 +115,10 @@ public class Ghost extends MovableAreaEntity {
 		//array of 4 Sprite[] 1 per orientation
 		mainAnimations = Animation.createAnimations(ANIMATION_DURATION / 4, mainSprites);	//crée un tableau de 4 animations
 	}
-		
+
+	/**
+	 *	getters and setters common to all ghosts - useful -
+	 */
 		public void setAfraid(boolean afraid) {	//for Friday
 			if(afraid){
 				AFRAID = true;
@@ -146,35 +126,32 @@ public class Ghost extends MovableAreaEntity {
 				AFRAID = false;
 			}
 		}
-
 		protected boolean getAfraid(){
 		return AFRAID;
 		}
-		
-		public void backToRefuge() {
-			//playerMemory = null;
-			//seePlayer = false;
+		protected DiscreteCoordinates getRefuge(){return refuge;}
+		protected float getScore(){return GHOST_SCORE;}
+
+		public void backToRefuge() {	//will be called by the area, or by the interaction with the player when immortal
 			resetMotion();
-			area.leaveAreaCells(this, getEnteredCells());
+			getOwnerArea().leaveAreaCells(this, getEnteredCells());
 			setCurrentPosition(this.refuge.toVector());
-			area.enterAreaCells(this, getCurrentCells());
-			//setReevaluate(true); //so the pinky doesn't follow the player
+			getOwnerArea().enterAreaCells(this, getCurrentCells());
+
 		}
 		
-		protected void deplacement(int afraidSpeed, int normalSpeed) {
-			if(!isDisplacementOccurs()){
-				if(AFRAID){
-					this.move(afraidSpeed);
-				}else{
-					this.move(normalSpeed);
-				}
+		protected void deplacement(int afraidSpeed, int normalSpeed) {	//used by subclasses to move
+			if(AFRAID){
+				this.move(afraidSpeed);
+			}else{
+				this.move(normalSpeed);
 			}
 		}
-
-		protected class SuperPacmanGhostHandler implements SuperPacmanInteractionVisitor{
-			/*public void interactWith(SuperPacmanPlayer player) {
-				System.out.println("There IS AN INTERACTION");
-			}*/
+		protected void deplacement(Orientation next, int speed, int afraidSpeed) {
+			if(!isDisplacementOccurs()){
+				orientate(next);    //orientate the ghostorientate(next);    //orientate the ghost
+				deplacement(afraidSpeed, speed); //moving the ghost in the orientation needed
+			}
 		}
 		
 		

@@ -10,22 +10,16 @@ import ch.epfl.cs107.play.window.Canvas;
 
 
 public class Blinky extends Ghost {
-	private Area area;
-	private boolean starting = true;		//reinitialise / recall function if blinky back to basis / eaten or player is eaten
-	private boolean left;
-	private final int startingMoves = 5;
-	private int remainingStartingMoves = 5;
+	//private boolean starting = true;		//reinitialise / recall function if blinky back to basis / eaten or player is eaten
+	//private boolean left;
+	//private final int startingMoves = 5;
+	//private int remainingStartingMoves = 5;
 	// if left == true //down, move - left, move, move - up, move, move
 	// if left == false //down, move - right, move, move, down, move, move
 
-	public Blinky(Area area, DiscreteCoordinates coordinates, boolean left) {	//if left blinky : true - if right blinky : false
+	public Blinky(Area area, DiscreteCoordinates coordinates) {	//if left blinky : true - if right blinky : false
 		super(area, coordinates);
-		this.area = area;
 		this.attributeMainSprite("superpacman/ghost.blinky");
-		this. left = left;
-		System.out.println(coordinates);
-		//System.out.println("Width : " + area.getWidth());
-		//System.out.println("Height : " + area.getHeight());
 	}
 
 	public void update(float deltaTime) { // ?necessary?
@@ -39,31 +33,19 @@ public class Blinky extends Ghost {
 		}else{
 			deplacement(getNextOrientation(), SPEED, SPEED);//possibilité d avoir deux vitesses différentes
 		}
-		System.out.println(getOrientation());
-		System.out.println(remainingStartingMoves);
 		*/
 		deplacement(getNextOrientation(), SPEED, SPEED);//possibilité d avoir deux vitesses différentes
 	}
 
-	private void deplacement(Orientation next, int speed, int afraidSpeed) {
-
-		if(!this.isDisplacementOccurs()) {	//true if not moving	OR ON AN INTERSECTION? NODE IN THE GRAPH
-			this.orientate(next);	//orientate the ghost
-			deplacement(afraidSpeed, speed);
-		} /*else {
-			deplacement(afraidSpeed, speed);	//orientate the ghost each move - otherwise never get out of lv1
-		}*/
-
-
-
-	}
-//	@Override	//why override DOESNT WORK ?!????????
-	private Orientation getNextOrientation() {	//to redefine
-		//how to find the next orientation
+	private Orientation getNextOrientation() {
 		int randomInt = RandomGenerator.getInstance().nextInt(4);	//(index 0-3 for the ordinal of orientation)
 		Orientation nextOrientation = Orientation.fromInt(randomInt);
 		return nextOrientation;
 	}
+
+	/**
+	 * We tried to automate the firsts steps that blinky takes in lv1 so it can move in straight lines, however it took much time without results so we moved on - we wanted to put left or right (if left == false) in the constructor and move the blinky according to this boolean...
+	 */
 	/*
 	private void initialMovements (boolean leftStart) {    //blinky above pinky and inky in lv1
 		if (leftStart) {
