@@ -1,1 +1,304 @@
+0a. Contents
+    1: Modifications to the provided code
+    2. Added classes and interfaces (includes extension descriptions)
+    3. Deviations from the project description
+    4. List of all extensions
+
+
+0b. For a better reading experience of this document
+- Extensions are flagged with "[extension]"
+
+- Classes, abstract classes, interfaces, attributes and enumerations are flagged with
+"(class)", "(abstract class)", "(interface)", "(attributes)" and "(enum)", respectively.
+
+
+
+1. Modifications to the provided code
+
+1a. Modified (method) isOn of (class) And to return true if the two associated signals are true (didn't work before)
+
+2. Added classes and interfaces
+
+2a. ch.epfl.cs107.play.game.superpacman.actor;
+This package contains many different classes for the various Actors that we have created, some that we were asked to create 
+and others that we created for the bonus.
+The classes that we had to program are the following:
+
+- (class) Bonus
+    * Can be collected by the player and grants a special power (player is able to eat ghosts for a short time)
+    * Has an animation created by 4 Sprites which give the impression that the Bonus is turning
+    * Has a constant ANIMATION_DURATION which is set to (frames) ==> 3 animations per second in 24fps
+    * Is registered in certain locations of every Level
+    * Is drawn at every frame, as long that it hasnt been eaten
+
+- (class) Cherry
+    * Can be collected by the player and gives him a constant SCORE of 200
+    * Has a fixed sprite which is just a simple cherry
+    * Is registered in certain locations of every level
+    * Is drawn at ever fram, as long that it hasnt been eaten
+    * [extension] we added the fact that the player has an increased speed for 5 seconds after eating a cherry
+      however, this can't be seen in the (class) Cherry, instead go to the (class) SuperPacmanPlayer
+      (methods) speedVariation, setSpeed and increaseValueSpeed
+
+- (class) Diamond
+    * Can be collected by the player, gives him a constant SCORE of 10
+    * Has a fixed sprite which is a simple blue dot
+    * Is registered in certain locations of every Level(most abundant Collectable)
+    * Is drawn at every frame, as long that it hasnt been eaten
+    * Eating every Diamond in an area changes its signal, which can be used to open gates
+      ex: Level1 contains some of these gates
+
+- (class) Key
+    * Can be collected by the player, which changes its signal
+    * Has a fixed sprite which is a simple key
+    * Is registered in certain locations of every Level (created in the class for the Level)
+    * Is drawn at every frame, as long that it hasnt been eaten
+    * Some gates may need one or two of these keys to open (player has to collect them)
+    * Key implements Logic
+    * When collected, the boolean ramasseOuPas becomes true, which results in the (method) isOn
+      to return true 
+
+- (class) Gate
+    * Can not be collected, it serves as a Wall that can disappear
+    * Has two two sprites, a parallel and a horizontal one
+    * Is registered in certain locations of every Level
+      for this, they must be created and registered in the (method) createArea of each Level
+    * Is constructed with a signal which will determine if it is drawn or not, it is kept as the attribute 
+      [extension]We use keys, areas, oscillators and levers as signals
+    * takeCellSpace only returns true if the Gate is drawn <==> affichage is true
+    * the 
+    * [extension] The constructor takes a boolean (affichageInit) initially, affichageInitialisation 
+      and affichage take its value (the first is a constant)
+      if afficheInitialisation is true and the signal isOn then we don't want to draw the Gate
+      The other conditions can be seen in the code, but the idea is that this allows us to create Gates
+      that are not initially drawn eventhough the associated signal isOn
+      ex: when you go on a Lever, a Gate disapears in front, but a gate appears behind
+      
+- (class) Wall
+    * We did not modify anything
+    
+- (class) SuperPacmanPlayer
+    * Extends Player 
+    * Takes an area and coordinates as parameters for the constructor
+    * Starts with hp =5, score = 0 and speed = 5, These values are private but can be changed with the
+      (methods) getters, setters, increasers and decreasers that are provided
+    * constructor creates an instance of SuperPacmanPlayerStatusGUI which is called in draw and draws the hp and score
+    * player is animated by an animation of sprites which is initialized in the constructor
+    * (method) update calls on orientatePlayer to get the (attribute) desiredOrientation
+      animation is updated and reset depending on (method) isDisplacementOccurs
+      gives the capability to eat ghosts when a bonus has been eaten
+    * [extension](method)speedVariation increases speed by 1 every 60 frames until it reaches 5
+      useful for interactions with Cherry
+    *(class) SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor and defines the (method) interactWith
+      for each Actor registered in the Levels
+      
+- (class) Ghost
+    * Extends MoveableAreaEntity
+    * Contains speed, afraid animations and manages the animation (afraid or not) in update
+    * (method) attributMainSprite - to extract a sprite and create the animation when not afraid - called by subclasses to assign a main animation
+    * (method) deplacement - move the ghost according to its state (afraid or not) and speed - called by subclasses to move
+    * (method) backToRefuge - to put the ghost back to its refuge position
+    
+- (class) Blinky
+    * Extends Ghost
+
+- (class) IntelligentGhost
+    * Extends Ghost implements Interactor, intéragit à distance
+    * Because Inky and Pinky behave in a similar way, we made a getNextOrientation method that works for both of them.
+    * (class) SuperPacmanIntelligentGhostHandler implements SuperPacmanInteractionVisitor and defines interactWith for the pacman actor, to memorize it.
+    
+- (class) Inky
+    * Extends IntelligentGhost
+    * Uses getNextOrientation and deplacement of superclass-
+    
+- (class) Pinky
+    * Extends IntelligentGhost
+    * Uses getNextOrientation and deplacement of superclass-
+    
+Bonus classes:[extension]
+
+- (class) Oscillateur
+    * Isn't drawn, It is simply a Signal (implements Logic) that changes signal every given frames (we use frames as a unit of time)
+    * Is created in the createArea (method) of the Levels if we want to create a Gate with such a signal
+    * Gates with such a signal will appear and disappear
+    * To implement this, we created a timer which works with the attributes Timer and frameInterval
+     frameInterval is given at the construction
+    * once the Timer has reached the desired frameInterval, the Timer is reset, and if the signalOn is true, 
+      then it becomes false and vice versa
+      Otherwise, Timer increases by 1 and the signal stays the same
+ 
+- (class) Lever
+    * Is drawn at all times, in one of two positions: Up position if signal is true and Down position otherwise
+    * Implements Logic and serves as a signal for Gates
+    * Is created in the createArea (method) of the Levels
+    * Is cell interactable and doesnt take space
+    * Changes signal when the player enters its cell
+      (method) changeSignal only changes the signal if the timer is greater or equal to 72
+      (72 frames which is 3 seconds) This can be changed, but its important to have leaved the cell
+      before the signal can change again
+    
+- (class) Pacwoman
+    * Implements MoveableAreaEntity and has the same animation as (class) SuperPacmanPlayer, but in pink
+    * Implements a random motion similar to the one that singed has
+    * Only one Pacwoman is created and that is in Level2, where she is trapped by Gates
+    
+- (class) Spirit
+    * Extends MoveableAreaEntity
+    * Is a SuperClass, all spirits have speed 8
+    * Spirits are created in the createAreas (method) of the levels, in a similar way as the ghosts
+    * Is cell interactable and doesnt take space
+    * (method) attributeMainSpriteByMe - is used in the subclasses constructor to assign a sprite and an animation for the spirit
+    * (method)  draw and update - will take care of the animation
+    * (method) getNextOrientation - is used to generate a random orientation    
+    
+- (class) Singed
+    * Extends Spirit
+    * Singed will leave "something" behind them that can interact with the player - "something" of class "Magic"
+    * (method) deplacement - will take care of all movements of Singed - Singed moves in straight lines and chooses a random direction if stopped by an obstacle
+    * (method) doSomething - method that will be redefined in subclasses, this method is called every time Singed has moved one cell
+    * All subclasses are created in the same way as Blinky, Inky and Pinky
+    
+- (class) EarthSinged
+    * Extends Singed
+    * (method) doSomething - will create a "MudRock" 
+    * Is created in the same way as Blinky, Inky and Pinky
+    
+- (class) PoisonSinged
+    * Extends Singed
+    * (method) doSomething - will create a "PoisonSmoke" 
+    
+- (class) MageSpirit
+    * Extends Spirit
+    * Constructor will take an intervalTime - corresponds to the number of seconds between each cast/action/call of "doSomething" method
+    * (method) deplacement - MageSpirit will move choose a new direction at each update before moving
+     (method) doSomething - to redefine in subclasses
+    * Using listOfAllCellsAround and randomCoordinates - the subclasses will be able to redefine doSomething
+    * All subclasses are created in the same way as Blinky, Inky and Pinky
+    
+- (class) FireMageSpirit
+    * Extends MageSpirit
+    * Has a range parameter
+    * (method) doSomething - will create a "Fire"  
+    
+- (class) StoneMageSpirit
+    * Extends MageSpirit
+    * Has a range parameter
+    * (method) doSomething - will create a "Rock" 
+    
+- (class) Magic
+    * Extends AreaEntity implements Interactor
+    * They can have contact interactions
+    * Constructor takes a float lifeTimeSpan corresponding to how long it will stay in the area in seconds
+    * (method) update - has a timer inside and call the method dies at the end of the lifeTimeSpan which will remove the AreaEntity from the area
+    * (method) draw for the animations
+    * (method) attributeMainSpriteByMe - assign the animations and the sprite (this method is called in the constructor of subclasses)
+
+- (class) MudRock
+    * Extends Magic
+    * Has a speedDebuff parameter, MudRock will slow down the player through contact interaction
+    * (class) SuperPacmanMudRockHandler implements SuperPacmanInteractionVisitor - for the interaction with the player
+    * To put the player back to normal speed, we incorporated a timer in SuperPacmanPlayer which is triggered when the player interacts with the MudRock
+
+- (class) PoisonSmoke
+    * Extends Magic
+    * Has a scoreDebuff parameter, PoisonSmoke will decrease the player score when in contact, but only once per PoisonSmoke
+    * (class) SuperPacmanPoisonSmokeHandler implements SuperPacmanInteractionVisitor - for the interaction with the player
+
+- (class) Fire
+    * Extends Magic
+    * Has a burnScore that will be subtracted to the player score in contact (with the player) and also killing the player
+    * (class) SuperPacmanFireHandler implements SuperPacmanInteractionVisitor
+     
+- (class) Rock
+    * Extends Magic
+    * takeCellSpace is set to true, so no ghost nor the player can pass (more interesting gameplay)
+    * (method) doSomething - will create a "Rock" 
+    
+2b. ch.epfl.cs107.play.game.superpacman.area;
+These are all the classes that are involved in the creation of the areas. Create and register the actors
+- (class) Level0, Level1, Level2
+    * each Level has its own constant DiscreteCoordinates PLAYER_SPAWN_POSITION
+      getPlayerSpawnPosition returns this value
+    * each Level has (method) getTitle which returns the title of the Level as a String
+    * create Area is called at the creation of an area, to create and register Actors that are not added
+      by SuperPacmanBehavior (Key, Gate, Oscillateur, Lever)
+
+- (class) SuperPacmanArea
+    * (method) getCameraScaleFactor returns CAMERA_SCALE_FACTOR
+    * (method) createArea takes a behavior as paramater and calls registerActors on it with the 
+      area as parameter, creates the Walls, Cherry, Diamonds, Bonus, Ghosts etc. that are not created in the Levels
+    * (method) scareInBehavior takes a boolean parameter (choose), and calls scareAllGhosts which frightens the ghosts
+      if choose is true
+    * (method) allGhostToRefugeBehavior calls (method) allGhostToRefuge on (attribute) behavior 
+      which is created in the constructor
+    * (method) shortestPath calls (method) shortestPath on the attribute
+    * The class implements Logic, (method) isOn returns true if (attribute) numberOfDiamonds is equal to 0
+      i.e. the signal turns on
+      
+- (class) SuperPacmanBehavior
+    * constructor creates the Cells and (attributes) height, width, graph
+    * (method) registerActors creates and registers all Walls, Bonus, Cherry, Diamond, Blinky, Inky, Pinky
+      adds nodes to (attribute) graph
+    * (method) getCellType returns the type of a Cell
+    * (method) getNeighbours return a 3D (3x3) boolean list to create the Walls
+      called in registerActors
+    * (enum) SuperPacmanCellType associates a type to each value
+    * (class) SuperPacmanCell define cell caracteristics
+      can enter if hasNonTraversableContent returns false
+      no interactions with cells
+      can always leave a Cell
+    * (method) scareAllGhosts make the ghost afraid depending on the value of the boolean
+      choose
+    * (method) allGhostToRefuge sends Ghosts to their refuge
+    * (method) shortestPath returns the list of orientations needed to go from main to target, 
+      if it doesn't exist, it will return null
+
+2c. ch.epfl.cs107.play.game.superpacman.handler;
+This package contains the interface that handles the interactions
+- (interface) SuperPacmaninteractionVisitor 
+    * extends RPGInteractionVisitor and containes empty 
+      default (methods) interactWith for each Actor that can interact with the player
+    * These methods are specifically defined in (class) SuperPacmanPlayerHandler
+
+2d. ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI;
+- (class) SuperPacman
+    * (String Array) areas contains the names of the three levels
+    * (Discretecoordinates Array) startingPositions contains the coordinates for the spawn
+      position in each area
+    * (method) getTitle returns the name of the game, "Super Pac-Man"
+    * (method) createAreas calls addArea with an instance of each Level
+    * (method) end has not been implemented yet
+    * (method) begin creates the Areas, creates the player, initializes it and sets the current 
+      area as the one designated by (attribute) areaIndex
+    
+- (class) SuperPacmanPlayerStatusGUI
+    * implements (interface) Graphics
+    * three private attributes: (constant) DEPTH  which has a high value to have the priority
+      when the Imagegraphics is drawn
+      anchor which is a vector that tells where the ImageGraphics and TextGraphics need to be drawn
+      the constructor takes a player as parameter and takes it as an attribute to have access
+      to his hp and score methods
+    * (method) getLife draws 5 lives (yellow or gray ones) at every frame
+    * the number of yellow lives is equal to the hp that the player has left
+      which we have thanks to player's (method) getHP
+    * (method) getScore draws player's score at every frame
+      thanks to SuperPacmanPlayer's (method) getScore
+    * (method) draw is called every frame and calls getLife and getScore to create a 
+      fluid image containing the lives and score of the player 
+
+3. Deviations from the project description
+- Added some Gates that function with (class) Oscillateur and Lever
+- Changed the constructor of (class) Gate to be able to have Gates that are drawn when 
+  their associated signal is true
+- Added two new types of "spirit", those do not directly interact with the player but will however impact the game
+
+4. List of all extensions
+-speed increase after collection of Cherry
+-Lever
+-Oscillateur
+-Singed spirits
+-MageSpirits 
+-Different objects/elements created by the spirits such as : MudRock, PoisonSmoke, Rock, Fire, ...
+-(Scenario) Pacwoman
+
 
