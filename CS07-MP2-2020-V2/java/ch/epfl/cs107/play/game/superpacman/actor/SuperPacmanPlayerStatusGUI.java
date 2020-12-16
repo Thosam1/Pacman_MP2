@@ -34,12 +34,12 @@ public class SuperPacmanPlayerStatusGUI implements Graphics{
 		for(int j=0; j<(int)player.getHp(); ++j){
 			new ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplay"),
 			1.f, 1.f, new RegionOfInterest(0, 0, 64, 64),
-			anchor.add(new Vector(-7f+j, 6f)), 1, DEPTH).draw(canvas);
+			anchor.add(new Vector(-8f+j, 8f)), 1, DEPTH).draw(canvas);
 		}
 		for(int w=(int)player.getHp(); w<5; w++) {
 			new ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplay"),
 			1.f, 1.f, new RegionOfInterest(64, 0, 64, 64),
-			anchor.add(new Vector(-7f+w, 6f)), 1, DEPTH).draw(canvas);
+			anchor.add(new Vector(-8f+w, 8f)), 1, DEPTH).draw(canvas);
 		}
 	}
 	
@@ -49,7 +49,7 @@ public class SuperPacmanPlayerStatusGUI implements Graphics{
 	public void getScore(Canvas canvas) {
 		anchor = canvas.getTransform().getOrigin();// place le milieu de l' écran en référentiel
 		new TextGraphics("Score: " + String.valueOf(player.getScore()), 1.2f, Color.BLACK, Color.YELLOW, 0.025f, true, true,
-				anchor.add(new Vector(-1f, 6f))).draw(canvas); 
+				anchor.add(new Vector(-1f, 8f))).draw(canvas); 
 		//La première couleur désigne la couleur de l'intérieur des lettres tandis que la deuxième désigne celle de l'exterieur
 	}
 	

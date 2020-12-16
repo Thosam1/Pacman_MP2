@@ -5,6 +5,7 @@ import ch.epfl.cs107.play.game.superpacman.actor.Gate;
 import ch.epfl.cs107.play.game.superpacman.actor.Key;
 import ch.epfl.cs107.play.game.superpacman.actor.Lever;
 import ch.epfl.cs107.play.game.superpacman.actor.Oscillateur;
+import ch.epfl.cs107.play.game.superpacman.actor.Pacwoman;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.signal.logic.And;
 
@@ -84,5 +85,8 @@ public class Level2 extends SuperPacmanArea{
         registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(20,20), new Oscillateur(72, true,10),true));
         registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(20,18), new Oscillateur(72, true,5),true));
         registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(20,16), new Oscillateur(72, true,0),true));
+	
+        registerActor(new Pacwoman(this, Orientation.LEFT, new DiscreteCoordinates(14,4)));
+       // registerActor(new Pacwoman(this, Orientation.LEFT, new DiscreteCoordinates(15,27)));
 	}
 }
