@@ -30,7 +30,6 @@ public class SuperPacmanPlayer extends Player{
 	private int speed = 5;//low value ==> high speed
 	private Orientation desiredOrientation;
 	private Area area;
-	private SuperPacmanArea superArea;	//for interaction with ghost - method to setAllGhosts to the same place
 	private SuperPacmanPlayerStatusGUI status;
 	private DiscreteCoordinates PLAYER_SPAWN_POSITION; //dépend de l'aire actuelle !
 	private final SuperPacmanPlayerHandler handler;
@@ -68,7 +67,6 @@ public class SuperPacmanPlayer extends Player{
 	public SuperPacmanPlayer(Area area, DiscreteCoordinates coordinates) {
 		super(area, Orientation.RIGHT, coordinates);
 		this.area = area;
-		this.superArea = (SuperPacmanArea) area; //for the interaction with ghost - method to setAllGhosts to the same place
 
 		PLAYER_SPAWN_POSITION = coordinates;
 		hp = 5; //may want to have a parameter for this
@@ -145,8 +143,7 @@ public class SuperPacmanPlayer extends Player{
 				bonusEaten = false;
 				timerImmortal = timeImmortal;
 
-				SuperPacmanArea temp = (SuperPacmanArea) this.area;
-				temp.scareInBehavior(false);
+				((SuperPacmanArea)getOwnerArea()).scareInBehavior(false);
 				everyoneIsAfraid = false;
 			}
 		}
@@ -288,7 +285,7 @@ public class SuperPacmanPlayer extends Player{
 
 	//events that pacman can ask the area
 	public void pacmanHasDied(){
-		superArea.allGhostToRefugeBehavior();	//works fine
+		((SuperPacmanArea)getOwnerArea()).allGhostToRefugeBehavior();	//works fine - for the interaction with ghost - method to setAllGhosts to the same place
 		decreaseHp(1);
 		setSpeed(getBASE_SPEED());
 		area.leaveAreaCells(this, getEnteredCells());
