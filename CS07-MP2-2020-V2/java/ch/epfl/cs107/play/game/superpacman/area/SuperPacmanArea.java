@@ -13,7 +13,7 @@ import ch.epfl.cs107.play.window.Window;
 abstract public class SuperPacmanArea extends Area implements Logic{
 	private Window window; 
 	public SuperPacmanBehavior behavior;
-	
+
 	public final float CAMERA_SCALE_FACTOR = 20.f;
 	
 	/**creates the area which is visually represented on a window that pops up on the screen of the player
@@ -64,7 +64,8 @@ abstract public class SuperPacmanArea extends Area implements Logic{
 	public void setSignalOfNode(DiscreteCoordinates coordinatesOfNode, boolean activate){
 
 	}
-	
+
+
 	/**if the numberOfDiamonds left in the Area is equal to 0, meaning that they have all been eaten,
 	 * then isOn returns true
 	 * (look at Area for a detailed explanation of numberOfDiamonds)*/

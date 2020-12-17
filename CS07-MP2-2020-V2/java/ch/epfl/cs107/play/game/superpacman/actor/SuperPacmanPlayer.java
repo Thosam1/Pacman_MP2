@@ -284,6 +284,7 @@ public class SuperPacmanPlayer extends Player{
 	public void setSpeed(int speed) {this.speed = speed;}
 	public int getSpeed() {return this.speed;}
 	public int getBASE_SPEED(){return this.BASE_SPEED;}
+	public void setPLAYER_SPAWN_POSITION(DiscreteCoordinates PLAYER_SPAWN_POSITION){ this.PLAYER_SPAWN_POSITION = PLAYER_SPAWN_POSITION;}	//so the area can change the spawn position based on the level
 
 	//events that pacman can ask the area
 	public void pacmanHasDied(){
@@ -304,6 +305,7 @@ public class SuperPacmanPlayer extends Player{
 
 		public void interactWith(Door door){
 			setIsPassingADoor(door);
+			setPLAYER_SPAWN_POSITION(door.getOtherSideCoordinates());
 		}
 
 		public void interactWith(Key key) {

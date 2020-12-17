@@ -10,7 +10,7 @@ public class PoisonSmoke extends Magic{
     private final SuperPacmanPoisonSmokeHandler handler;
 
     private boolean scoreDebuffed = false;
-    private final float scoreDebuff = 40.f;
+    private final float scoreDebuff = 60.f;
 
     public PoisonSmoke(Area area, DiscreteCoordinates coordinates, float lifeTimeSpan) {
         super(area, coordinates, lifeTimeSpan);

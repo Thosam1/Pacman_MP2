@@ -42,7 +42,7 @@ public class MageSpirit extends Spirit {
         //if(!this.isDisplacementOccurs()) {	//true if not moving	OR ON AN INTERSECTION? NODE IN THE GRAPH
             this.orientate(next);	//orientate the ghost
             move(SPEED);
-        //}
+
     }
 
     protected void doSomething(){   //to redefine in subclasses

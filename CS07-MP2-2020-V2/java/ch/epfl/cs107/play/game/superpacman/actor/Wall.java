@@ -29,15 +29,15 @@ public class Wall extends AreaEntity{
 
 	/**
 	 *	if you want to choose between wall sprites :
-	 *  "pacman/RockWall"
-	 *  "pacman/wall"
+	 *  "superpacman/RockWall"
+	 *  "superpacman/wall"
 	 */
 
 	private String wallSprite;
 
 	public Wall(Area area, DiscreteCoordinates position, boolean[][] neighborhood) {
 		super(area, Orientation.DOWN, position);
-		setWallSprite("pacman/wall");
+		setWallSprite("superpacman/RockWall");
 
 		if(neighborhood[0][1] && neighborhood[2][1] && !neighborhood[1][0] && !neighborhood[1][2]) {
 			//horizontal

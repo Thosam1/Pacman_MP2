@@ -137,7 +137,6 @@ public class Ghost extends MovableAreaEntity {
 			getOwnerArea().leaveAreaCells(this, getEnteredCells());
 			setCurrentPosition(this.refuge.toVector());
 			getOwnerArea().enterAreaCells(this, getCurrentCells());
-
 		}
 		
 		protected void deplacement(int afraidSpeed, int normalSpeed) {	//used by subclasses to move

@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Spirit extends MovableAreaEntity {
-    protected DiscreteCoordinates spawn;
+    private DiscreteCoordinates spawn;
 
     /// Animation duration in frame number
     protected final static int ANIMATION_DURATION = 8;
@@ -61,6 +61,12 @@ public class Spirit extends MovableAreaEntity {
         spriteAnimations.draw(canvas);
     }
 
+    public void backToSpawn(){
+        resetMotion();
+        getOwnerArea().leaveAreaCells(this, getEnteredCells());
+        setCurrentPosition(this.spawn.toVector());
+        getOwnerArea().enterAreaCells(this, getCurrentCells());
+    }
     /**
      * All methods related to interactable
      */

@@ -156,7 +156,7 @@ public class IntelligentGhost extends Ghost implements Interactor {
             setReevaluate(true); //otherwise, inky and pinky stop chasing the player as soon it gets out of the range and start moving back and forth at the same location...
         }
 
-        if(!seePlayer && targetPos != null && !getAfraid() && targetPos != getCurrentMainCellCoordinates()){    //otherwise pinky would change destination every movement
+        if(!seePlayer && targetPos != null && !getAfraid() && targetPos != getCurrentMainCellCoordinates()){    //otherwise pinky would change destination every movement when afraid
             setReevaluate(false);
         }
 
@@ -184,7 +184,7 @@ public class IntelligentGhost extends Ghost implements Interactor {
      *      same parameters as before,  --- find a new target position, based on the current situation  ---
      */
     private void findNewTargetPos(DiscreteCoordinates from, DiscreteCoordinates fromNot,  int maxWhenScared, int maxWhenNotScared) {
-        if (this.getAfraid() == true) {
+        if (getAfraid() == true) {
             targetPos = randomEscapeCoordinates(EscapeCoordinates(from, maxWhenScared));
         } else {
             if (seePlayer == true) {    //move towards player

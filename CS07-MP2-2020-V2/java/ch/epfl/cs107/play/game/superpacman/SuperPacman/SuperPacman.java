@@ -1,4 +1,4 @@
-package ch.epfl.cs107.play.game.superpacman.SuperPacmanAndGUI;
+package ch.epfl.cs107.play.game.superpacman.SuperPacman;
 
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.rpg.RPG;
@@ -44,7 +44,6 @@ public class SuperPacman extends RPG{
       area as the one designated by (attribute) areaIndex*/
 	public boolean begin(Window window, FileSystem fileSystem) {
 		if (super.begin(window, fileSystem)) {
-
 			createAreas();
 			areaIndex = 0;
 			Area area = setCurrentArea(areas[areaIndex], true);

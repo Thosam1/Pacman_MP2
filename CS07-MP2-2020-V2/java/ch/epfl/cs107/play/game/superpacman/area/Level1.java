@@ -1,9 +1,11 @@
 package ch.epfl.cs107.play.game.superpacman.area;
 
+import ch.epfl.cs107.play.game.areagame.actor.Background;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.rpg.actor.Door;
 import ch.epfl.cs107.play.game.superpacman.actor.Gate;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
 public class Level1 extends SuperPacmanArea{
@@ -15,6 +17,7 @@ public class Level1 extends SuperPacmanArea{
 	public String getTitle() {
 		return "superpacman/Level1";
 	}
+	private Background grassBackGround;
 	
 	/**@return PLAYER_SPAWN_POSITION: position where the players spawn in this Level*/
 	public DiscreteCoordinates getPlayerSpawnPosition() {
@@ -30,9 +33,10 @@ public class Level1 extends SuperPacmanArea{
 	 * the method registerActor adds Actors to the Area
 	 * */
 	public void createArea(SuperPacmanBehavior behavior) {
-        super.createArea(behavior);
-        registerActor(new Door("superpacman/Level2", Level2.PLAYER_SPAWN_POSITION, Logic.TRUE, this, Orientation.DOWN, new DiscreteCoordinates(14,0), new DiscreteCoordinates(15,0)));
-        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(14,3), this, true));
-        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(15,3), this, true));
-        }
+		super.createArea(behavior);
+		registerActor(new Door("superpacman/Level2", Level2.PLAYER_SPAWN_POSITION, Logic.TRUE, this, Orientation.DOWN, new DiscreteCoordinates(14, 0), new DiscreteCoordinates(15, 0)));
+		registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(14, 3), this, true));
+		registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(15, 3), this, true));
+		registerActor(new Background(this, new RegionOfInterest(1, 896, 30, 30), "superpacman/grassBackground"));
+	}
 }
