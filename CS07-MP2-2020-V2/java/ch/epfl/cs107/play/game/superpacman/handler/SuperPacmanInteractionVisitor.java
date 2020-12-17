@@ -19,5 +19,5 @@ public interface SuperPacmanInteractionVisitor  extends RPGInteractionVisitor{
 	default void interactWith(MudRock mudRock){}
 	//default void interactWith(IceWind iceWind){}
 	default void interactWith(PoisonSmoke poisonSmoke){}
-
+	default void interactWith(Pacwoman pacwoman) {}
 }

@@ -1,7 +1,10 @@
 package ch.epfl.cs107.play.game.superpacman.actor;
 
+import java.awt.Color;
 import java.util.Collections;
 import java.util.List;
+
+import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Animation;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
@@ -14,6 +17,8 @@ import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.TextAlign;
+import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
@@ -32,9 +37,6 @@ public class SuperPacmanPlayer extends Player{
 	private DiscreteCoordinates PLAYER_SPAWN_POSITION; //dépend de l'aire actuelle !
 	private final SuperPacmanPlayerHandler handler;
 	private boolean IMMORTAL = false;
-	public boolean getIMMORTAL () {
-		return IMMORTAL;
-	}
 	private float timerImmortal = 10.f; // décrémenter cette valeur par deltaTime et remettre IMMORTAL à false, avant de réinitialiser timerImmortal 4.f quand elle atteint 0
 	private final float timeImmortal = 10.f;
 	private boolean bonusEaten = false;
@@ -44,6 +46,9 @@ public class SuperPacmanPlayer extends Player{
 	private boolean consecutiveSpeedDebuff = false;
 	private float timerSpeedDebuff = .5f;
 	private final float timeSpeedDebuff = .5f;
+	private float scoreFinal;
+	private int hpFinal;
+	private boolean endOfGame = false;
 
 
 	private Sprite[][] sprites; //initialisation du tableau 2D qui contiendra les sprites de l'animation du player
@@ -165,15 +170,36 @@ public class SuperPacmanPlayer extends Player{
 	    super.update(deltaTime);  //important to call update on the superclass
 	}
 
+	/**takes the final score and hp and changes the value of endOfGame
+	 * becomes invincible*/
+	public void stop() {
+		scoreFinal = getScore();
+		hpFinal = getHp();
+		endOfGame = true;
+		setImmortal();
+	}
+	
 	/**The method draw is called at every frame and has two functions
 	 * The first one is to draw the animation of the pacman: It needs to open and close its mouth, 
 	 * and change orientation, when the Orientation of the movement changes
 	 * Secondly, calling draw on status, draws the lives and the score at the top of the screen*/
 	@Override
 	public void draw(Canvas canvas) {
-		animations[this.getOrientation().ordinal()].draw(canvas);
-		status.draw(canvas);//draw les vies et le score
-
+		if (endOfGame) {
+			//add(new Vector(-1f, 8f))
+			//anchor = canvas.getTransform().getOrigin();
+			new Sprite("scoreboard", 20.f, 20.f,this, null, new Vector(-10f,-10f), 1.0f, 9000f).draw(canvas);
+			new TextGraphics("Final Score: ", 2.5f, Color.BLACK, Color.YELLOW, 0.025f, true, true,
+					canvas.getTransform().getOrigin().add(new Vector(-7f,4f)),TextAlign.Horizontal.LEFT, TextAlign.Vertical.BOTTOM, 1.0f, 10000f).draw(canvas); 
+			new TextGraphics(String.valueOf(scoreFinal), 2.5f, Color.BLACK, Color.YELLOW, 0.025f, true, true,
+					canvas.getTransform().getOrigin().add(new Vector(-5f,0f)),TextAlign.Horizontal.LEFT, TextAlign.Vertical.BOTTOM, 1.0f, 10000f).draw(canvas); 
+			new TextGraphics("Final Hp: " + String.valueOf(hpFinal), 2.5f, Color.BLACK, Color.YELLOW, 0.025f, true, true,
+					canvas.getTransform().getOrigin().add(new Vector(-7f,-4f)),TextAlign.Horizontal.LEFT, TextAlign.Vertical.BOTTOM, 1.0f, 10000f).draw(canvas); 
+		}
+		else {
+			animations[this.getOrientation().ordinal()].draw(canvas);
+			status.draw(canvas);//draw les vies et le score
+		}
 	}
 
 	/**
@@ -277,7 +303,9 @@ public class SuperPacmanPlayer extends Player{
 		else this.hp=0;
 		}
 	public int getHp() {return this.hp;}
-	public void increaseScore(float score) {this.score += score;}
+	public void increaseScore(float score) {
+		if(!endOfGame) {
+		 this.score += score;}}
 	public float getScore() {return this.score;}
 	public void setScore(float score){this.score = score;}
 	public void increaseValueSpeed(int speed) {this.speed += speed;}//increasing the value, reduces the actual speed of the player
@@ -285,7 +313,12 @@ public class SuperPacmanPlayer extends Player{
 	public int getSpeed() {return this.speed;}
 	public int getBASE_SPEED(){return this.BASE_SPEED;}
 	public void setPLAYER_SPAWN_POSITION(DiscreteCoordinates PLAYER_SPAWN_POSITION){ this.PLAYER_SPAWN_POSITION = PLAYER_SPAWN_POSITION;}	//so the area can change the spawn position based on the level
-
+	public boolean getIMMORTAL () {
+		return IMMORTAL;
+	}
+	public void setImmortal () {
+		IMMORTAL = true;
+	}
 	//events that pacman can ask the area
 	public void pacmanHasDied(){
 		((SuperPacmanArea)getOwnerArea()).allGhostToRefugeBehavior();	//works fine - for the interaction with ghost - method to setAllGhosts to the same place
@@ -372,6 +405,10 @@ public class SuperPacmanPlayer extends Player{
 			}else{
 				consecutiveSpeedDebuff = true;
 			}
+		}
+		/**stops game*/
+		public void interactWith(Pacwoman pacwoman) {
+			stop();
 		}
 
 	}
