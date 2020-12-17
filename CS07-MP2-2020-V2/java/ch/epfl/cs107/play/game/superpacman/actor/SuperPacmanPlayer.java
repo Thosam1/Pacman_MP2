@@ -1,6 +1,5 @@
 package ch.epfl.cs107.play.game.superpacman.actor;
 
-import java.awt.Color;
 import java.util.Collections;
 import java.util.List;
 import ch.epfl.cs107.play.game.areagame.Area;
@@ -19,7 +18,6 @@ import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
-import javax.swing.text.StyleContext;
 
 public class SuperPacmanPlayer extends Player{
 	private int hp; //nombre de vies du joueur: commence à 5 et termine à 0
@@ -272,7 +270,12 @@ public class SuperPacmanPlayer extends Player{
 		}
 	}
 	/**Getters, Setters, Deacreasers and Increasers*/
-	public void decreaseHp(int hp) {this.hp -= hp;}
+	public void decreaseHp(int hp) {
+		if(hp>0) {
+			this.hp -= hp;
+			}
+		else this.hp=0;
+		}
 	public int getHp() {return this.hp;}
 	public void increaseScore(float score) {this.score += score;}
 	public float getScore() {return this.score;}

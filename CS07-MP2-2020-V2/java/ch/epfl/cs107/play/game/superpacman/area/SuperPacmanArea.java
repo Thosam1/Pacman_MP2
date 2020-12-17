@@ -60,6 +60,7 @@ abstract public class SuperPacmanArea extends Area implements Logic{
 	public Queue<Orientation> shortestPath(DiscreteCoordinates main, DiscreteCoordinates target){
 		return behavior.shortestPath(main, target);
 	}
+	
 	/**calls method setSignalOfNode on the attribute behavior*/
 	public void setSignalOfNode(DiscreteCoordinates coordinatesOfNode, boolean activate){
 
