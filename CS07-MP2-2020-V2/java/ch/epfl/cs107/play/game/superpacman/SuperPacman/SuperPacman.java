@@ -45,7 +45,7 @@ public class SuperPacman extends RPG{
 	public boolean begin(Window window, FileSystem fileSystem) {
 		if (super.begin(window, fileSystem)) {
 			createAreas();
-			areaIndex = 0;
+			areaIndex = 1;
 			Area area = setCurrentArea(areas[areaIndex], true);
 			player = new SuperPacmanPlayer(area, startingPositions[areaIndex]);
 			initPlayer(player);

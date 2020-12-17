@@ -47,19 +47,20 @@ public class Pinky extends IntelligentGhost {
 		*/
 		if(!this.isDisplacementOccurs()){
 			orientate(next);    //orientate the ghost
+			int dist = MIN_AFRAID_DISTANCE +1; // = MIN_AFRAID_DISTANCE so it doesnt get messed up
+			if(seePlayer && getAfraid()) {
+				dist = (int) distanceBetween(playerMemory.getCurrentCells().get(0), this.getCurrentMainCellCoordinates());
+			}
+			if(dist <= MIN_AFRAID_DISTANCE && MAX_RANDOM_ATTEMPT >= 0){
+				reevaluate = true;
+				MAX_RANDOM_ATTEMPT -= 1;
+			}
+			if (!seePlayer){
+				MAX_RANDOM_ATTEMPT = FINAL_MAX_RANDOM_ATTEMPT;
+			}
 			deplacement(afraidSpeed, speed);
 		}
-		int dist = MIN_AFRAID_DISTANCE; //so it doesnt get messed up
-		if(playerMemory != null) {
-			dist = (int) distanceBetween(playerMemory.getCurrentCells().get(0), this.getCurrentMainCellCoordinates());
-		}
-		if(dist <= MIN_AFRAID_DISTANCE && MAX_RANDOM_ATTEMPT >= 0){
-			reevaluate = true;
-			MAX_RANDOM_ATTEMPT -= 1;
-		}
-		if (!seePlayer){
-			MAX_RANDOM_ATTEMPT = FINAL_MAX_RANDOM_ATTEMPT;
-		}
+
 	}
 
 }

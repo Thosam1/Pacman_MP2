@@ -148,9 +148,10 @@ public class IntelligentGhost extends Ghost implements Interactor {
      */
     protected Orientation getNextOrientation(DiscreteCoordinates from, DiscreteCoordinates fromNot,  int maxWhenScared, int maxWhenNotScared) {
 
-        if(targetPos != null &&(this.getCurrentMainCellCoordinates() == targetPos || getStateTransition())) {     //   || !isDisplacementOccurs() permettent au inky et pinky d'éviter de faire des allers retours sur place
+        if(targetPos != null &&(this.getCurrentMainCellCoordinates() == targetPos )) {     //   || !isDisplacementOccurs() permettent au inky et pinky d'éviter de faire des allers retours sur place
             setReevaluate(true);
-            setStateTransition(false);
+            setStateTransition(false);  //|| getStateTransition()
+            System.out.println("HELL REACHED / CHANGE TRANSITION");
         }
         if(seePlayer && !getAfraid() && targetPos != playerMemory.getCurrentCells().get(0)){
             setReevaluate(true); //otherwise, inky and pinky stop chasing the player as soon it gets out of the range and start moving back and forth at the same location...
