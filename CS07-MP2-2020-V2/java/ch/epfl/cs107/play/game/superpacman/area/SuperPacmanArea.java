@@ -7,6 +7,7 @@ import ch.epfl.cs107.play.game.areagame.AreaGraph;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.signal.Signal;
 import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Window;
 
@@ -62,8 +63,8 @@ abstract public class SuperPacmanArea extends Area implements Logic{
 	}
 	
 	/**calls method setSignalOfNode on the attribute behavior*/
-	public void setSignalOfNode(DiscreteCoordinates coordinatesOfNode, boolean activate){
-
+	public void setSignalOfNode(DiscreteCoordinates coordinatesOfNode, Logic signalAsk){
+		behavior.setSignalOfNode(coordinatesOfNode, signalAsk);
 	}
 
 

@@ -54,9 +54,9 @@ public class IntelligentGhost extends Ghost implements Interactor {
     public void draw(Canvas canvas) {
         super.draw(canvas);
 
-//        if (graphicPath != null) {
-//            graphicPath.draw(canvas);    //drawing the path taken by ghost
-//        }
+        if (graphicPath != null) {
+            graphicPath.draw(canvas);    //drawing the path taken by ghost
+        }
     }
 
     /**
@@ -161,7 +161,7 @@ public class IntelligentGhost extends Ghost implements Interactor {
             setReevaluate(false);
         }
 
-        if(reevaluate == true) {	//then check for the new path   Cases when reevaluate a path : 1) if destination is reached 2) if ghosts become scared / pacman eats becomes invincible 3) if pacman enters in the field of view
+        if(reevaluate == true) {   //then check for the new path   Cases when reevaluate a path : 1) if destination is reached 2) if ghosts become scared / pacman eats becomes invincible 3) if pacman enters in the field of view
             findNewTargetPos(from, fromNot, maxWhenScared, maxWhenNotScared);
         }
 
@@ -171,14 +171,15 @@ public class IntelligentGhost extends Ghost implements Interactor {
         //resetMotion();    //EN AJOUTANT LE RESET MOTION; LES FANTOMES ATTEIGNENT LE JOUEUR MAIS ENORME BUG LORSQUE LE JOUEUR DEVIENT INVINCIBLE
 
         if(path == null){
-            //graphicPath = new Path(this.getPosition(), new LinkedList<Orientation>());  //dessin
+            graphicPath = new Path(this.getPosition(), new LinkedList<Orientation>());  //dessin
             return getOrientation(); //possible!!!! -> take stay in the same orientation
         }else{
-            //pathList = new LinkedList<Orientation>(path);
-            //graphicPath = new Path(this.getPosition(), pathList);   //dessin
+            pathList = new LinkedList<Orientation>(path);
+            graphicPath = new Path(this.getPosition(), pathList);   //dessin
             return path.poll();
         }
     }
+
 
 
     /**
@@ -196,6 +197,7 @@ public class IntelligentGhost extends Ghost implements Interactor {
             }
         }
     }
+
 
 
 //    private DiscreteCoordinates newTargetPosition (DiscreteCoordinates anchor, int range){

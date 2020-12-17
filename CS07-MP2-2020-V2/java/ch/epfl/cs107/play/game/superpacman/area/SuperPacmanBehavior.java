@@ -12,6 +12,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.superpacman.actor.*;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Window;
 
 public class SuperPacmanBehavior extends AreaBehavior {
@@ -279,13 +280,12 @@ public class SuperPacmanBehavior extends AreaBehavior {
 	 *	Activate or desactivate the corresponding node
 	 */
 
-	protected void setSignalOfNode(DiscreteCoordinates positionOfNode, boolean activate){
-//		Logic logic;
-//		if(activate){
-//			graph.setSignal(positionOfNode, activate);
-//		}else{
-//
+	protected void setSignalOfNode(DiscreteCoordinates positionOfNode, Logic signal) {
+
+//		if(signal.isOn() != node.isActivated || signal.isOff() == !node.isActivated) {	//otherwise dont change anything
+//			graph.setSignal(positionOfNode, signal);
 //		}
+		graph.setSignal(positionOfNode, signal);
 	}
 
 }
