@@ -1,7 +1,10 @@
 # Description du jeu SuperPacman
-Lorsque le joueur lance le jeux, son player (SuperPacmanPlayer) démarre dans un premier niveau très basique qui est sans danger. Dans celui-ci il peut découvrir les éléments du jeux. En revanche, les prochains niveaux contiennent des créatures hostiles qui peuvent lui retirer une vie en cas de contact. 
-D'ailleurs, le joueur peut voir les vies qu il reste à son personnage en regardant en haut à gauche de son  et il peut voir sont score en à droite de ses vies. Le player commence avec 5 vies jaunes(un pacman jaune) qui deviennent grises une par une lorsqu'une vie est perdue. Le joueur a perdu quand les 5 sont grises(une fin de jeux n a pas été implémenté, donc on compte sur l'honeteté du joueur ;) )
-Le personnage peut se balader et peut interagir avec son entourage. D'ailleurs, les niveaux n'occupent pas tout l'écran, car nous préférons suivre le joueur. Ceci permet de créer des niveaux très grand sans avoir à rendre les cellules très petites. (Evidemment ceci peut etre changé)
+Lorsque le joueur lance le jeux, son player (SuperPacmanPlayer) démarre dans un premier niveau très basique qui est sans danger. Dans celui-ci il peut découvrir les éléments du jeux. 
+En revanche, les prochains niveaux contiennent des créatures hostiles qui peuvent lui retirer une vie en cas de contact. D'ailleurs, le joueur peut voir les vies qu il reste à son 
+personnage en regardant en haut à gauche de son écran et il peut voir sont score en à droite de ses vies. Le player commence avec 5 vies jaunes(un pacman jaune) qui deviennent grises 
+une par une lorsqu'une vie est perdue. Le joueur a perdu quand les 5 sont grises(une fin de jeux n a pas été implémenté, donc on compte sur l'honeteté du joueur ;) )
+Le personnage peut se balader et peut interagir avec son entourage. D'ailleurs, les niveaux n'occupent pas tout l'écran, car nous préférons suivre le joueur. 
+Ceci permet de créer des niveaux très grand sans avoir à rendre les cellules très petites. (Evidemment ceci peut etre changé)
 Les éléments principaux de ces niveaux sont les suivant:
 ### les Cherry: 
 les cerises donnent 200 points et disparaissent lors des interactions avec le joueur. De plus, nous avons fait en sorte que lorsqu'un Cherry est pris, le    joueur va plus vite pendant 5secondes
@@ -34,7 +37,10 @@ Les Esprits sont des personnages très puissants qui ne sont pas aussi maléfiqu
    *FireMageSpirit : invoque des flammes qui peuvent tuer Pacman et lui enlever des points de score.
 
 ## Scénario:
-La femme de Pacman, PacWoman, a été volé par les ghosts et les esprits. Elle est emprisonné dans le niveau 2. Pour la sauver, il faudra parcourir trois labyrinthe plein d'énemis et de pièges. Heureusement, vous pourrez trouver des Collectables qui rendront cette tache plus facile.  Votre mission est de survivre aux trois niveaux, et d'aller la sauver. Pour cela il faudra ruser en utilisant les Gates et les Collectables à son avantage. Bonne Chance!!!
+La femme de Pacman, PacWoman, a été volé par les ghosts et les esprits. Elle est emprisonné dans le niveau 2. Pour la sauver, 
+il faudra parcourir trois labyrinthe plein d'énemis et de pièges. Heureusement, vous pourrez trouver des Collectables qui rendront 
+cette tache plus facile.  Votre mission est de survivre aux trois niveaux, et d'aller la sauver. Pour cela il faudra ruser en 
+utilisant les Gates et les Collectables à votre avantage. Bonne Chance!!!
 
 ## Controles
 Le Pacman est controlé par les fleches de votre clavier
@@ -64,12 +70,17 @@ Ce premier niveau est très basique et sert à faire découvrir les acteurs qui 
 Attention, ce niveau est plein de créatures hostiles! Vous remarquerez que deux Gates vous bloquent la sortie, mais qu'il n'y a pas de clés. Ainsi, il faudra collecter tous les diamants du niveau et ensuite elles s'ouvreront. N'oubliez pas de manger des cerises si vous voulez pouvoir vous échapper le plus rapidement possible.
 ## Niveau2
 Ce dernier niveau implémente toutes les Gates que vous avez découvert dans le premier niveau. Attention à ne pas vous faire piéger par des Gates qui apparaissent et disparaissent! Pour réussir à passer ce niveau, il faudra collecter toutes les clés. Certaines ne seront pas atteignable à moins d'avoir ouvert les Gates qui les protègent. Et finalement, après avoir pris toutes les clés, les portes s'ouvriront et vous pourrez sauver Pacwoman
+## Niveau3
+Nous avons tenté de créer un autre niveau, mais nous n'avons pas eu le temps de bien faire. (Pour y accéder, décommentez sa construction dans le createArea de SuperPacman
+et changz la valeur de areaIndex à 3)
 
 ## Comment démarrer le jeu
 Pour démarrer le jeu, le joueur doit tout simplement lancer le programme. Le pacman apparaitra alors sur le premier niveau.
 
 ## Fin du jeu
-La fin du jeu n'a pas été spécifiquement implémenté.
-Néanmoins, nous éstimons que le joueur a perdu si il perd ses 5 vies, mais qu'il a gagné si il parvient à sortir du dernier niveau.
+La fin du jeu a seulement été implémenté dans le cas d'une victoire.
+Néanmoins, nous éstimons que le joueur a perdu si il perd ses 5 vies.
+Si et seulement si, le player parvient à rejoindre le dernier niveau, alors il peut sauver Pacwoman. Le jeux se termine en entrant en contact avec elle. 
+Votre score et hp final s'affiche alors à l'écran.
 Evidemment l'objectif est de gagner le plus de points!!!
 # BONNE CHANCE
