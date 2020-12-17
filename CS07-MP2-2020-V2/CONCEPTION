@@ -303,6 +303,7 @@ This package contains the interface that handles the interactions
 -MageSpirits 
 -Different objects/elements created by the spirits such as : MudRock, PoisonSmoke, Rock, Fire, ...
 -End Of Game when the player saves Pacwoman
+-End Of Game when the player loses his 5 lives
 -(Scenario) Pacwoman
 
 

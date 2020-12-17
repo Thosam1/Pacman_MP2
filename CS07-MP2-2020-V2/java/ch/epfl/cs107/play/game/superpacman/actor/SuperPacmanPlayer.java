@@ -189,12 +189,23 @@ public class SuperPacmanPlayer extends Player{
 			//add(new Vector(-1f, 8f))
 			//anchor = canvas.getTransform().getOrigin();
 			new Sprite("scoreboard", 20.f, 20.f,this, null, new Vector(-10f,-10f), 1.0f, 9000f).draw(canvas);
+			new TextGraphics("Pacman and Pacwoman", 0.7f, Color.BLACK, Color.YELLOW, 0.025f, true, true,
+					canvas.getTransform().getOrigin().add(new Vector(-4f,-6f)),TextAlign.Horizontal.LEFT, TextAlign.Vertical.BOTTOM, 1.0f, 10000f).draw(canvas); 
+			new TextGraphics("can live together!", 0.7f, Color.BLACK, Color.YELLOW, 0.025f, true, true,
+					canvas.getTransform().getOrigin().add(new Vector(-3f,-7f)),TextAlign.Horizontal.LEFT, TextAlign.Vertical.BOTTOM, 1.0f, 10000f).draw(canvas); 
+			new TextGraphics("Victory", 2.5f, Color.BLUE, Color.YELLOW, 0.025f, true, true,
+					canvas.getTransform().getOrigin().add(new Vector(-4f,5f)),TextAlign.Horizontal.LEFT, TextAlign.Vertical.BOTTOM, 1.0f, 10000f).draw(canvas); 
 			new TextGraphics("Final Score: ", 2.5f, Color.BLACK, Color.YELLOW, 0.025f, true, true,
-					canvas.getTransform().getOrigin().add(new Vector(-7f,4f)),TextAlign.Horizontal.LEFT, TextAlign.Vertical.BOTTOM, 1.0f, 10000f).draw(canvas); 
+					canvas.getTransform().getOrigin().add(new Vector(-7f,2f)),TextAlign.Horizontal.LEFT, TextAlign.Vertical.BOTTOM, 1.0f, 10000f).draw(canvas); 
 			new TextGraphics(String.valueOf(scoreFinal), 2.5f, Color.BLACK, Color.YELLOW, 0.025f, true, true,
-					canvas.getTransform().getOrigin().add(new Vector(-5f,0f)),TextAlign.Horizontal.LEFT, TextAlign.Vertical.BOTTOM, 1.0f, 10000f).draw(canvas); 
+					canvas.getTransform().getOrigin().add(new Vector(-5f,-1f)),TextAlign.Horizontal.LEFT, TextAlign.Vertical.BOTTOM, 1.0f, 10000f).draw(canvas); 
 			new TextGraphics("Final Hp: " + String.valueOf(hpFinal), 2.5f, Color.BLACK, Color.YELLOW, 0.025f, true, true,
-					canvas.getTransform().getOrigin().add(new Vector(-7f,-4f)),TextAlign.Horizontal.LEFT, TextAlign.Vertical.BOTTOM, 1.0f, 10000f).draw(canvas); 
+					canvas.getTransform().getOrigin().add(new Vector(-7f,-4.5f)),TextAlign.Horizontal.LEFT, TextAlign.Vertical.BOTTOM, 1.0f, 10000f).draw(canvas); 
+		}
+		else if (getHp()<=0) {
+			new Sprite("scoreboard", 20.f, 20.f,this, null, new Vector(-10f,-10f), 1.0f, 9000f).draw(canvas);
+			new TextGraphics("DEFEAT", 3.f, Color.BLUE, Color.YELLOW, 0.025f, true, true,
+					canvas.getTransform().getOrigin().add(new Vector(-5f,0f)),TextAlign.Horizontal.LEFT, TextAlign.Vertical.BOTTOM, 1.0f, 10000f).draw(canvas); 
 		}
 		else {
 			animations[this.getOrientation().ordinal()].draw(canvas);

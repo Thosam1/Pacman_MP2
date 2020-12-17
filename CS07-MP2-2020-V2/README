@@ -2,7 +2,7 @@
 Lorsque le joueur lance le jeux, son player (SuperPacmanPlayer) démarre dans un premier niveau très basique qui est sans danger. Dans celui-ci il peut découvrir les éléments du jeux. 
 En revanche, les prochains niveaux contiennent des créatures hostiles qui peuvent lui retirer une vie en cas de contact. D'ailleurs, le joueur peut voir les vies qu il reste à son 
 personnage en regardant en haut à gauche de son écran et il peut voir sont score en à droite de ses vies. Le player commence avec 5 vies jaunes(un pacman jaune) qui deviennent grises 
-une par une lorsqu'une vie est perdue. Le joueur a perdu quand les 5 sont grises(une fin de jeux n a pas été implémenté, donc on compte sur l'honeteté du joueur ;) )
+une par une lorsqu'une vie est perdue. Le joueur a perdu quand les 5 sont grises.
 Le personnage peut se balader et peut interagir avec son entourage. D'ailleurs, les niveaux n'occupent pas tout l'écran, car nous préférons suivre le joueur. 
 Ceci permet de créer des niveaux très grand sans avoir à rendre les cellules très petites. (Evidemment ceci peut etre changé)
 Les éléments principaux de ces niveaux sont les suivant:
@@ -78,8 +78,8 @@ et changz la valeur de areaIndex à 3)
 Pour démarrer le jeu, le joueur doit tout simplement lancer le programme. Le pacman apparaitra alors sur le premier niveau.
 
 ## Fin du jeu
-La fin du jeu a seulement été implémenté dans le cas d'une victoire.
-Néanmoins, nous éstimons que le joueur a perdu si il perd ses 5 vies.
+La fin du jeu a été implémenté dans le cas d'une victoire ou d'une défaite.
+Nous éstimons que le joueur a perdu si il perd ses 5 vies.
 Si et seulement si, le player parvient à rejoindre le dernier niveau, alors il peut sauver Pacwoman. Le jeux se termine en entrant en contact avec elle. 
 Votre score et hp final s'affiche alors à l'écran.
 Evidemment l'objectif est de gagner le plus de points!!!
