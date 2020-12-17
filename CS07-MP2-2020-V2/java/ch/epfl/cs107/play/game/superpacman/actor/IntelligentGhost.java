@@ -54,9 +54,9 @@ public class IntelligentGhost extends Ghost implements Interactor {
     public void draw(Canvas canvas) {
         super.draw(canvas);
 
-        if (graphicPath != null) {
-            graphicPath.draw(canvas);    //drawing the path taken by ghost
-        }
+//        if (graphicPath != null) {
+//            graphicPath.draw(canvas);    //drawing the path taken by ghost
+//        }
     }
 
     /**
@@ -148,9 +148,9 @@ public class IntelligentGhost extends Ghost implements Interactor {
      */
     protected Orientation getNextOrientation(DiscreteCoordinates from, DiscreteCoordinates fromNot,  int maxWhenScared, int maxWhenNotScared) {
 
-        if(targetPos != null &&(this.getCurrentMainCellCoordinates() == targetPos )) {     //   || !isDisplacementOccurs() permettent au inky et pinky d'éviter de faire des allers retours sur place
+        if(targetPos != null &&(this.getCurrentMainCellCoordinates() == targetPos || getStateTransition())) {     //   || !isDisplacementOccurs() permettent au inky et pinky d'éviter de faire des allers retours sur place
             setReevaluate(true);
-            setStateTransition(false);  //|| getStateTransition()
+            setStateTransition(false);
             System.out.println("HELL REACHED / CHANGE TRANSITION");
         }
         if(seePlayer && !getAfraid() && targetPos != playerMemory.getCurrentCells().get(0)){
@@ -171,11 +171,11 @@ public class IntelligentGhost extends Ghost implements Interactor {
         //resetMotion();    //EN AJOUTANT LE RESET MOTION; LES FANTOMES ATTEIGNENT LE JOUEUR MAIS ENORME BUG LORSQUE LE JOUEUR DEVIENT INVINCIBLE
 
         if(path == null){
-            graphicPath = new Path(this.getPosition(), new LinkedList<Orientation>());  //dessin
+            //graphicPath = new Path(this.getPosition(), new LinkedList<Orientation>());  //dessin
             return getOrientation(); //possible!!!! -> take stay in the same orientation
         }else{
-            pathList = new LinkedList<Orientation>(path);
-            graphicPath = new Path(this.getPosition(), pathList);   //dessin
+            //pathList = new LinkedList<Orientation>(path);
+            //graphicPath = new Path(this.getPosition(), pathList);   //dessin
             return path.poll();
         }
     }
