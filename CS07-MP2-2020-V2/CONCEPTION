@@ -87,6 +87,9 @@ The classes that we had to program are the following:
     * (method) update calls on orientatePlayer to get the (attribute) desiredOrientation
       animation is updated and reset depending on (method) isDisplacementOccurs
       gives the capability to eat ghosts when a bonus has been eaten
+    * [extension] (method) stop() is called when the player interacts with Pacwoman (it changes enOfGame to true which changes what is drawn)
+      This method also takes the final score and final hp ==> these two values are drawn to the screen.
+      finally, it calls (method) setImmortal to make the ghosts afraid (prevents any other interactions from taking place behind the score and hp)
     * [extension](method)speedVariation increases speed by 1 every 60 frames until it reaches 5
       useful for interactions with Cherry
     *(class) SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor and defines the (method) interactWith
@@ -299,6 +302,7 @@ This package contains the interface that handles the interactions
 -Singed spirits
 -MageSpirits 
 -Different objects/elements created by the spirits such as : MudRock, PoisonSmoke, Rock, Fire, ...
+-End Of Game when the player saves Pacwoman
 -(Scenario) Pacwoman
 
 
