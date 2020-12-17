@@ -54,9 +54,9 @@ public class IntelligentGhost extends Ghost implements Interactor {
     public void draw(Canvas canvas) {
         super.draw(canvas);
 
-        if (graphicPath != null) {
-            graphicPath.draw(canvas);    //drawing the path taken by ghost
-        }
+//        if (graphicPath != null) {
+//            graphicPath.draw(canvas);    //drawing the path taken by ghost
+//        }
     }
 
     /**
@@ -171,11 +171,11 @@ public class IntelligentGhost extends Ghost implements Interactor {
         //resetMotion();    //EN AJOUTANT LE RESET MOTION; LES FANTOMES ATTEIGNENT LE JOUEUR MAIS ENORME BUG LORSQUE LE JOUEUR DEVIENT INVINCIBLE
 
         if(path == null){
-            graphicPath = new Path(this.getPosition(), new LinkedList<Orientation>());  //dessin
+            //graphicPath = new Path(this.getPosition(), new LinkedList<Orientation>());  //dessin
             return getOrientation(); //possible!!!! -> take stay in the same orientation
         }else{
             pathList = new LinkedList<Orientation>(path);
-            graphicPath = new Path(this.getPosition(), pathList);   //dessin
+            //graphicPath = new Path(this.getPosition(), pathList);   //dessin
             return path.poll();
         }
     }
