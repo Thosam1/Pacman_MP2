@@ -53,10 +53,22 @@ public class SuperPacmanPlayerStatusGUI implements Graphics{
 		//La première couleur désigne la couleur de l'intérieur des lettres tandis que la deuxième désigne celle de l'exterieur
 	}
 	
-	/**Cette méthode est appelée à chaque frame pour créer une image fluide des vies et du score du player*/
+	/**Cette méthode est appelée à chaque frame pour créer une image fluide des vies et du score du player
+	 * Si le hp est négatif ou égale à 0 nous voulons que 5 vies grises soient affiché
+	 * Pour une raison qui nous dépace, le joueur prend des hp négatif lorsqu il perd plus de 5 fois
+	 * Ce qui n'est pas grave puisque cela veut dire qu il a perdu*/
 	@Override
 	public void draw(Canvas canvas) {
-		getLife(canvas);
+		if(player.getHp()>0) {
+			getLife(canvas);}
+		else {
+			anchor = canvas.getTransform().getOrigin();
+			for(int w=0; w<5; w++) {
+				new ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplay"),
+						1.f, 1.f, new RegionOfInterest(64, 0, 64, 64),
+						anchor.add(new Vector(-8f+w, 8f)), 1, DEPTH).draw(canvas);
+			}
+		}
 		getScore(canvas);
 		}
 	}

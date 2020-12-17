@@ -87,6 +87,6 @@ public class Level2 extends SuperPacmanArea{
         registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(20,16), new Oscillateur(72, true,0),true));
 	
         registerActor(new Pacwoman(this, Orientation.LEFT, new DiscreteCoordinates(14,4)));
-       // registerActor(new Pacwoman(this, Orientation.LEFT, new DiscreteCoordinates(15,27)));
+       
 	}
 }

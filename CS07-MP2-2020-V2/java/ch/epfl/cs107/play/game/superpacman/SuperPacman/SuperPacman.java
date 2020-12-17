@@ -14,11 +14,11 @@ import ch.epfl.cs107.play.window.Window;
 public class SuperPacman extends RPG{
 
 	private SuperPacmanPlayer player;
-	private final String[] areas = {"superpacman/Level0", "superpacman/Level1", "superpacman/Level3", "superpacman/Level2"};
+	private final String[] areas = {"superpacman/Level0", "superpacman/Level1", "superpacman/Level2", "superpacman/Level3"};
 	private final DiscreteCoordinates[] startingPositions = {new DiscreteCoordinates(10,1), 
 															 new DiscreteCoordinates(15,6),
-			 											     new DiscreteCoordinates(15,6),
-															 new DiscreteCoordinates(15,29)};
+															 new DiscreteCoordinates(15,29),
+															 new DiscreteCoordinates(15,6),};
 
 	private int areaIndex;
 	@Override
@@ -35,8 +35,8 @@ public class SuperPacman extends RPG{
 	private void createAreas(){
 		addArea(new Level0());
 		addArea(new Level1());
-		addArea(new Level3());
 		addArea(new Level2());
+		//addArea(new Level3());
 	}
 	public void end() {}
 	
