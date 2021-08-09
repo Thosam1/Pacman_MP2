@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
+import java.util.function.Predicate;
+
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Interactor;
@@ -16,13 +18,14 @@ import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
-public class IntelligentGhost extends Ghost implements Interactor {
+public abstract class IntelligentGhost extends Ghost implements Interactor {
+    private static final boolean DRAW_GRAPHIC_PATH_DEBUG = false; // set to true to to display graphic path (for debug purposes)
 
     protected boolean reevaluate = true;    //for pinky and inky
 
     private final SuperPacmanIntelligentGhostHandler handler2;
     private final int FIELD_OF_VIEW = 5;
-    protected int SPEED_AFRAID = 4; //faster when afraid for inky and pinky
+    protected int SPEED_AFRAID = 5; //faster when afraid for inky and pinky
     protected SuperPacmanPlayer playerMemory;
     protected boolean seePlayer = false;
 
@@ -46,17 +49,43 @@ public class IntelligentGhost extends Ghost implements Interactor {
         handler2 = new SuperPacmanIntelligentGhostHandler();
     }
 
-    public void update(float deltaTime) { // ?necessary?
-        super.update(deltaTime); //taking care of afraid animation
+    /**
+     * Updates the state of the smart ghost.
+     *
+     * @param deltaTime elapsed time since last update, in seconds, non-negative
+     */
+    public void update(float deltaTime) {
+        boolean wasInitiallyAfraid = getAfraid();
+
+        // Follow the player when known
+        if (!getAfraid() && playerMemory != null && isReachable(getPlayerPosition())) {
+            targetPos = computeTarget();
+        }
+
+        super.update(deltaTime);
+        //taking care of afraid animation
+
+        // Recompute the target if the ghost becomes invulnerable
+        if (wasInitiallyAfraid && !getAfraid()) {
+            this.targetPos = computeTarget();
+        }
+
+        if(reevaluate){ // normally when afraid it reevaluate is set to true
+            this.targetPos = computeTarget();
+
+            reevaluate = false;
+        }
     }
+
+
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
 
-//        if (graphicPath != null) {
-//            graphicPath.draw(canvas);    //drawing the path taken by ghost
-//        }
+        if (graphicPath != null) {
+            graphicPath.draw(canvas);    //drawing the path taken by ghost
+        }
     }
 
     /**
@@ -101,170 +130,115 @@ public class IntelligentGhost extends Ghost implements Interactor {
      */
 
     /**
-     * @param anchor   the position of the center of the area we search
-     * @param maxRange the range from the center
-     * @return a list of DiscreteCoordinates corresponding to the cells an IntelligentGhost can enter, within an area
-     */
-    @SuppressWarnings({"null", "unused"})    //???
-    private List<DiscreteCoordinates> EscapeCoordinates(DiscreteCoordinates anchor, int maxRange) {
-        List<DiscreteCoordinates> possibleCases = new ArrayList<>();
-        DiscreteCoordinates chosenOne;
-        int x = anchor.x;
-        int y = anchor.y;
-
-        for (int i = -maxRange; i <= maxRange; i++) {
-            for (int j = -maxRange; j <= maxRange; j++) {
-                DiscreteCoordinates potential = new DiscreteCoordinates(x + i, y + j);
-                if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(potential))) {    //same principle as used in SuperPacmanPlayer
-                    //Queue<Orientation> pathTemp = area.shortestPath(getCurrentMainCellCoordinates(), potential);
-                    //if(pathTemp != null){
-                        possibleCases.add(potential);
-                    //}
-                }
-            }
-        }
-        return possibleCases;
-    }
-
-    /**
-     * @param rangeArea
-     * @return a random coordinate within a list of Discrete Coordinates
-     */
-    private DiscreteCoordinates randomEscapeCoordinates(List<DiscreteCoordinates> rangeArea) {
-        int upperBound = rangeArea.size();
-        Random rand = new Random();
-        int randomIndex = rand.nextInt(upperBound);
-        return rangeArea.get(randomIndex);
-    }
-
-
-    /**
+     * Get a random reachable cell in the current area.
      *
-     * @param from              the position of the center of the area around which the ghost will aim when scared (intelligent ghost)
-     * @param fromNot           same but when not scared
-     * @param maxWhenScared     max range from the center of the area when scared
-     * @param maxWhenNotScared  same but when not scared
-     * @return                  the next orientation
+     * @return (DiscreteCoordinates) The coordinates of a reachable cell, or null if no suitable cell was found
      */
-    protected Orientation getNextOrientation(DiscreteCoordinates from, DiscreteCoordinates fromNot,  int maxWhenScared, int maxWhenNotScared) {
+    protected DiscreteCoordinates getRandomReachableCellPosition() {
+        return getRandomReachableCellPosition(pos -> true);
+    }
 
-        if(targetPos != null &&(this.getCurrentMainCellCoordinates() == targetPos || getStateTransition())) {     //   || !isDisplacementOccurs() permettent au inky et pinky d'éviter de faire des allers retours sur place
-            setReevaluate(true);
-            setStateTransition(false);
-            System.out.println("HELL REACHED / CHANGE TRANSITION");
-        }
-        if(seePlayer && !getAfraid() && targetPos != playerMemory.getCurrentCells().get(0)){
-            setReevaluate(true); //otherwise, inky and pinky stop chasing the player as soon it gets out of the range and start moving back and forth at the same location...
-        }
-
-        if(!seePlayer && targetPos != null && !getAfraid() && targetPos != getCurrentMainCellCoordinates()){    //otherwise pinky would change destination every movement when afraid
-            setReevaluate(false);
-        }
-
-        if(reevaluate == true) {   //then check for the new path   Cases when reevaluate a path : 1) if destination is reached 2) if ghosts become scared / pacman eats becomes invincible 3) if pacman enters in the field of view
-            findNewTargetPos(from, fromNot, maxWhenScared, maxWhenNotScared);
-        }
-
-        setReevaluate(false);
+    /**
+     * Get a random reachable cell in the current area, satisfying a given condition.
+     *
+     * @param condition (Predicate<DiscreteCoordinates>) A condition that must be met by the coordinates
+     * @return (DiscreteCoordinates) The coordinates of a reachable cell, or null if no suitable cell was found
+     */
+    protected DiscreteCoordinates getRandomReachableCellPosition(Predicate<DiscreteCoordinates> condition) {
         SuperPacmanArea area = (SuperPacmanArea)getOwnerArea();
-        path = area.shortestPath(getCurrentMainCellCoordinates(), targetPos); //we ask to the area, the area asks to the behavior/graph //dessiner un trait
-        //resetMotion();    //EN AJOUTANT LE RESET MOTION; LES FANTOMES ATTEIGNENT LE JOUEUR MAIS ENORME BUG LORSQUE LE JOUEUR DEVIENT INVINCIBLE
+        return area.getRandomCellPosition(pos -> condition.test(pos) && isReachable(pos), Integer.MAX_VALUE);
+    }
 
-        if(path == null){
-            //graphicPath = new Path(this.getPosition(), new LinkedList<Orientation>());  //dessin
-            return getOrientation(); //possible!!!! -> take stay in the same orientation
-        }else{
-            pathList = new LinkedList<Orientation>(path);
-            //graphicPath = new Path(this.getPosition(), pathList);   //dessin
-            return path.poll();
-        }
+    /**
+     * Returns the shortest path between two targets
+     *
+     * @param targetStart The start position of the path
+     * @param targetEnd   The end position of the path
+     * @return The directions to follow. Can be null if the path doesn’t exist.
+     */
+    protected Queue<Orientation> createShortestPath(DiscreteCoordinates targetStart, DiscreteCoordinates targetEnd) {
+        return ((SuperPacmanArea) getOwnerArea()).shortestPath(targetStart, targetEnd);
+    }
+
+    /**
+     * Know if a given cell is reachable from the current ghost position
+     *
+     * @param target (DiscreteCoordinates) The target cell
+     * @return true if the cell is reachable; false otherwise
+     */
+    protected boolean isReachable(DiscreteCoordinates target) {
+        return createShortestPath(getCurrentMainCellCoordinates(), target) != null;
     }
 
 
 
     /**
-     *      same parameters as before,  --- find a new target position, based on the current situation  ---
+     * Computes the next orientation of the ghost, depending on its current target.
      */
-    private void findNewTargetPos(DiscreteCoordinates from, DiscreteCoordinates fromNot,  int maxWhenScared, int maxWhenNotScared) {
-        if (getAfraid() == true) {
-            targetPos = randomEscapeCoordinates(EscapeCoordinates(from, maxWhenScared));
-        } else {
-            if (seePlayer == true) {    //move towards player
-                targetPos = playerMemory.getCurrentCells().get(0); //new DiscreteCoordinates((int) playerMemory.getPosition().x, (int) playerMemory.getPosition().y)
-                //IF THE PATH IS NULL, THEN FORGET ABOUT THE PLAYER - CHOOSE DEFAULT
-            } else {    //default
-                targetPos = randomEscapeCoordinates(EscapeCoordinates(fromNot, maxWhenNotScared));
+
+    protected Orientation getNextOrientation() {
+        // If no target is currently chosen, try to generate a new one.
+        if (targetPos == null) {
+            this.targetPos = computeTarget();
+
+            // Still no target? Pass this turn.
+            if (this.targetPos == null) {
+                return null;
             }
         }
+
+        // Find a path to the target.
+        // Note that we chose to reevaluate the path to the target at each step, to avoid having issues if the path
+        // becomes unusable during its lifetime (e.g. if there is a gate that closes in the middle of the path).
+        this.path = createShortestPath(getCurrentMainCellCoordinates(), this.targetPos);
+
+        // If the path doesn’t exist, we need a new target.
+        // This happens when the target is unreachable or it was already reached.
+        // We don’t loop until a target is found here to avoid infinite loops.
+        if (this.path == null) {
+            this.targetPos = computeTarget();
+            this.graphicPath = null;
+            return null;
+        }
+
+        Orientation firstStep = path.peek();
+
+        // Display the path during debug
+        if (DRAW_GRAPHIC_PATH_DEBUG) {
+            graphicPath = new Path(getPosition(), path);
+        }
+
+        return firstStep;
     }
 
+    /**
+     * This method is called when the ghost has nowhere to go and a new target should be generated
+     *
+     * @return (DiscreteCoordinates) The new target to follow.
+     */
+    protected abstract DiscreteCoordinates computeTarget();
 
 
-//    private DiscreteCoordinates newTargetPosition (DiscreteCoordinates anchor, int range){
-//        return randomEscapeCoordinates(EscapeCoordinates(anchor, range));
-//    }
-//    protected Orientation getNextOrientation(DiscreteCoordinates from, DiscreteCoordinates fromNot,  int maxWhenScared, int maxWhenNotScared){
-//
-//        if(targetPos != null && (getCurrentMainCellCoordinates() == targetPos || !isDisplacementOccurs())){
-//            setReevaluate(true);
-//        }
-//
-//        if(reevaluate){
-//            if(getAfraid()){
-//                targetPos = newTargetPosition(from, maxWhenScared);
-//            }else{
-//                if(seePlayer){
-//                    targetPos = playerMemory.getCurrentCells().get(0);
-//                }else{
-//                    targetPos = newTargetPosition(fromNot, maxWhenNotScared);
-//                }
-//            }
-//            setReevaluate(false);
-//        }
-//
-//        if(seePlayer && !getAfraid()){  //the only case where we need to update the target position every frame
-//            targetPos = playerMemory.getCurrentCells().get(0);
-//        }
-//
-//        path = area.shortestPath(getCurrentMainCellCoordinates(), targetPos);
-//        //resetMotion();
-//
-//        if(path == null){
-//            setReevaluate(true);
-//        }
-//        if(path == null && seePlayer && !getAfraid()) {   //then something is blocking the way to the player
-//            targetPos = newTargetPosition(fromNot, maxWhenNotScared);
-//            path = area.shortestPath(getCurrentMainCellCoordinates(), targetPos);
-//            //resetMotion();
-//        }
-//        if(isDisplacementOccurs()){
-//            resetMotion();
-//        }
-//
-//        if(path == null){
-//            graphicPath = new Path(this.getPosition(), new LinkedList<Orientation>());  //dessin
-//            return getOrientation();
-//        }else{
-//            pathList = new LinkedList<Orientation>(path);
-//            graphicPath = new Path(this.getPosition(), pathList);   //dessin
-//            return path.poll();
-//        }
-//
-//        /*
-//        while(path == null){
-//            if(seePlayer && !getAfraid()){
-//                targetPos = newTargetPosition(fromNot, maxWhenNotScared);
-//                path = area.shortestPath(getCurrentMainCellCoordinates(), targetPos);
-//            }else{
-//                path = area.shortestPath(getCurrentMainCellCoordinates(), targetPos);
-//            }
-//            pathList = new LinkedList<Orientation>(path);
-//            graphicPath = new Path(this.getPosition(), pathList);   //dessin
-//        }
-//        resetMotion();
-//        return path.poll();
-//        */
-//    }
+    /**
+     * Returns the position where the player is memorized by the ghost.
+     *
+     * @return (DiscreteCoordinates) The position of the player, can be null if the player is not memorized
+     */
+    protected DiscreteCoordinates getPlayerPosition() {
+        if (playerMemory == null) {
+            return null;
+        }
+        return playerMemory.getCurrentCells().get(0);
+    }
+
+    public DiscreteCoordinates getTarget() {
+        return targetPos;
+    }
+
+    public void setTarget(DiscreteCoordinates target) {
+        this.targetPos = target;
+    }
+
 
     /**
      reevaluate
@@ -290,6 +264,9 @@ public class IntelligentGhost extends Ghost implements Interactor {
      */
     @Override
     public void backToRefuge() {
+        this.path = null;
+        this.graphicPath = null;
+
         playerMemory = null;
         seePlayer = false;
 
@@ -298,10 +275,12 @@ public class IntelligentGhost extends Ghost implements Interactor {
         resetMotion();
         setCurrentPosition(this.getRefuge().toVector());
         getOwnerArea().enterAreaCells(this, getCurrentCells());
-        setReevaluate(true); //so the pinky doesn't follow the player
+
+
+        this.targetPos = computeTarget();
     }
 
-    private void setReevaluate(boolean c) {
+    public void setReevaluate(boolean c) {
         if(c) {
             reevaluate = true;
         }else {

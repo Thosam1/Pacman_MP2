@@ -82,7 +82,7 @@ public class SuperPacmanBehavior extends AreaBehavior {
 						area.registerActor(earthSinged);
 					}
 					if(cellType == SuperPacmanCellType.FREE_WITH_STONE_MAGE_SPIRIT) {
-						StoneMageSpirit stoneMageSpirit = new StoneMageSpirit(area, new DiscreteCoordinates(x,y), 2);
+						StoneMageSpirit stoneMageSpirit = new StoneMageSpirit(area, new DiscreteCoordinates(x,y), 3);
 						area.registerActor(stoneMageSpirit);
 					}
 					if(cellType == SuperPacmanCellType.FREE_WITH_FIRE_MAGE_SPIRIT) {
@@ -247,6 +247,7 @@ public class SuperPacmanBehavior extends AreaBehavior {
 				if(choose == true) {
 					currentSmartGhosts.get(i).setAfraid(true);
 					currentSmartGhosts.get(i).setStateTransition(true);	//let them reevaluate their path
+					currentSmartGhosts.get(i).setReevaluate(true);
 				}else {
 					currentSmartGhosts.get(i).setAfraid(false);
 					currentSmartGhosts.get(i).setStateTransition(true);	//let them reevaluate their path
@@ -282,7 +283,7 @@ public class SuperPacmanBehavior extends AreaBehavior {
 
 	protected void setSignalOfNode(DiscreteCoordinates positionOfNode, Logic signal) {
 
-//		if(signal.isOn() != node.isActivated || signal.isOff() == !node.isActivated) {	//otherwise dont change anything
+//		if(signal.isOn() != graph.nnode.isActivated || signal.isOff() == !node.isActivated) {	//otherwise dont change anything
 //			graph.setSignal(positionOfNode, signal);
 //		}
 		graph.setSignal(positionOfNode, signal);

@@ -20,7 +20,7 @@ public class StoneMageSpirit extends MageSpirit {
         DiscreteCoordinates invocationPoint = randomCoordinates(listOfAllCellsAround(getCurrentMainCellCoordinates(), 5));
 
 
-        Rock rock = new Rock(getOwnerArea(), invocationPoint, 10);
+        Rock rock = new Rock(getOwnerArea(), invocationPoint, 6);
         getOwnerArea().registerActor(rock);
     }
 

@@ -17,7 +17,7 @@ public class FireMageSpirit extends MageSpirit {
     @Override
     protected void doSomething(){
         DiscreteCoordinates invocationPoint = randomCoordinates(listOfAllCellsAround(getCurrentMainCellCoordinates(), 5));
-        Fire fire = new Fire(getOwnerArea(), invocationPoint, 5);
+        Fire fire = new Fire(getOwnerArea(), invocationPoint, 3);
         getOwnerArea().registerActor(fire);
     }
 }

@@ -18,7 +18,7 @@ import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
 
-public class Ghost extends MovableAreaEntity {
+public abstract class Ghost extends MovableAreaEntity {
 
 	//General 
 	private DiscreteCoordinates refuge; 	//BACK TO PROTECTED
@@ -62,7 +62,27 @@ public class Ghost extends MovableAreaEntity {
 			mainAnimations[this.getOrientation().ordinal()].update(deltaTime);
 		}
 		super.update(deltaTime);
+
+		// Start the next move
+		if (!isDisplacementOccurs()) {
+
+			// Get the next orientation
+			Orientation nextOrientation = getNextOrientation();
+
+			if (nextOrientation != null) {
+				orientate(nextOrientation);
+				move(SPEED);
+			}
+		}
+
+
 	}
+
+	/**
+	 * Get the next orientation of the ghost.
+	 * If it is null, no displacement will be started.
+	 */
+	protected abstract Orientation getNextOrientation();
 	
 	@Override
 	public void draw(Canvas canvas) {
@@ -133,10 +153,14 @@ public class Ghost extends MovableAreaEntity {
 		protected float getScore(){return GHOST_SCORE;}
 
 		public void backToRefuge() {	//will be called by the area, or by the interaction with the player when immortal
-			resetMotion();
+
 			getOwnerArea().leaveAreaCells(this, getEnteredCells());
 			setCurrentPosition(this.refuge.toVector());
 			getOwnerArea().enterAreaCells(this, getCurrentCells());
+
+			resetMotion();
+
+			orientate(Orientation.UP);
 		}
 		
 		protected void deplacement(int afraidSpeed, int normalSpeed) {	//used by subclasses to move
@@ -152,7 +176,10 @@ public class Ghost extends MovableAreaEntity {
 				deplacement(afraidSpeed, speed); //moving the ghost in the orientation needed
 			}
 		}
-		
+
+	protected int getMoveSpeed() {
+		return SPEED;
+	}
 		
 }
 	

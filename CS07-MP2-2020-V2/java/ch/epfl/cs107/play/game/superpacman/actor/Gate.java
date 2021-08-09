@@ -18,7 +18,7 @@ public class Gate extends AreaEntity{
 	private Sprite sprite;
 	public boolean affichage;
 	public final boolean affichageInitilisation;
-	Logic signal;
+	Logic signal; // contains the oscillator
 	
 	/**
 	 * @param area: The area in which the Gate is registered
@@ -42,9 +42,11 @@ public class Gate extends AreaEntity{
 	/**l'affichage dépend du signal associé .isOn(), mais aussi de affichageInitialisation
 	 * Ceci est intéréssant car ça nous permet d'avoir des Gate fermé et ouvert associé au meme signal*/
 	public void update(float deltaTime) {
+
+
 		if(affichageInitilisation) {
 			if (signal.isOn()) {
-				affichage = false; 
+				affichage = false;
 			}
 				else affichage = true;
 		}
@@ -54,6 +56,7 @@ public class Gate extends AreaEntity{
 			}
 				else affichage = false;
 			}
+
 		((SuperPacmanArea)getOwnerArea()).setSignalOfNode(getCurrentMainCellCoordinates(), this.signal);
 	}
 	

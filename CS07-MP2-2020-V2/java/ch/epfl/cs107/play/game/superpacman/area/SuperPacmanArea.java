@@ -1,12 +1,16 @@
 package ch.epfl.cs107.play.game.superpacman.area;
 
+import java.util.HashSet;
 import java.util.Queue;
+import java.util.Set;
+import java.util.function.Predicate;
 
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.AreaGraph;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.RandomGenerator;
 import ch.epfl.cs107.play.signal.Signal;
 import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Window;
@@ -89,5 +93,45 @@ abstract public class SuperPacmanArea extends Area implements Logic{
 	public float getIntensity() {
 		//we are not using this for now
 		return 0;
+	}
+
+	/**
+	 * Get a random cell’s coordinates in this area, satisfying a given condition.
+	 *
+	 * @param condition (Predicate<DiscreteCoordinates>) A condition that must be met by the coordinates
+	 * @param maxTries (int) The maximum amount of tries that must be done before giving up
+	 * @return (DiscreteCoordinates) The coordinates of a reachable cell, or null if no suitable cell was found
+	 */
+	public DiscreteCoordinates getRandomCellPosition(Predicate<DiscreteCoordinates> condition, int maxTries) {
+		assert maxTries >= 0;
+
+		// Limit the maximum tries count to all cells
+		int cellsCount = getWidth() * getHeight();
+		if (maxTries > cellsCount) {
+			maxTries = cellsCount;
+		}
+
+		Set<DiscreteCoordinates> tries = new HashSet<>();
+		while (tries.size() < maxTries) {
+			DiscreteCoordinates randomPosition = new DiscreteCoordinates(
+					RandomGenerator.getInstance().nextInt(getWidth()),
+					RandomGenerator.getInstance().nextInt(getHeight())
+			);
+
+			if (tries.contains(randomPosition)) { // Ignore positions already tried
+				continue;
+			}
+
+			if (condition.test(randomPosition)) {
+				// We found a match!
+				return randomPosition;
+			}
+
+			// Otherwise, remember the position to not try it again
+			tries.add(randomPosition);
+		}
+
+		// If no position was found
+		return null;
 	}
 }
