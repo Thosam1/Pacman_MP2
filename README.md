@@ -7,6 +7,8 @@ This repository contains the second project of the first year bachelor at EPFL.
 
 Paper : https://proginsc.epfl.ch/wwwhiver/mini-projet2/grid-games.pdf
 
+Made with love by Thösam Norlha-Tsang and Aymeric de Chillaz. 2020
+
 ## Usage : 
 
 Just run Play.java. No requirement, external library, just cool stuff. 
