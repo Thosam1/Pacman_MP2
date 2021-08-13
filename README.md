@@ -13,3 +13,8 @@ Made with love by Thösam Norlha-Tsang and Aymeric de Chillaz. 2020
 
 Just run Play.java. No requirement, external library, just cool stuff. 
 Refer to src/README for more detailled informations.
+
+
+
+### made during first semester of CS major at EPFL November-December 2021
+
